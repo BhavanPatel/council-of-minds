@@ -1,0 +1,57 @@
+{
+  "profiles": {
+    "engineering": {
+      "advisors": ["architect", "deriver", "shipper", "systems-mapper", "inverter", "user-advocate"],
+      "description": "Technical architecture, code design, infrastructure decisions"
+    },
+    "strategy": {
+      "advisors": ["strategist", "realist", "inverter", "timer", "tail-watcher", "systems-mapper"],
+      "description": "Competitive moves, market entry, positioning, organizational strategy"
+    },
+    "product": {
+      "advisors": ["user-advocate", "shipper", "realist", "bias-hunter", "reframer", "deriver"],
+      "description": "Product direction, feature decisions, UX tradeoffs"
+    },
+    "risk": {
+      "advisors": ["tail-watcher", "bias-hunter", "inverter", "systems-mapper", "stoic", "strategist"],
+      "description": "High-stakes decisions, go/no-go, investment, irreversible choices"
+    },
+    "ai-ml": {
+      "advisors": ["model-whisperer", "frontier-scout", "architect", "deriver", "tail-watcher", "shipper"],
+      "description": "AI product decisions, model selection, capability assessment, safety"
+    },
+    "innovation": {
+      "advisors": ["questioner", "subtractor", "reframer", "taxonomist", "deriver", "inverter"],
+      "description": "Exploring new spaces, challenging assumptions, finding novel approaches"
+    }
+  },
+  "autoSelectKeywords": {
+    "architect": ["architecture", "abstraction", "formal", "computation", "type system", "interface", "contract"],
+    "deriver": ["first principles", "why", "explain", "simplify", "debug", "root cause"],
+    "shipper": ["ship", "deploy", "maintain", "pragmatic", "deadline", "MVP", "release"],
+    "model-whisperer": ["model", "ML", "AI", "training", "neural", "LLM", "prompt", "fine-tune"],
+    "frontier-scout": ["scaling", "safety", "alignment", "emergent", "AGI", "capability"],
+    "systems-mapper": ["feedback", "loop", "system", "scale", "growth", "unintended"],
+    "strategist": ["market", "competition", "positioning", "competitor", "advantage", "terrain"],
+    "realist": ["incentive", "politics", "stakeholder", "adoption", "behavior", "org"],
+    "timer": ["timing", "when", "momentum", "window", "opportunity", "patience"],
+    "inverter": ["failure", "invert", "opportunity cost", "mental model", "tradeoff"],
+    "tail-watcher": ["risk", "downside", "fragile", "tail", "exposure", "catastrophe"],
+    "taxonomist": ["classify", "category", "define", "structure", "type", "kind"],
+    "questioner": ["assumption", "why", "premise", "question", "challenge"],
+    "subtractor": ["remove", "simplify", "less", "eliminate", "unnecessary", "bloat"],
+    "reframer": ["perspective", "frame", "reframe", "different angle", "false choice"],
+    "stoic": ["control", "accept", "duty", "resilience", "moral", "right thing"],
+    "bias-hunter": ["bias", "decision", "judgment", "cognitive", "heuristic", "planning fallacy"],
+    "user-advocate": ["user", "UX", "design", "experience", "interface", "usability"]
+  },
+  "settings": {
+    "minAdvisors": 5,
+    "maxAdvisors": 7,
+    "advisorWordLimit": 300,
+    "peerReviewWordLimit": 150,
+    "alwaysIncludeChallenger": true,
+    "challengerAdvisors": ["questioner", "subtractor", "reframer"],
+    "anonymizePeerReview": true
+  }
+}

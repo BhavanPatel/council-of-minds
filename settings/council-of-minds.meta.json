@@ -1,0 +1,10 @@
+{
+  "category": "workflow",
+  "aliases": ["council", "com"],
+  "composable": false,
+  "dependencies": {
+    "rules": [],
+    "skills": [],
+    "frameworks": []
+  }
+}
