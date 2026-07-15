@@ -19,6 +19,13 @@
   <a href="#inspiration"><strong>Inspiration</strong></a>
 </p>
 
+<p align="center">
+  <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a>
+  <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a>
+  <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a>
+  <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a>
+</p>
+
 ---
 
 ## Why Council of Minds?
@@ -289,6 +296,17 @@ council this with architect, tail-watcher, realist, shipper, questioner: [questi
 
 ---
 
+## Documentation
+
+| | |
+|:--|:--|
+| <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a> | [System design, mermaid diagrams, phase flow, anonymization, design decisions](docs/architecture.md) |
+| <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [All 18 advisors — function, method, grounding protocol, blind spots](docs/advisors.md) |
+| <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [6 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
+| <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a> | [Full input/output examples from real council sessions](docs/examples.md) |
+
+---
+
 ## Project Structure
 
 ```
@@ -300,6 +318,11 @@ council-of-minds/
 │   ├── technical.md                  # 6 engineering/AI advisors
 │   ├── strategic.md                  # 6 strategy/risk advisors
 │   └── wisdom.md                     # 6 philosophy/design advisors
+├── docs/
+│   ├── architecture.md               # System design + mermaid diagrams
+│   ├── advisors.md                   # Full 18-advisor reference
+│   ├── profiles.md                   # Profile details + auto-selection
+│   └── examples.md                   # Input/output examples (real sessions)
 ├── settings/
 │   ├── council-of-minds.config.json  # Profiles, keywords, settings
 │   └── council-of-minds.meta.json    # Agent metadata
