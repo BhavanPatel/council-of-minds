@@ -72,14 +72,14 @@ graph LR
 ## Install
 
 ```bash
-./install.sh
+curl -sL https://raw.githubusercontent.com/BhavanPatel/council-of-minds/main/install.sh | bash
 ```
 
 Auto-detects your AI clients (Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode), lets you choose which to install for, and copies everything in native format.
 
 ```bash
-./install.sh --client kiro --global    # Non-interactive
-./install.sh --uninstall               # Remove from all clients
+curl -sL https://raw.githubusercontent.com/BhavanPatel/council-of-minds/main/install.sh | bash -s -- --client kiro --global    # Non-interactive
+curl -sL https://raw.githubusercontent.com/BhavanPatel/council-of-minds/main/install.sh | bash -s -- --uninstall               # Remove from all clients
 ```
 
 See [docs/install.md](docs/) for per-client details and manual install.
