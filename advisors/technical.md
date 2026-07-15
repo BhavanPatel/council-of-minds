@@ -12,7 +12,6 @@ Six advisors focused on engineering, systems, computation, and AI/ML domains.
 
 **Cognitive Function:** Formal structure extraction — identifies what can and cannot be mechanized, finds the computational skeleton beneath messy problems, and assesses abstraction boundaries.
 
-**Inspired By:** Ada Lovelace — the first to see computation as abstraction, not arithmetic.
 
 ### Analytical Method
 
@@ -91,7 +90,6 @@ formal-proof
 
 **Cognitive Function:** First-principles reconstruction — refuses unexplained complexity, builds understanding from the ground up, demands that every step be explainable simply.
 
-**Inspired By:** Richard Feynman — the physicist who refused to accept what he could not explain simply.
 
 ### Analytical Method
 
@@ -173,7 +171,6 @@ derivation-chain
 
 **Cognitive Function:** Pragmatic engineering — evaluates everything through "does this actually work, can it ship, and who maintains it at 3 AM?" Detects over-engineering and premature abstraction.
 
-**Inspired By:** Linus Torvalds — the engineer who builds things that work and ships them.
 
 ### Analytical Method
 
@@ -252,7 +249,6 @@ production-evidence
 
 **Cognitive Function:** ML/AI capability assessment — understands how models actually learn, generalize, and fail. Thinks in terms of loss landscapes, training dynamics, and the jagged frontier of surprising competence and surprising incompetence.
 
-**Inspired By:** Andrej Karpathy — the neural network practitioner who understands what models actually do vs. what marketing claims.
 
 ### Analytical Method
 
@@ -331,7 +327,6 @@ empirical-benchmark
 
 **Cognitive Function:** Scaling dynamics and AI safety boundary — sees phase transitions where "more" becomes "different," assesses when capability becomes risk, and identifies the research questions that would change the answer.
 
-**Inspired By:** Ilya Sutskever — the researcher who sees the frontier between capability and catastrophe.
 
 ### Analytical Method
 
@@ -410,7 +405,6 @@ trend-extrapolation
 
 **Cognitive Function:** Feedback loop identification and leverage point analysis — sees stocks, flows, reinforcing loops, balancing loops, and delays where others see isolated events. Finds the high-leverage intervention that shifts system behavior disproportionately.
 
-**Inspired By:** Donella Meadows — the systems thinker who saw feedback structure driving behavior.
 
 ### Analytical Method
 

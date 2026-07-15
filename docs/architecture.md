@@ -1,178 +1,169 @@
 # Architecture
 
-Council of Minds uses an **Orchestrator + Parallel Subagents** pattern — the same architecture used by production multi-agent systems for code review, release readiness, and complex analysis.
+Council of Minds uses an **Orchestrator + Parallel Subagents** pattern with a 5-round deliberation protocol, structured cross-examination, enforcement scanning, and confidence-weighted voting.
 
 ---
 
-## System Overview
+## How It Works
 
 ```mermaid
-graph TB
-    User[User Input<br/>"council this: ..."] --> Orchestrator
-
-    subgraph Orchestrator["Orchestrator (council-of-minds.md)"]
-        Frame[Phase 0: Framing]
-        Select[Profile Selection]
-        Frame --> Select
-    end
-
-    Select --> P1
-
-    subgraph P1["Phase 1: Independent Analysis (parallel)"]
-        A1[Advisor 1]
-        A2[Advisor 2]
-        A3[Advisor 3]
-        A4[Advisor 4]
-        A5[Advisor 5]
-        A6[Advisor 6]
-    end
-
-    P1 --> Anon[Anonymize: shuffle to A-F]
-
-    Anon --> P2
-
-    subgraph P2["Phase 2: Peer Review (parallel)"]
-        R1[Reviewer 1]
-        R2[Reviewer 2]
-        R3[Reviewer 3]
-        R4[Reviewer 4]
-        R5[Reviewer 5]
-        R6[Reviewer 6]
-    end
-
-    P2 --> P3[Phase 3: Chairman Synthesis]
-    P3 --> Verdict[Council Verdict]
-    Verdict --> Follow[Phase 4: Follow-Up Protocol]
+graph LR
+    Q["Your Question"] --> S0["Frame + Select Panel"]
+    S0 --> S1["Problem Restate Gate"]
+    S1 --> S2["Independent Analysis<br/>(parallel)"]
+    S2 --> S3["Cross-Examination<br/>(parallel)"]
+    S3 --> S4["Enforcement Scan"]
+    S4 --> S5["Crystallization<br/>(parallel)"]
+    S5 --> S6["Vote Tally + Verdict"]
+    S6 --> S7["Follow-Up"]
 ```
 
 ---
 
-## Phase Flow (Detailed)
+## Full Process (8 Steps)
 
 ```mermaid
 sequenceDiagram
     participant U as User
     participant O as Orchestrator
     participant A as Advisors (5-7)
-    participant R as Reviewers (5-7)
     participant C as Chairman
 
-    U->>O: "council this: should we migrate to event-driven?"
-    
-    Note over O: Phase 0: Framing
-    O->>O: Parse question, scan workspace context
-    O->>O: Auto-select profile (engineering)
-    O->>O: Frame neutral prompt with stakes
+    U->>O: "council this: [question]"
 
-    Note over O,A: Phase 1: Independent Analysis
-    O->>A: Spawn 6 advisors in parallel
-    A-->>O: Each returns JSON (analysis + confidence + blind_spot)
+    Note over O: STEP 0: Frame + Panel Selection
+    O->>O: Parse question, scan workspace
+    O->>O: Select profile, assign domain-weight (1.5x)
 
-    Note over O,R: Phase 2: Anonymized Peer Review
-    O->>O: Shuffle responses to Advisor A through F
-    O->>R: Each reviewer sees all anonymized responses
-    R-->>O: Each returns (strongest, weakest, all_missed)
+    Note over O,A: STEP 1: Problem Restate Gate
+    O->>A: Each restates in 1 sentence
+    A-->>O: If 3+ reframe differently → surface to user
 
-    Note over O,C: Phase 3: Chairman Synthesis
-    O->>C: All responses (de-anonymized) + peer reviews + vote tally
+    Note over O,A: STEP 2: Independent Analysis
+    O->>A: Spawn parallel (300 words each)
+    A-->>O: STANCE + CONFIDENCE + DEALBREAKER + evidence label
+
+    Note over O,A: STEP 3: Cross-Examination
+    O->>A: Each sees all others, produces Disagree/Strengthen/Update
+    A-->>O: Position updates with evidence labels
+
+    Note over O: STEP 4: Enforcement Scan
+    O->>O: Check dissent quota, novelty, evidence diversity, engagement
+
+    Note over O,A: STEP 5: Crystallization
+    O->>A: 100-word final declarative positions
+    A-->>O: Final STANCE + CONFIDENCE + DEALBREAKER
+
+    Note over O,C: STEP 6-7: Vote Tally + Synthesis
+    O->>C: All rounds + votes + enforcement results
     C-->>O: Structured verdict
 
-    O->>U: Council Verdict (markdown)
+    O->>U: Council Verdict
 
-    Note over U,O: Phase 4: Follow-Up
-    U->>O: "expand on the inverter's point"
-    O->>U: Deep-dive on that advisor's analysis
+    Note over U,O: STEP 8: Follow-Up
+    U->>O: "expand" / "challenge" / "reweight" / "re-run"
 ```
 
 ---
 
-## Profile Selection Logic
+## Three Modes
+
+```mermaid
+graph TD
+    subgraph Full["Full Mode (5 rounds)"]
+        F0[Restate Gate] --> F1[Analyze] --> F2[Cross-Examine] --> F3[Enforce] --> F4[Crystallize] --> F5[Synthesize]
+    end
+
+    subgraph Quick["Quick Mode (3 rounds)"]
+        Q1[Analyze] --> Q2[Cross-Examine] --> Q3[Synthesize]
+    end
+
+    subgraph Duo["Duo Mode (polarity pair)"]
+        D1[Position] --> D2[Rebuttal] --> D3[Synthesize]
+    end
+```
+
+| Mode | When to Use | Rounds | Panel |
+|------|-------------|--------|-------|
+| **Full** | Complex decisions with genuine uncertainty | 5 | 5-7 advisors |
+| **Quick** | Time-sensitive, lower stakes | 3 | 5-7 advisors |
+| **Duo** | Binary choice, rapid opposing views | 3 | 2 (polarity pair) |
+
+---
+
+## Profile Selection
 
 ```mermaid
 flowchart TD
     Start[User triggers council] --> Explicit{Explicit profile?}
-    
-    Explicit -->|Yes| Use[Use specified profile]
-    Explicit -->|No| Keywords[Score question against keyword maps]
-    
-    Keywords --> Score[Each advisor gets relevance score]
-    Score --> Top7[Select top 7 by score]
-    Top7 --> Challenger{Challenger included?}
-    
-    Challenger -->|Yes| Done[Final advisor set]
-    Challenger -->|No| Add[Add highest-scoring challenger<br/>questioner / subtractor / reframer]
-    Add --> Done
+
+    Explicit -->|"engineering council:"| Use[Use specified profile]
+    Explicit -->|"council this:"| Keywords[Score against keyword maps]
+
+    Keywords --> Top["Select top 7 by relevance"]
+    Top --> Challenger{Challenger included?}
+
+    Challenger -->|Yes| Weight[Assign domain-weight 1.5x to top scorer]
+    Challenger -->|No| Add[Add questioner/subtractor/reframer]
+    Add --> Weight
+    Weight --> Done[Final panel ready]
+    Use --> Done
 ```
 
 ---
 
-## Advisor Independence Model
+## Cross-Examination (Not Anonymized)
 
-```mermaid
-graph LR
-    subgraph "Phase 1: No Cross-Talk"
-        A1[Architect]
-        A2[Deriver]
-        A3[Shipper]
-        A4[Inverter]
-        A5[Systems Mapper]
-        A6[User Advocate]
-    end
+Advisors see each other's names during cross-examination. This enables direct engagement with specific claims:
 
-    subgraph "Phase 2: Anonymized"
-        B1[Response A] --> R1[Each reviewer<br/>sees ALL]
-        B2[Response B] --> R1
-        B3[Response C] --> R1
-        B4[Response D] --> R1
-        B5[Response E] --> R1
-        B6[Response F] --> R1
-    end
+```
+### Disagree: {member name}
+{Their specific claim + why it fails}
 
-    subgraph "Phase 3: Full Context"
-        C1[All responses<br/>de-anonymized] --> Chairman
-        C2[All peer reviews] --> Chairman
-        C3[Vote tally] --> Chairman
-        Chairman --> Verdict
-    end
+### Strengthened by: {member name}
+{Their insight that improves my position}
+
+### Position Update
+{What changed and what held — must name the flaw if updating}
+
+### Evidence Label
+{empirical | mechanistic | strategic | ethical | heuristic}
 ```
 
-**Key design principle:** Advisors never see each other's work during Phase 1. This prevents anchoring and deference bias — the same reason jury members deliberate before seeing each other's initial votes.
+**Anti-conformity directive:** Position updates ONLY allowed when the advisor can name a specific flaw exposed by another member. "I changed my mind because peers disagree" is rejected.
 
 ---
 
-## Anonymization Flow
+## Enforcement Scan
+
+Before crystallization, the orchestrator verifies quality:
+
+| Check | Pass Criteria | On Fail |
+|-------|---------------|---------|
+| Dissent quota | At least 2 genuinely different positions | Prompt re-examination |
+| Novelty gate | Each Round 2 has content not in Round 1 | Request revision |
+| Evidence diversity | Not >80% same evidence type | Flag "reasoning monoculture" |
+| Engagement quality | Each advisor cited a specific peer claim | Request deeper engagement |
+
+---
+
+## Vote Tally
 
 ```mermaid
 flowchart LR
-    subgraph "After Phase 1"
-        architect[architect's response]
-        deriver[deriver's response]
-        shipper[shipper's response]
-        inverter[inverter's response]
-        mapper[systems-mapper's response]
-        advocate[user-advocate's response]
-    end
-
-    subgraph "Random Shuffle"
-        architect -->|random| D[Response D]
-        deriver -->|random| A[Response A]
-        shipper -->|random| F[Response F]
-        inverter -->|random| B[Response B]
-        mapper -->|random| E[Response E]
-        advocate -->|random| C[Response C]
-    end
-
-    subgraph "Peer Review"
-        A --> Reviews[Each reviewer evaluates<br/>A through F by CONTENT only]
-        B --> Reviews
-        C --> Reviews
-        D --> Reviews
-        E --> Reviews
-        F --> Reviews
-    end
+    A[Each Advisor] --> Stance[STANCE + CONFIDENCE + DEALBREAKER]
+    Stance --> Weight["Weight = base x domain x confidence"]
+    Weight --> Sum[Sum per option]
+    Sum --> Threshold{"Option >= 2/3 total?"}
+    Threshold -->|Yes| Consensus[CONSENSUS]
+    Threshold -->|"No, but >50%"| Super[SUPERMAJORITY]
+    Threshold -->|No| Split[SPLIT - present both sides]
 ```
 
-**Why anonymize?** Without it, reviewers defer to "prestigious" advisors. The inverter (inspired by Munger) might get deference votes not because its reasoning is strongest but because of name recognition. Anonymization forces evaluation on merit.
+**Weight formula:**
+- Base: 1.0 (all advisors)
+- Domain seat: x1.5 (one per session)
+- Confidence: high = x1.0, medium = x0.75, low = x0.5
 
 ---
 
@@ -180,38 +171,48 @@ flowchart LR
 
 ```mermaid
 graph TD
-    V[Council Verdict] --> Consensus[Consensus<br/>3+ advisors converged]
-    V --> Clash[Clash Points<br/>genuine disagreements]
-    V --> Blind[Blind Spots Caught<br/>emerged from peer review only]
-    V --> Dissent[Strongest Dissent<br/>best minority argument]
-    V --> Confidence[Confidence Meter<br/>X/N advisors align]
-    V --> Rec[Recommendation<br/>clear answer, not 'it depends']
-    V --> First[First Move<br/>single next action]
+    V[Council Verdict] --> Problem[Problem]
+    V --> Composition[Council Composition + Domain Weight]
+    V --> Tally[Vote Tally - auditable]
+    V --> Consensus[Consensus]
+    V --> Insights[Key Insights by Member]
+    V --> Disagree[Points of Disagreement]
+    V --> Blind[Blind Spots Caught]
+    V --> Minority[Minority Report + DEALBREAKER]
+    V --> Compromise[Acceptable Compromises]
+    V --> Kill[Kill Criteria - when verdict expires]
+    V --> Rec[Recommendation]
+    V --> Next[Concrete Next Step]
+    V --> Unresolved[Unresolved Questions]
 ```
 
 ---
 
-## Data Flow Per Phase
+## Key Design Decisions
 
-| Phase | Input | Processing | Output |
-|-------|-------|-----------|--------|
-| **0: Framing** | Raw question + workspace files | Parse domain, scan context, select profile | Framed question with stakes |
-| **1: Analysis** | Framed question + advisor identity | Each advisor applies their method independently | 5-7 structured JSON responses |
-| **2: Peer Review** | Anonymized responses (A-G) | Each reviewer evaluates all others | 5-7 review JSONs (strongest, weakest, missed) |
-| **3: Synthesis** | De-anonymized responses + reviews + votes | Chairman aggregates and resolves | Structured verdict (markdown) |
-| **4: Follow-Up** | Verdict + user command | Expand/challenge/reweight/re-run | Updated analysis |
+| Decision | Choice | Why |
+|----------|--------|-----|
+| Named cross-examination | Direct engagement with specific claims | "The shipper's argument ignores X" is more useful than "Response B is weak" |
+| Anti-conformity directive | Must name flaw to update | Prevents groupthink collapse from social pressure |
+| Enforcement scan | Quality gate before crystallization | Catches lazy agreement and reasoning monoculture |
+| Domain-weight seat (1.5x) | One advisor weighted higher | Equal weighting is dishonest when one lens is clearly most relevant |
+| Kill Criteria required | Every verdict states expiration conditions | Prevents false permanence — decisions change when facts change |
+| DEALBREAKER flag | Advisors can flag fatal-flaw arguments | Chairman MUST address — cannot be buried in synthesis |
+| Confidence weighting | high/med/low maps to 1.0/0.75/0.5 | Low-confidence votes count less — honest uncertainty in tally |
+| Crystallization round | 100-word final positions after cross-exam | Produces clean, unambiguous inputs for chairman |
 
 ---
 
-## Design Decisions
+## Data Flow Per Step
 
-| Decision | Choice | Reasoning |
-|----------|--------|-----------|
-| Parallel vs sequential advisors | **Parallel** | Prevents anchoring — sequential responses bleed into later ones |
-| Anonymized peer review | **Yes** | Prevents deference bias to "famous" advisor names |
-| Structured JSON output | **Yes** | Enables reliable aggregation and confidence scoring |
-| Profile-based selection (5-7) | **Not all 18** | Signal degrades past 7 advisors; profiles optimize relevance |
-| Chairman can dissent | **Yes** | Majority isn't always right — strongest reasoning wins |
-| Confidence meter | **Quantified (X/N)** | Gives user immediate signal strength without reading full analysis |
-| Grounding protocols per advisor | **Yes** | Prevents persona drift and generic responses |
-| "Where I May Be Wrong" | **Required per advisor** | Forces epistemic humility before peer review catches blind spots |
+| Step | Input | Output |
+|------|-------|--------|
+| 0: Framing | Raw question + workspace | Framed question + panel + domain-weight |
+| 1: Restate | Framed question | 5-7 one-sentence restatements (catches wrong questions) |
+| 2: Analysis | Framed question + advisor identity | 5-7 structured analyses with STANCE/CONFIDENCE/DEALBREAKER |
+| 3: Cross-exam | All Round 1 responses | 5-7 Disagree/Strengthen/Update with evidence labels |
+| 4: Enforcement | All Round 2 responses | Pass/fail + revision requests if needed |
+| 5: Crystallize | Post-exam positions | 5-7 declarative 100-word final positions |
+| 6: Vote tally | All crystallized stances | Weighted option scores + consensus/split determination |
+| 7: Synthesis | Everything above | Structured verdict (13 sections) |
+| 8: Follow-up | User command + verdict | Expanded analysis / re-synthesis / transcript |

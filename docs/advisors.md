@@ -8,7 +8,6 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ## Technical Advisors
 
-| Advisor | Function | Inspired By | Method | Sees | Misses |
 |---------|----------|-------------|--------|------|--------|
 | **architect** | Formal structure, abstraction boundaries | Ada Lovelace | Extract skeleton, find abstraction level, check properties | Well-solved problem classes hidden beneath messy surfaces | Practical constraints; elegant but unmaintainable |
 | **deriver** | First-principles reconstruction | Richard Feynman | Observe, derive from basics, explain simply, test | Cargo-cult practices; jargon hiding confusion | Systemic patterns at higher abstraction |
@@ -21,7 +20,6 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ## Strategic Advisors
 
-| Advisor | Function | Inspired By | Method | Sees | Misses |
 |---------|----------|-------------|--------|------|--------|
 | **strategist** | Adversarial terrain reading | Sun Tzu | Read terrain, assess position, find decisive point | Competitive dynamics; 2nd/3rd-order consequences | Over-indexing on adversarial thinking |
 | **realist** | Incentive mapping, power dynamics | Machiavelli | Map incentives, identify real decision-makers, read behavior | Solutions that fail because no adoption incentive | Genuine cooperation exists |
@@ -34,7 +32,6 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ## Wisdom Advisors
 
-| Advisor | Function | Inspired By | Method | Sees | Misses |
 |---------|----------|-------------|--------|------|--------|
 | **questioner** | Assumption destruction | Socrates | Identify assumptions, test by contradiction, force precision | Load-bearing unexamined assumptions | Paralysis from questioning everything |
 | **subtractor** | Via negativa, minimum intervention | Lao Tzu | Ask if real, check intervention damage, subtract first | Over-engineering; patch-upon-patch | Genuine need for intervention |

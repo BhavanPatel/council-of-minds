@@ -50,53 +50,22 @@ Decisions with genuine uncertainty — architecture choices, product pivots, tec
 Council of Minds convenes 5-7 specialized advisors from a pool of 18, runs them through a 5-round deliberation process, and delivers a structured verdict that tells you where advisors agree, where they clash, and what you should actually do.
 
 ```mermaid
-graph TB
-    User["User<br/>'council this: ...'"] --> S0
-
-    subgraph Orchestrator["Council of Minds"]
-        S0["STEP 0: Framing<br/>Parse · scan workspace · select profile<br/>· assign domain-weight (1.5x)"]
-        S1["STEP 1: Problem Restate Gate<br/>Each advisor restates in 1 sentence<br/>If 3+ reframe → surface to user"]
-        S2["STEP 2: Independent Analysis<br/>5-7 advisors parallel · 300 words<br/>STANCE · CONFIDENCE · DEALBREAKER<br/>· evidence-labeled"]
-        S3["STEP 3: Cross-Examination<br/>Disagree · Strengthen · Update<br/>Anti-conformity enforced"]
-        S4["STEP 4: Enforcement Scan<br/>Dissent quota · novelty · diversity<br/>· engagement quality"]
-        S5["STEP 5: Crystallization<br/>100-word final positions<br/>Declarative · no hedging"]
-        S6["STEP 6-7: Vote Tally + Synthesis<br/>Confidence-weighted · 2/3 threshold<br/>Chairman produces verdict"]
-
-        S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6
-    end
-
-    S6 --> Verdict
-
-    subgraph Verdict["Council Verdict"]
-        V1[Vote Tally]
-        V2[Consensus]
-        V3[Key Insights]
-        V4[Disagreements]
-        V5[Minority Report]
-        V6[Kill Criteria]
-        V7[Recommendation]
-        V8[Next Step]
-    end
-
-    Verdict --> Follow["STEP 8: Follow-Up<br/>expand · challenge · reweight<br/>· re-run · duo · save"]
+graph LR
+    Q["Your Question"] --> Frame["Frame + Select Panel"]
+    Frame --> Analyze["5-7 Advisors<br/>Analyze Independently"]
+    Analyze --> Cross["Cross-Examine<br/>Disagree · Strengthen"]
+    Cross --> Crystal["Crystallize<br/>Final Positions"]
+    Crystal --> Vote["Weighted Vote<br/>+ Chairman Verdict"]
+    Vote --> V["Kill Criteria · Recommendation · Next Step"]
 ```
 
 ### Three Modes
 
-```mermaid
-graph LR
-    subgraph Full["Full Mode (5 rounds)"]
-        F1[Restate] --> F2[Analyze] --> F3[Cross-Examine] --> F4[Crystallize] --> F5[Synthesize]
-    end
-
-    subgraph Quick["Quick Mode (3 rounds)"]
-        Q1[Analyze] --> Q2[Cross-Examine] --> Q3[Synthesize]
-    end
-
-    subgraph Duo["Duo Mode (polarity pair)"]
-        D1[Position] --> D2[Rebuttal] --> D3[Synthesize]
-    end
-```
+| Mode | Rounds | Best For |
+|------|--------|----------|
+| **Full** | 5 (Restate → Analyze → Cross-Examine → Crystallize → Synthesize) | Complex decisions |
+| **Quick** | 3 (Analyze → Cross-Examine → Synthesize) | Time-sensitive |
+| **Duo** | 3 (Position → Rebuttal → Synthesize) | Binary choices |
 
 ---
 
@@ -119,38 +88,68 @@ See [docs/install.md](docs/) for per-client details and manual install.
 
 ## Usage
 
-### Trigger Phrases
-
-| Phrase | Effect |
-|--------|--------|
-| `council this: [question]` | Auto-select profile |
-| `engineering council: [question]` | Force engineering advisors |
-| `strategy council: [question]` | Force strategy advisors |
-| `product council: [question]` | Force product advisors |
-| `risk council: [question]` | Force risk advisors |
-| `ai council: [question]` | Force AI/ML advisors |
-| `innovation council: [question]` | Force innovation advisors |
-| `quick council: [question]` | Quick mode (3 rounds, faster) |
-| `duo this: [question]` | Duo mode (2 advisors, polarity pair) |
-| `war room this` / `pressure-test this` | Same as "council this" |
-
-### Follow-Up Commands
-
-After receiving a verdict:
+### Basic — Just Ask
 
 ```
-expand on the inverter's point        → deep dive one advisor
-challenge the verdict with [new info]  → re-synthesize
-weight toward risk                     → reweight emphasis
-re-run with strategy profile           → different composition
-save transcript                        → save to file
+council this: Should we migrate to event-driven architecture or stay with REST?
 ```
 
-### Custom Council
+### Better — Add Context for Better Results
 
 ```
-council this with architect, tail-watcher, realist, shipper, questioner: [question]
+engineering council: Should we migrate to event-driven architecture or stay with REST?
+
+Context: 4 microservices, team of 8, current REST latency is 200ms p95, 
+we need sub-50ms for the real-time feed. Team has no Kafka experience. 
+Deadline: Q4 launch.
 ```
+
+### Best — Specify Stakes and Constraints
+
+```
+risk council: Should we accept the acquisition offer or continue independently?
+
+Context: $12M offer, 18 months runway remaining, $800K MRR growing 15% MoM.
+Two competitors just raised Series B. Team of 22, 3 key engineers have 
+retention risk. Board is split.
+
+Stakes: Irreversible. If we decline and miss the growth window, no second offer.
+Constraints: Need decision by end of month. No bridge financing available.
+```
+
+### Quick Decisions
+
+```
+quick council: Should we rollback this deploy? 2% error rate, 47 files changed.
+```
+
+### Binary Choices
+
+```
+duo this: PostgreSQL or DynamoDB for our event store?
+Context: 50K writes/sec, team knows Postgres, AWS infrastructure.
+```
+
+### Follow-Up After Verdict
+
+```
+expand on the tail-watcher's point
+challenge the verdict with: our CTO insists on team autonomy per service
+weight toward risk
+re-run with innovation profile
+```
+
+### Tips for Better Council Sessions
+
+| Do | Dont |
+|----|------|
+| Provide context (team size, constraints, timeline) | Ask vague questions ("should I improve things?") |
+| State what is irreversible or high-stakes | Ask factual questions with one right answer |
+| Name the options you are choosing between | Ask the council to write code or create content |
+| Specify the profile if you know the domain | Trigger on trivial decisions |
+| Use `duo` for quick binary choices | Use `full` for time-sensitive incidents |
+
+See [docs/examples.md](docs/examples.md) for complete input/output examples.
 
 ---
 
@@ -169,38 +168,28 @@ council this with architect, tail-watcher, realist, shipper, questioner: [questi
 
 ## The 18 Advisors
 
-### Technical (`advisors/technical.md`)
+| Advisor | Lens |
+|---------|------|
+| **architect** | Formal structure, abstraction boundaries, what can/cannot be mechanized |
+| **deriver** | First-principles reconstruction, jargon destruction, simplest explanation |
+| **shipper** | Pragmatic engineering, over-engineering detection, maintenance cost |
+| **model-whisperer** | ML capability frontiers, training dynamics, build-vs-prompt |
+| **frontier-scout** | Scaling dynamics, phase transitions, capability-safety boundary |
+| **systems-mapper** | Feedback loops, leverage points, unintended consequences |
+| **strategist** | Terrain reading, adversarial dynamics, information asymmetry |
+| **realist** | Incentive mapping, power dynamics, stated vs revealed preferences |
+| **timer** | Strategic timing, momentum reading, when to strike vs wait |
+| **inverter** | Multi-model inversion, opportunity cost, failure avoidance |
+| **tail-watcher** | Tail risk, fragility audit, antifragile design |
+| **taxonomist** | Classification, category errors, precise definitions |
+| **questioner** | Assumption destruction, dialectic, hidden questions |
+| **subtractor** | Via negativa, minimum intervention, emergence |
+| **reframer** | Frame dissolution, false dichotomies, perspective shift |
+| **stoic** | Control boundaries, moral clarity, resilience |
+| **bias-hunter** | Cognitive bias detection, pre-mortems, de-biasing |
+| **user-advocate** | User experience, cognitive load, design honesty |
 
-| Advisor | Cognitive Function | Inspired By |
-|---------|-------------------|-------------|
-| **architect** | Formal structure, abstraction boundaries | Ada Lovelace |
-| **deriver** | First-principles reconstruction, jargon destruction | Richard Feynman |
-| **shipper** | Pragmatic engineering, over-engineering detection | Linus Torvalds |
-| **model-whisperer** | ML capability frontiers, build-vs-prompt | Andrej Karpathy |
-| **frontier-scout** | Scaling dynamics, capability-safety boundary | Ilya Sutskever |
-| **systems-mapper** | Feedback loops, leverage points | Donella Meadows |
-
-### Strategic (`advisors/strategic.md`)
-
-| Advisor | Cognitive Function | Inspired By |
-|---------|-------------------|-------------|
-| **strategist** | Terrain reading, adversarial dynamics | Sun Tzu |
-| **realist** | Incentive mapping, power dynamics | Machiavelli |
-| **timer** | Strategic timing, momentum reading | Miyamoto Musashi |
-| **inverter** | Multi-model inversion, opportunity cost | Charlie Munger |
-| **tail-watcher** | Tail risk, antifragile design | Nassim Taleb |
-| **taxonomist** | Classification, category errors | Aristotle |
-
-### Wisdom (`advisors/wisdom.md`)
-
-| Advisor | Cognitive Function | Inspired By |
-|---------|-------------------|-------------|
-| **questioner** | Assumption destruction, dialectic | Socrates |
-| **subtractor** | Via negativa, minimum intervention | Lao Tzu |
-| **reframer** | Frame dissolution, false dichotomies | Alan Watts |
-| **stoic** | Control boundaries, moral clarity | Marcus Aurelius |
-| **bias-hunter** | Cognitive bias detection, pre-mortems | Daniel Kahneman |
-| **user-advocate** | User experience, design honesty | Dieter Rams |
+Full advisor details: [docs/advisors.md](docs/advisors.md)
 
 ---
 
@@ -289,38 +278,14 @@ council this with architect, tail-watcher, realist, shipper, questioner: [questi
 
 ---
 
-## Project Structure
-
-```
-council-of-minds/
-├── install.sh                        # Auto-detect + install for all clients
-├── council-of-minds.json             # Agent config (Kiro native)
-├── council-of-minds.md               # Orchestrator prompt (universal)
-├── advisors/
-│   ├── technical.md                  # 6 engineering/AI advisors
-│   ├── strategic.md                  # 6 strategy/risk advisors
-│   └── wisdom.md                     # 6 philosophy/design advisors
-├── docs/
-│   ├── architecture.md               # System design + mermaid diagrams
-│   ├── advisors.md                   # Full 18-advisor reference
-│   ├── profiles.md                   # Profile details + auto-selection
-│   └── examples.md                   # Input/output examples (real sessions)
-├── settings/
-│   ├── council-of-minds.config.json  # Profiles, keywords, settings
-│   └── council-of-minds.meta.json    # Agent metadata
-└── README.md
-```
-
----
-
 ## Customization
 
-Edit `council-of-minds.config.json` to:
-- Add/modify profiles (custom advisor combinations)
+Edit `council-of-minds.config.json` (installed in your client's settings directory) to:
+- Add custom profiles with your own advisor combinations
 - Adjust keyword mappings for auto-selection
 - Change advisor count limits (default: 5-7)
-- Toggle anonymization
-- Modify word limits per phase
+- Set default mode (full/quick/duo)
+- Tune voting weights and consensus threshold
 
 ---
 

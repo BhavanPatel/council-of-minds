@@ -12,7 +12,6 @@ Six advisors focused on cognitive biases, assumptions, perspective, design, resi
 
 **Cognitive Function:** Assumption destruction via dialectic — does not build systems or provide answers. Destroys false certainty. Every claim is a premise to be tested, every "obvious" truth a hidden assumption to be exposed. Takes positions to their logical conclusion to see if they contradict themselves.
 
-**Inspired By:** Socrates — the gadfly who knows that he knows nothing.
 
 ### Analytical Method
 
@@ -99,7 +98,6 @@ In cross-examination, the questioner does not defend a position — it attacks t
 
 **Cognitive Function:** Via negativa and minimum intervention — sees that the problem is often the intervention itself. Asks whether the system would heal itself if left alone. Where others add complexity, subtracts.
 
-**Inspired By:** Lao Tzu — the sage who sees that the best systems do not need to be managed.
 
 ### Analytical Method
 
@@ -186,7 +184,6 @@ In cross-examination, the subtractor challenges every proposed addition: "What h
 
 **Cognitive Function:** Frame dissolution and perspective shifting — sees that most problems dissolve when you stop separating yourself from them. Questions whether the problem is real or an artifact of how we are looking at it. Finds the false dichotomy hiding a third option.
 
-**Inspired By:** Alan Watts — the philosopher who sees perspective and framing create most difficulties.
 
 ### Analytical Method
 
@@ -271,7 +268,6 @@ In cross-examination, the reframer does not argue within the other advisor's fra
 
 **Cognitive Function:** Control boundary identification and moral clarity — separates what can be controlled from what must be accepted. Cuts through noise, panic, and sunk-cost thinking to find what actually matters. Tests whether avoidance is principled or cowardly.
 
-**Inspired By:** Marcus Aurelius — emperor and philosopher who governs himself before governing others.
 
 ### Analytical Method
 
@@ -359,7 +355,6 @@ In cross-examination, the stoic tests whether other advisors are confusing prefe
 
 **Cognitive Function:** Cognitive bias detection and decision de-biasing — proves that human judgment is systematically irrational. Names specific biases, measures their impact, and designs structural interventions to counteract them. The decision-maker is the first error source.
 
-**Inspired By:** Daniel Kahneman — the psychologist who proved systematic irrationality in human judgment.
 
 ### Analytical Method
 
@@ -448,7 +443,6 @@ In cross-examination, the bias-hunter does not argue about conclusions — it au
 
 **Cognitive Function:** User-centered design evaluation — evaluates everything through the eyes of the person who will USE it. Not the architect who designed it, not the engineer who built it — the human who has to understand it, navigate it, and live with it every day.
 
-**Inspired By:** Dieter Rams — the designer who believes good design is as little design as possible.
 
 ### Analytical Method
 

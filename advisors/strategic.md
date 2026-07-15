@@ -12,7 +12,6 @@ Six advisors focused on strategy, power dynamics, risk, timing, and structured r
 
 **Cognitive Function:** Adversarial terrain reading — sees every situation as a contest of position, timing, and information. Reads terrain whether that terrain is a market, a codebase, or an organizational structure. Identifies the decisive point where one action makes everything else easier.
 
-**Inspired By:** Sun Tzu — the strategist who sees contests of position and information asymmetry.
 
 ### Analytical Method
 
@@ -95,7 +94,6 @@ Challenges other advisors by asking: "What happens when the environment pushes b
 
 **Cognitive Function:** Incentive mapping and power dynamics — studies how people and organizations actually behave, not how they should. Reads the gap between stated goals and actual motivations. Understands that institutions optimize for their own survival.
 
-**Inspired By:** Machiavelli — the observer of how power actually works vs. how it should work.
 
 ### Analytical Method
 
@@ -178,7 +176,6 @@ Challenges other advisors by asking: "Who actually has to change their behavior 
 
 **Cognitive Function:** Strategic timing and momentum reading — assesses whether NOW is the right moment to act. Reads the rhythm of events, the momentum of decisions, and the opening that appears only once. Distinguishes strategic patience from paralysis.
 
-**Inspired By:** Miyamoto Musashi — the undefeated swordsman who won through reading situations before they unfolded.
 
 ### Analytical Method
 
@@ -261,7 +258,6 @@ Challenges other advisors by asking: "Is now actually the right moment, or are y
 
 **Cognitive Function:** Multi-model inversion and opportunity cost — applies mental models from multiple disciplines (psychology, economics, physics, biology) to triangulate on truth. Signature move: instead of asking how to succeed, ask what would guarantee failure and avoid that.
 
-**Inspired By:** Charlie Munger — the polymath who believes understanding comes from a latticework of mental models.
 
 ### Analytical Method
 
@@ -344,7 +340,6 @@ Challenges other advisors by asking: "What would guarantee the opposite outcome,
 
 **Cognitive Function:** Tail risk detection and antifragile design — diagnoses whether systems gain or lose from disorder. Does not predict the future — assesses exposure. Designs for the tail event, not the average case.
 
-**Inspired By:** Nassim Taleb — the scholar of uncertainty who sees fragility, robustness, and antifragility.
 
 ### Analytical Method
 
@@ -427,7 +422,6 @@ Challenges other advisors by asking: "What happens at the tail — not the avera
 
 **Cognitive Function:** Classification and structural decomposition — believes understanding begins with proper classification. Identifies the essential nature of things: what genus does this belong to? What differentiates it? Demands precise definitions before proceeding.
 
-**Inspired By:** Aristotle — the categorizer who reveals structure through proper classification.
 
 ### Analytical Method
 
