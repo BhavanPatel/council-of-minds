@@ -1,30 +1,157 @@
 {
+  "modes": {
+    "full": {
+      "rounds": 5,
+      "wordLimits": { "round1": 300, "round2": 200, "round3": 100 },
+      "steps": ["restate", "analyze", "cross-examine", "crystallize", "synthesize"]
+    },
+    "quick": {
+      "rounds": 3,
+      "wordLimits": { "round1": 200, "round2": 75 },
+      "steps": ["analyze", "cross-examine", "synthesize"]
+    },
+    "duo": {
+      "rounds": 3,
+      "wordLimits": { "position": 250, "rebuttal": 150 },
+      "steps": ["position", "rebuttal", "synthesize"]
+    }
+  },
   "profiles": {
     "engineering": {
       "advisors": ["architect", "deriver", "shipper", "systems-mapper", "inverter", "user-advocate"],
+      "domainWeight": "architect",
       "description": "Technical architecture, code design, infrastructure decisions"
     },
     "strategy": {
       "advisors": ["strategist", "realist", "inverter", "timer", "tail-watcher", "systems-mapper"],
+      "domainWeight": "strategist",
       "description": "Competitive moves, market entry, positioning, organizational strategy"
     },
     "product": {
       "advisors": ["user-advocate", "shipper", "realist", "bias-hunter", "reframer", "deriver"],
+      "domainWeight": "user-advocate",
       "description": "Product direction, feature decisions, UX tradeoffs"
     },
     "risk": {
       "advisors": ["tail-watcher", "bias-hunter", "inverter", "systems-mapper", "stoic", "strategist"],
+      "domainWeight": "tail-watcher",
       "description": "High-stakes decisions, go/no-go, investment, irreversible choices"
     },
     "ai-ml": {
       "advisors": ["model-whisperer", "frontier-scout", "architect", "deriver", "tail-watcher", "shipper"],
+      "domainWeight": "model-whisperer",
       "description": "AI product decisions, model selection, capability assessment, safety"
     },
     "innovation": {
       "advisors": ["questioner", "subtractor", "reframer", "taxonomist", "deriver", "inverter"],
+      "domainWeight": "questioner",
       "description": "Exploring new spaces, challenging assumptions, finding novel approaches"
     }
   },
+  "advisors": {
+    "architect": {
+      "reasoning_method": "formal-stepwise-verification",
+      "polarity_pairs": ["shipper", "realist"],
+      "evidence_type_default": "mechanistic"
+    },
+    "deriver": {
+      "reasoning_method": "first-principles-reconstruction",
+      "polarity_pairs": ["systems-mapper", "subtractor"],
+      "evidence_type_default": "mechanistic"
+    },
+    "shipper": {
+      "reasoning_method": "empirical-reduction-to-practice",
+      "polarity_pairs": ["architect", "tail-watcher"],
+      "evidence_type_default": "empirical"
+    },
+    "model-whisperer": {
+      "reasoning_method": "gradient-empiricism",
+      "polarity_pairs": ["frontier-scout", "architect"],
+      "evidence_type_default": "empirical"
+    },
+    "frontier-scout": {
+      "reasoning_method": "scaling-extrapolation",
+      "polarity_pairs": ["model-whisperer", "shipper"],
+      "evidence_type_default": "mechanistic"
+    },
+    "systems-mapper": {
+      "reasoning_method": "causal-loop-mapping",
+      "polarity_pairs": ["deriver", "shipper"],
+      "evidence_type_default": "mechanistic"
+    },
+    "strategist": {
+      "reasoning_method": "adversarial-simulation",
+      "polarity_pairs": ["stoic", "subtractor"],
+      "evidence_type_default": "strategic"
+    },
+    "realist": {
+      "reasoning_method": "incentive-backward-induction",
+      "polarity_pairs": ["stoic", "architect"],
+      "evidence_type_default": "strategic"
+    },
+    "timer": {
+      "reasoning_method": "timing-tempo-analysis",
+      "polarity_pairs": ["shipper", "strategist"],
+      "evidence_type_default": "strategic"
+    },
+    "inverter": {
+      "reasoning_method": "multi-model-inversion",
+      "polarity_pairs": ["reframer", "subtractor"],
+      "evidence_type_default": "heuristic"
+    },
+    "tail-watcher": {
+      "reasoning_method": "tail-stress-testing",
+      "polarity_pairs": ["shipper", "model-whisperer"],
+      "evidence_type_default": "empirical"
+    },
+    "taxonomist": {
+      "reasoning_method": "taxonomic-decomposition",
+      "polarity_pairs": ["questioner", "subtractor"],
+      "evidence_type_default": "mechanistic"
+    },
+    "questioner": {
+      "reasoning_method": "elenchic-questioning",
+      "polarity_pairs": ["taxonomist", "shipper"],
+      "evidence_type_default": "heuristic"
+    },
+    "subtractor": {
+      "reasoning_method": "via-negativa",
+      "polarity_pairs": ["deriver", "taxonomist"],
+      "evidence_type_default": "heuristic"
+    },
+    "reframer": {
+      "reasoning_method": "frame-dissolution",
+      "polarity_pairs": ["inverter", "strategist"],
+      "evidence_type_default": "heuristic"
+    },
+    "stoic": {
+      "reasoning_method": "negative-visualization",
+      "polarity_pairs": ["strategist", "realist"],
+      "evidence_type_default": "ethical"
+    },
+    "bias-hunter": {
+      "reasoning_method": "bias-audit-system2",
+      "polarity_pairs": ["deriver", "shipper"],
+      "evidence_type_default": "empirical"
+    },
+    "user-advocate": {
+      "reasoning_method": "subtractive-essentialism",
+      "polarity_pairs": ["architect", "strategist"],
+      "evidence_type_default": "empirical"
+    }
+  },
+  "polarityPairs": [
+    ["architect", "shipper"],
+    ["deriver", "systems-mapper"],
+    ["strategist", "stoic"],
+    ["tail-watcher", "shipper"],
+    ["questioner", "taxonomist"],
+    ["subtractor", "deriver"],
+    ["realist", "stoic"],
+    ["inverter", "reframer"],
+    ["model-whisperer", "frontier-scout"],
+    ["timer", "shipper"]
+  ],
   "autoSelectKeywords": {
     "architect": ["architecture", "abstraction", "formal", "computation", "type system", "interface", "contract"],
     "deriver": ["first principles", "why", "explain", "simplify", "debug", "root cause"],
@@ -45,13 +172,22 @@
     "bias-hunter": ["bias", "decision", "judgment", "cognitive", "heuristic", "planning fallacy"],
     "user-advocate": ["user", "UX", "design", "experience", "interface", "usability"]
   },
+  "voting": {
+    "confidenceWeights": { "high": 1.0, "medium": 0.75, "low": 0.5 },
+    "domainSeatMultiplier": 1.5,
+    "consensusThreshold": 0.667
+  },
+  "enforcement": {
+    "dissentQuota": 2,
+    "noveltyRequired": true,
+    "evidenceDiversityThreshold": 0.8,
+    "engagementRequired": true
+  },
   "settings": {
     "minAdvisors": 5,
     "maxAdvisors": 7,
-    "advisorWordLimit": 300,
-    "peerReviewWordLimit": 150,
     "alwaysIncludeChallenger": true,
     "challengerAdvisors": ["questioner", "subtractor", "reframer"],
-    "anonymizePeerReview": true
+    "defaultMode": "full"
   }
 }

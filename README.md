@@ -47,100 +47,73 @@ Decisions with genuine uncertainty — architecture choices, product pivots, tec
 
 ## The Solution
 
-Council of Minds convenes 5-7 specialized advisors from a pool of 18, runs them through a 4-phase deliberation process, and delivers a structured verdict that tells you where advisors agree, where they clash, and what you should actually do.
+Council of Minds convenes 5-7 specialized advisors from a pool of 18, runs them through a 5-round deliberation process, and delivers a structured verdict that tells you where advisors agree, where they clash, and what you should actually do.
 
+```mermaid
+graph TB
+    User["User<br/>'council this: ...'"] --> S0
+
+    subgraph Orchestrator["Council of Minds"]
+        S0["STEP 0: Framing<br/>Parse · scan workspace · select profile<br/>· assign domain-weight (1.5x)"]
+        S1["STEP 1: Problem Restate Gate<br/>Each advisor restates in 1 sentence<br/>If 3+ reframe → surface to user"]
+        S2["STEP 2: Independent Analysis<br/>5-7 advisors parallel · 300 words<br/>STANCE · CONFIDENCE · DEALBREAKER<br/>· evidence-labeled"]
+        S3["STEP 3: Cross-Examination<br/>Disagree · Strengthen · Update<br/>Anti-conformity enforced"]
+        S4["STEP 4: Enforcement Scan<br/>Dissent quota · novelty · diversity<br/>· engagement quality"]
+        S5["STEP 5: Crystallization<br/>100-word final positions<br/>Declarative · no hedging"]
+        S6["STEP 6-7: Vote Tally + Synthesis<br/>Confidence-weighted · 2/3 threshold<br/>Chairman produces verdict"]
+
+        S0 --> S1 --> S2 --> S3 --> S4 --> S5 --> S6
+    end
+
+    S6 --> Verdict
+
+    subgraph Verdict["Council Verdict"]
+        V1[Vote Tally]
+        V2[Consensus]
+        V3[Key Insights]
+        V4[Disagreements]
+        V5[Minority Report]
+        V6[Kill Criteria]
+        V7[Recommendation]
+        V8[Next Step]
+    end
+
+    Verdict --> Follow["STEP 8: Follow-Up<br/>expand · challenge · reweight<br/>· re-run · duo · save"]
 ```
-┌─────────────────────────────────────────────────────┐
-│  PHASE 0: FRAMING                                   │
-│  Parse question → scan context → select profile     │
-└──────────────────────┬──────────────────────────────┘
-                       ▼
-┌─────────────────────────────────────────────────────┐
-│  PHASE 1: INDEPENDENT ANALYSIS (parallel)           │
-│  5-7 advisors · 200-300 words each · confidence     │
-│  rated · blind spots acknowledged                   │
-└──────────────────────┬──────────────────────────────┘
-                       ▼
-┌─────────────────────────────────────────────────────┐
-│  PHASE 2: ANONYMIZED PEER REVIEW (parallel)         │
-│  Responses shuffled A-G → each reviews all →        │
-│  strongest · weakest · what ALL missed              │
-└──────────────────────┬──────────────────────────────┘
-                       ▼
-┌─────────────────────────────────────────────────────┐
-│  PHASE 3: CHAIRMAN SYNTHESIS                        │
-│  Consensus · Clash Points · Blind Spots Caught ·    │
-│  Strongest Dissent · Confidence Meter ·             │
-│  Recommendation · First Move                        │
-└──────────────────────┬──────────────────────────────┘
-                       ▼
-┌─────────────────────────────────────────────────────┐
-│  PHASE 4: FOLLOW-UP                                 │
-│  expand · challenge · reweight · re-run · save      │
-└─────────────────────────────────────────────────────┘
+
+### Three Modes
+
+```mermaid
+graph LR
+    subgraph Full["Full Mode (5 rounds)"]
+        F1[Restate] --> F2[Analyze] --> F3[Cross-Examine] --> F4[Crystallize] --> F5[Synthesize]
+    end
+
+    subgraph Quick["Quick Mode (3 rounds)"]
+        Q1[Analyze] --> Q2[Cross-Examine] --> Q3[Synthesize]
+    end
+
+    subgraph Duo["Duo Mode (polarity pair)"]
+        D1[Position] --> D2[Rebuttal] --> D3[Synthesize]
+    end
 ```
 
 ---
 
 ## Install
 
-Council of Minds is **agent-agnostic**. The install script auto-detects your AI clients and installs in their native format.
-
 ```bash
 ./install.sh
 ```
 
-That's it. The script will:
-1. Detect installed clients (Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode)
-2. Let you choose which to install for
-3. Ask scope (global or project-level)
-4. Copy all advisor files in the correct format for each client
-
-### Non-Interactive
+Auto-detects your AI clients (Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode), lets you choose which to install for, and copies everything in native format.
 
 ```bash
-./install.sh --client kiro --global        # Kiro only, global
-./install.sh --client claude --project     # Claude only, current project
-./install.sh --client cursor,windsurf      # Multiple clients
+./install.sh --client kiro --global    # Non-interactive
+./install.sh --uninstall               # Remove from all clients
 ```
 
-### Uninstall
-
-```bash
-./install.sh --uninstall                   # Remove from all clients
-```
-
-### Supported Clients
-
-| Client | Detection | Install Location |
-|--------|-----------|-----------------|
-| **Kiro** | `~/.kiro` exists | `.kiro/agents/council-of-minds/` |
-| **Claude Code** | `~/.claude` or `claude` CLI | `.claude/council-of-minds/` + CLAUDE.md reference |
-| **Cursor** | `~/.cursor` exists | `.cursor/rules/council-of-minds.md` |
-| **Windsurf** | `~/.windsurf` exists | `.windsurf/rules/council-of-minds.md` |
-| **Cline** | `~/.cline` exists | `.cline/rules/council-of-minds.md` |
-| **Aider** | `aider` CLI available | `.aider/council-of-minds/` + conf reference |
-| **RooCode** | `~/.roo` exists | `.roo/rules/council-of-minds.md` |
-| **OpenCode** | `opencode` CLI available | `.opencode/council-of-minds/` |
-
-<details>
-<summary><strong>Manual Install (without script)</strong></summary>
-
-The council is plain markdown. Any AI agent that reads markdown context files can use it:
-
-1. Copy `council-of-minds.md` to your agent's rules/context directory
-2. Copy `advisors/*.md` alongside it
-3. Copy `settings/council-of-minds.config.json` for profile configuration
-4. Say "council this: [your question]"
-
-For Kiro specifically:
-```bash
-mkdir -p ~/.kiro/agents/council-of-minds
-cp -r council-of-minds/* ~/.kiro/agents/council-of-minds/
-cp settings/council-of-minds.config.json ~/.kiro/settings/
-```
-
-</details>
+See [docs/install.md](docs/) for per-client details and manual install.
 
 ---
 
@@ -157,6 +130,8 @@ cp settings/council-of-minds.config.json ~/.kiro/settings/
 | `risk council: [question]` | Force risk advisors |
 | `ai council: [question]` | Force AI/ML advisors |
 | `innovation council: [question]` | Force innovation advisors |
+| `quick council: [question]` | Quick mode (3 rounds, faster) |
+| `duo this: [question]` | Duo mode (2 advisors, polarity pair) |
 | `war room this` / `pressure-test this` | Same as "council this" |
 
 ### Follow-Up Commands
@@ -234,32 +209,37 @@ council this with architect, tail-watcher, realist, shipper, questioner: [questi
 | Feature | Council of Minds | [LLM Council](https://github.com/aiwithremy/claude-skills-llm-council) (Remy) | [Council of High Intelligence](https://github.com/0xNyk/council-of-high-intelligence) (0xNyk) |
 |---------|:---:|:---:|:---:|
 | **Advisors** | 18 cognitive lenses | 5 generic thinking styles | 18 named personas |
-| **Profile-based selection** | 6 domain profiles, auto-select | None — always runs all 5 | None — manual or full 18 |
-| **Anonymized peer review** | Yes | Yes | No |
-| **Grounding protocols** | Per-advisor constraints preventing drift | None | Per-advisor |
-| **Confidence scoring** | Per-advisor + consensus meter | None | None |
-| **Dissent preservation** | Explicit "Strongest Dissent" section | No | No |
-| **Follow-up drilldown** | expand / challenge / reweight / re-run | None | None |
-| **Agent-agnostic** | Kiro · Cursor · Claude · Windsurf · any | Claude only | Claude only |
-| **Peer review quality** | Anonymized + structured JSON output | Anonymized + free-form | Named + round-based (deference risk) |
-| **Chairman can dissent** | Yes — can side with minority | Yes | N/A (no chairman) |
-| **"Where I May Be Wrong"** | Every advisor, every round | None | Every advisor |
-| **Keyword auto-select** | 18 keyword maps for intelligent advisor selection | None | Triads/polarity pairs (manual) |
-| **Workspace context scan** | Reads project files to enrich framing | Claude-specific (`CLAUDE.md`) | None |
+| **Modes** | Full (5-round) · Quick (3-round) · Duo | Single mode only | Full · Quick · Duo |
+| **Profile-based selection** | 6 profiles + auto-select + custom | None — always all 5 | Triads + profiles (manual) |
+| **Problem Restate Gate** | Yes — catches wrong questions | No | No |
+| **Evidence labeling** | Required (empirical/mechanistic/strategic/ethical/heuristic) | No | Yes |
+| **Cross-examination** | Structured Disagree/Strengthen/Update | Free-form "strongest/weakest" | Round 2 structured engagement |
+| **Anti-conformity directive** | Explicit — must name flaw to update | No | No |
+| **Enforcement scan** | Dissent quota + novelty + diversity + engagement | No | Yes (similar) |
+| **Vote tally** | Confidence-weighted with 2/3 threshold | No | Yes (weighted) |
+| **Domain-weight seat** | 1.5x for most-relevant advisor | No | Yes |
+| **Kill Criteria** | Required in every verdict | No | Yes |
+| **DEALBREAKER flag** | Per-advisor, chairman must address | No | No |
+| **Minority Report** | Explicit section with full reasoning | Mentioned in synthesis | No formal section |
+| **Acceptable Compromises** | Required section | No | No |
+| **Follow-up protocol** | expand · challenge · reweight · re-run · duo | None | None |
+| **Agent-agnostic** | Kiro · Cursor · Claude · Windsurf · 8 clients | Claude only | Claude only |
+| **Grounding protocols** | Per-advisor with hard constraints | None | Per-advisor |
+| **Polarity pairs** | 10 defined tension pairs for Duo mode | N/A | Yes |
 
 ### Why Ours Is Better
 
-1. **Profile selection prevents noise.** Running 18 advisors is chaos. Running the right 5-7 based on your question's domain gives signal without noise. Neither alternative does this.
+1. **5-round deliberation with enforcement.** Not just "ask 5 advisors and summarize." Problem Restate Gate catches wrong questions. Cross-examination forces direct engagement. Enforcement scan rejects lazy agreement. Crystallization produces clean inputs for synthesis.
 
-2. **Anonymized peer review + grounding protocols.** 0xNyk has deep personas but no anonymization (creates deference bias). Remy has anonymization but shallow advisors. We have both.
+2. **Confidence-weighted vote tally.** Auditable math, not vibes. Domain-weight seat (1.5x) ensures the most-relevant advisor has proportional influence. 2/3 threshold means split decisions are reported as splits, not forced consensus.
 
-3. **Confidence meter gives you signal strength.** When 6/6 advisors converge, you know. When it is 3/3 split, you know that too. Neither alternative quantifies consensus.
+3. **Kill Criteria + Acceptable Compromises.** Every verdict states when it expires and what it gives up. Neither alternative forces this honesty.
 
-4. **Strongest Dissent is preserved.** The minority view that might be right is the council's most valuable output. Both alternatives bury dissent in synthesis.
+4. **Anti-conformity directive.** Must name the specific flaw to update position. Prevents the groupthink collapse that ruins most multi-agent deliberations.
 
-5. **Follow-up protocol.** A verdict is a starting point, not an end. Drill into any advisor, challenge with new info, reweight emphasis. Static verdicts are half the value.
+5. **3 modes for 3 situations.** Full (complex decisions), Quick (time-sensitive), Duo (binary choices with polarity pairs). Neither alternative adapts process to decision weight.
 
-6. **Agent-agnostic.** Works anywhere markdown is read. Not locked to one client.
+6. **Agent-agnostic with install script.** Works on Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode. Auto-detects and installs in native format. Not locked to one client.
 
 ---
 
@@ -267,13 +247,15 @@ council this with architect, tail-watcher, realist, shipper, questioner: [questi
 
 | Step | What happens |
 |:----:|---|
-| 1 | User triggers council (explicit phrase or contextual) |
-| 2 | Orchestrator frames the question, scans workspace context |
-| 3 | Profile auto-selected based on domain keywords (or user override) |
-| 4 | 5-7 advisors spawn in parallel, each producing structured analysis |
-| 5 | Responses anonymized (A-G), each advisor reviews all others |
-| 6 | Chairman synthesizes: consensus, clashes, blind spots, dissent, recommendation |
-| 7 | Verdict presented with confidence meter and single first-move action |
+| 0 | User triggers council — orchestrator parses question, scans workspace, selects profile |
+| 1 | **Problem Restate Gate** — each advisor restates in their lens (catches wrong questions) |
+| 2 | **Independent Analysis** — 5-7 advisors spawn in parallel, 300 words each, evidence-labeled |
+| 3 | **Cross-Examination** — structured Disagree/Strengthen/Update with anti-conformity directive |
+| 4 | **Enforcement Scan** — verify dissent quota, novelty, evidence diversity, engagement quality |
+| 5 | **Crystallization** — 100-word final declarative positions with STANCE/CONFIDENCE/DEALBREAKER |
+| 6 | **Vote Tally** — confidence-weighted scoring with domain-weight seat (1.5x), 2/3 threshold |
+| 7 | **Chairman Synthesis** — verdict with Kill Criteria, Compromises, Minority Report, Next Step |
+| 8 | **Follow-Up** — expand, challenge, reweight, re-run, duo, save transcript |
 
 ---
 
