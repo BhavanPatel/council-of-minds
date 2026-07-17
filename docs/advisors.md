@@ -1,6 +1,6 @@
 # Advisor Reference
 
-Complete reference for all 36 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
+Complete reference for all 42 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
 
 Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, and `advisors/creative.md`, and `advisors/human.md`.
 
@@ -84,6 +84,18 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ---
 
+## Epistemic Advisors
+
+| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
+|---------|----------|-------------|--------|------|
+| **epistemologist** | Knowledge boundary mapping | Classify knowledge type, assess access, check category errors | Invisible assumptions beneath claims to knowledge | Epistemic perfectionism paralyzing action |
+| **source-critic** | Information provenance analysis | Trace provenance, assess access, map incentives, check corroboration | Information supply chain distortions | Over-scrutiny rejecting all imperfect sources |
+| **bayesian** | Probabilistic belief updating | Establish prior, assess likelihood ratio, update proportionally | Gap between how people update vs how they should | Reducing qualitative decisions to false precision |
+| **red-teamer** | Adversarial simulation | Define threat model, map attack surface, simulate attack path | Attacker's perspective on cooperative designs | Creating paranoia without real threat |
+| **calibrator** | Meta-cognitive calibration | Assess confidence, check reference class, quantify planning fallacy | Systematic gap between confidence and reality | Backward-looking when novel situations arise |
+| **integrator** | Evidence integration | Inventory evidence, map contradictions, weight by quality | Coherent picture from messy contradictory evidence | Forcing false coherence on genuine uncertainty |
+
+
 ## Grounding Protocols (Summary)
 
 Every advisor has constraints that prevent drift into generic advice:
@@ -126,3 +138,9 @@ Every advisor has constraints that prevent drift into generic advice:
 | operator | Must reference specific resources (people, dates, dollars); max 1 dependency diagram |
 | diplomat | Must name specific stakeholders with interests; max 6 stakeholders |
 | data-analyst | Must include sample size, time period, source; max 2 statistical techniques |
+| epistemologist | Must specify WHY something can't be known; max 1 philosophical framework |
+| source-critic | Must name specific sources and incentive structures; max 3 sources |
+| bayesian | Must use explicit probabilities (numbers, not words); max 2 likelihood ratios |
+| red-teamer | Must specify threat model (who, what resources); max 3 attack vectors |
+| calibrator | Must reference specific comparison class; max 2 reference class comparisons |
+| integrator | Must name specific sources with weights; max 4 sources integrated |

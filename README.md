@@ -4,9 +4,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.3.0-a78bfa?style=flat-square" alt="Version" />
-  <img src="https://img.shields.io/badge/advisors-36_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
-  <img src="https://img.shields.io/badge/profiles-12_domains-f59e0b?style=flat-square" alt="Profiles" />
+  <img src="https://img.shields.io/badge/version-2.4.0-a78bfa?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/advisors-42_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
+  <img src="https://img.shields.io/badge/profiles-14_domains-f59e0b?style=flat-square" alt="Profiles" />
   <img src="https://img.shields.io/badge/agents-kiro_·_cursor_·_claude_·_windsurf_·_+6_more-3b82f6?style=flat-square" alt="Agents" />
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" alt="License" />
 </p>
@@ -14,7 +14,7 @@
 <p align="center">
   <a href="#install"><strong>Install</strong></a> ·
   <a href="#how-it-works"><strong>How It Works</strong></a> ·
-  <a href="#the-36-advisors"><strong>Advisors</strong></a> ·
+  <a href="#the-42-advisors"><strong>Advisors</strong></a> ·
   <a href="#vs-alternatives"><strong>vs Alternatives</strong></a> ·
   <a href="#inspiration--research-foundation"><strong>Research</strong></a>
 </p>
@@ -47,7 +47,7 @@ Decisions with genuine uncertainty — architecture choices, product pivots, tec
 
 ## The Solution
 
-Council of Minds convenes 4-6 specialized advisors from a pool of 36, runs them through a structured deliberation process with fact-checking and adaptive optimization, and delivers a verdict that tells you where advisors agree, where they clash, and what you should actually do.
+Council of Minds convenes 4-6 specialized advisors from a pool of 42, runs them through a structured deliberation process with fact-checking and adaptive optimization, and delivers a verdict that tells you where advisors agree, where they clash, and what you should actually do.
 
 ```mermaid
 graph LR
@@ -192,10 +192,12 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **legal** | legalist · stoic · bias-hunter · historian · diplomat | Compliance, contracts, liability |
 | **science** | scientist · data-analyst · deriver · devil's-advocate · frontier-scout | Research, evidence, experiments |
 | **operations** | operator · systems-mapper · shipper · timer · diplomat | Logistics, execution, delivery |
+| **truth** | epistemologist · source-critic · bayesian · bias-hunter · integrator | Evidence evaluation, claims |
+| **research** | scientist · bayesian · source-critic · calibrator · data-analyst | Research, methodology |
 
 ---
 
-## The 36 Advisors
+## The 42 Advisors
 
 ### Technical (6) — Engineering, systems, computation
 | Advisor | Lens |
@@ -257,6 +259,16 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **diplomat** | Stakeholder alignment, coalitions, communication sequence |
 | **data-analyst** | Statistical inference, signal vs noise, uncertainty |
 
+### Epistemic (6) — Truth, evidence, meta-cognition
+| Advisor | Lens |
+|---------|------|
+| **epistemologist** | Knowledge boundaries, category errors, epistemic access |
+| **source-critic** | Information provenance, incentive mapping, corroboration |
+| **bayesian** | Probabilistic updating, priors, likelihood ratios |
+| **red-teamer** | Adversarial simulation, attack surfaces, threat models |
+| **calibrator** | Confidence scoring, reference classes, planning fallacy |
+| **integrator** | Multi-source synthesis, contradiction resolution, evidence weighting |
+
 Full advisor details: [docs/advisors.md](docs/advisors.md)
 
 ---
@@ -265,7 +277,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 
 | Feature | Council of Minds | Councilverse | Deb8flow | Council of Five | CrewAI/AutoGen |
 |---------|:---:|:---:|:---:|:---:|:---:|
-| **Advisors** | 36 cognitive lenses | 15 methodologies | 5 (Pro/Con/Mod/Fact/Judge) | 5 governance agents | N (role-based) |
+| **Advisors** | 42 cognitive lenses | 15 methodologies | 5 (Pro/Con/Mod/Fact/Judge) | 5 governance agents | N (role-based) |
 | **Modes** | Full · Quick · Duo · Budget tiers | Single | Single | Single | Task pipelines |
 | **Enforcement Scan** | Dissent + novelty + diversity + engagement | No | No | No | No |
 | **Anti-Conformity** | Must name flaw to update | No | No | No | No |
@@ -370,8 +382,8 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 | | |
 |:--|:--|
 | <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a> | [System design, mermaid diagrams, phase flow, anonymization, design decisions](docs/architecture.md) |
-| <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [All 36 advisors — function, method, grounding protocol, blind spots](docs/advisors.md) |
-| <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [12 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
+| <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [All 42 advisors — function, method, grounding protocol, blind spots](docs/advisors.md) |
+| <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [14 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
 | <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a> | [Full input/output examples from real council sessions](docs/examples.md) |
 
 ---
@@ -406,7 +418,7 @@ This project synthesizes three original approaches plus extensive 2025-2026 rese
 - Sparse communication topology research (arxiv 2406.11776)
 
 **Original contributions:**
-- Profile-based dynamic advisor selection (never run all 36)
+- Profile-based dynamic advisor selection (never run all 42)
 - Enforcement scan with programmatic quality validation (unique — no competitor has this)
 - Adaptive early termination and sparse cross-examination for cost efficiency
 - Cost budget mode with 6 auto-configuring tiers

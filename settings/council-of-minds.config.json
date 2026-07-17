@@ -174,6 +174,28 @@
       ],
       "domainWeight": "operator",
       "description": "Logistics, execution planning, resource orchestration, supply chain, process"
+    },
+    "truth": {
+      "advisors": [
+        "epistemologist",
+        "source-critic",
+        "bayesian",
+        "bias-hunter",
+        "integrator"
+      ],
+      "domainWeight": "epistemologist",
+      "description": "Fact-checking, evidence evaluation, claim verification, epistemic hygiene"
+    },
+    "research": {
+      "advisors": [
+        "scientist",
+        "bayesian",
+        "source-critic",
+        "calibrator",
+        "data-analyst"
+      ],
+      "domainWeight": "scientist",
+      "description": "Research direction, methodology review, evidence synthesis, hypothesis evaluation"
     }
   },
   "advisors": {
@@ -464,6 +486,54 @@
         "narrator"
       ],
       "evidence_type_default": "empirical"
+    },
+    "epistemologist": {
+      "reasoning_method": "knowledge-foundations",
+      "polarity_pairs": [
+        "shipper",
+        "strategist"
+      ],
+      "evidence_type_default": "heuristic"
+    },
+    "source-critic": {
+      "reasoning_method": "provenance-analysis",
+      "polarity_pairs": [
+        "narrator",
+        "culture-reader"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "bayesian": {
+      "reasoning_method": "probabilistic-updating",
+      "polarity_pairs": [
+        "stoic",
+        "questioner"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "red-teamer": {
+      "reasoning_method": "adversarial-stress-test",
+      "polarity_pairs": [
+        "architect",
+        "strategist"
+      ],
+      "evidence_type_default": "heuristic"
+    },
+    "calibrator": {
+      "reasoning_method": "confidence-scoring",
+      "polarity_pairs": [
+        "ideator",
+        "timer"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "integrator": {
+      "reasoning_method": "multi-source-synthesis",
+      "polarity_pairs": [
+        "subtractor",
+        "taxonomist"
+      ],
+      "evidence_type_default": "empirical"
     }
   },
   "polarityPairs": [
@@ -578,6 +648,30 @@
     [
       "data-analyst",
       "reframer"
+    ],
+    [
+      "epistemologist",
+      "shipper"
+    ],
+    [
+      "source-critic",
+      "narrator"
+    ],
+    [
+      "bayesian",
+      "stoic"
+    ],
+    [
+      "red-teamer",
+      "architect"
+    ],
+    [
+      "calibrator",
+      "ideator"
+    ],
+    [
+      "integrator",
+      "subtractor"
     ]
   ],
   "autoSelectKeywords": {
@@ -892,6 +986,60 @@
       "trend",
       "segment",
       "sample"
+    ],
+    "epistemologist": [
+      "know",
+      "certainty",
+      "evidence",
+      "epistem",
+      "truth",
+      "foundation",
+      "category error"
+    ],
+    "source-critic": [
+      "source",
+      "provenance",
+      "credible",
+      "corroborate",
+      "bias",
+      "incentive",
+      "reliable"
+    ],
+    "bayesian": [
+      "probability",
+      "prior",
+      "update",
+      "likelihood",
+      "bayes",
+      "base rate",
+      "confidence"
+    ],
+    "red-teamer": [
+      "attack",
+      "security",
+      "exploit",
+      "adversary",
+      "threat",
+      "vulnerability",
+      "hack"
+    ],
+    "calibrator": [
+      "calibrate",
+      "overconfident",
+      "planning fallacy",
+      "estimate",
+      "forecast",
+      "accuracy",
+      "reference class"
+    ],
+    "integrator": [
+      "integrate",
+      "contradictory",
+      "multiple sources",
+      "reconcile",
+      "synthesis",
+      "holistic",
+      "conflicting"
     ]
   },
   "voting": {

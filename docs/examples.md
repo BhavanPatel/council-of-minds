@@ -21,6 +21,8 @@ Real-world council sessions demonstrating the full deliberation process and verd
 - [Legal Profile](#legal-profile)
 - [Science Profile](#science-profile)
 - [Operations Profile](#operations-profile)
+- [Truth Profile](#truth-profile)
+- [Research Profile](#research-profile)
 
 ### Input Examples by Mode & Budget
 - [Budget Mode — Lean](#budget-mode--lean)
@@ -456,6 +458,42 @@ zero-downtime, 60% accept a 2-hour maintenance window. Team of 6 for migration.
 Three previous attempts at "big bang" migration failed. Customers are already 
 frustrated with delays.
 Constraints: Cannot run both platforms beyond 6 months (cost + security patches).
+```
+
+---
+
+### Truth Profile
+
+```
+truth council: Our VP of Sales claims we lost 5 enterprise deals last quarter 
+because of "missing SSO support." Should we prioritize SSO in Q3?
+
+Context: Sales team says 5 deals worth $800K total were lost to "no SSO." 
+But: we only have email threads where prospects asked about SSO — no confirmation 
+it was the deciding factor. Our CRM shows 3 of those 5 went to competitors who 
+also lack SSO. Product team suspects the real issue is pricing. Sales has quota 
+pressure and SSO is an easy feature to point to.
+Stakes: SSO is 6 engineer-weeks. If the claim is wrong, we waste Q3 on a 
+feature that does not move revenue.
+```
+
+---
+
+### Research Profile
+
+```
+research council: We have conflicting results from two user research studies. 
+Study A (n=200, survey) says users want more features. Study B (n=15, in-depth 
+interviews) says users are overwhelmed by current complexity. Which should we 
+believe and what should we build next?
+
+Context: Study A was run by marketing (incentive: justify feature roadmap). 
+Study B was run by UX team (incentive: justify simplification project). Both 
+teams are lobbying for Q4 roadmap priority. Our NPS has dropped 8 points in 
+6 months. Churn is up 3% but concentrated in users who signed up <3 months ago. 
+Power users (>12 months) have 95% retention.
+Stakes: Q4 roadmap decision. Wrong direction means 3 months of engineering 
+on the wrong thing.
 ```
 
 ---

@@ -126,6 +126,26 @@ Profiles determine which 4-6 advisors are selected for a council session. Each p
 
 ---
 
+### truth
+
+**Advisors:** epistemologist · source-critic · bayesian · bias-hunter · integrator
+
+**Best for:** Fact-checking, evidence evaluation, claim verification, resolving contradictory information, epistemic hygiene.
+
+**Why these 5:** Covers knowledge foundations (epistemologist), information provenance (source-critic), belief updating (bayesian), cognitive bias (bias-hunter), and evidence integration (integrator). Natural tensions: epistemologist vs shipper (certainty vs action), source-critic vs narrator (scrutiny vs story).
+
+---
+
+### research
+
+**Advisors:** scientist · bayesian · source-critic · calibrator · data-analyst
+
+**Best for:** Research direction, methodology review, evidence synthesis, hypothesis evaluation, academic rigor.
+
+**Why these 5:** Covers hypothesis testing (scientist), probabilistic reasoning (bayesian), source quality (source-critic), confidence calibration (calibrator), and statistical inference (data-analyst). Natural tensions: scientist vs narrator (evidence vs story), calibrator vs ideator (calibration vs optimism).
+
+---
+
 ## Auto-Selection Logic
 
 When the user says `council this: [question]` without specifying a profile, the orchestrator scores each advisor against keyword maps:
