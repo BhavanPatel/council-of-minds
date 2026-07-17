@@ -255,3 +255,195 @@ Designed to be:
 - **Honest** — Kill Criteria and Compromises prevent false certainty
 - **Revisitable** — Kill Criteria tell you when the verdict expires
 - **Attributable** — every insight traced to which advisor produced it
+
+
+
+---
+
+## More Input Examples
+
+The 3 examples above demonstrate the full verdict output format for Full, Duo, and Quick modes. Below are input-only examples showing how to trigger each profile and v2.0 feature — the output follows the same structured format shown above.
+
+---
+
+### Engineering Profile
+
+```
+engineering council: Should we migrate from our monolith to microservices, 
+or extract just the payment service as a standalone?
+
+Context: 200K LOC Python monolith (Django), team of 12 engineers. Currently 
+handling 500 req/s. Payment service is the most-changed module (40% of PRs). 
+Deployment takes 45 minutes. One junior dev broke payments by changing an 
+unrelated model last sprint. Team has zero Kubernetes experience.
+Stakes: Irreversible architecture shift. 6-month migration minimum.
+```
+
+---
+
+### Product Profile
+
+```
+product council: Should we build our own onboarding wizard or use a third-party 
+tool like Appcues/Userflow?
+
+Context: B2B SaaS, 200 paying customers, 35% drop-off during onboarding. 
+Engineering team is stretched (2 sprints behind on roadmap). Budget: $500/mo 
+for tooling. Competitors have slick onboarding. Our current onboarding is 
+a 4-page docs link sent via email.
+```
+
+---
+
+### Risk Profile
+
+```
+risk council: Should we accept this enterprise customer's request for 
+on-premise deployment, or hold firm on cloud-only?
+
+Context: $400K ARR customer threatening to churn. They need on-prem for 
+regulatory reasons (healthcare data). We have zero on-prem infrastructure 
+or documentation. Team of 15. Three other enterprise prospects have asked 
+the same question. Current MRR: $180K.
+Stakes: Irreversible — once we support on-prem, we maintain two deployment 
+models forever. But losing $400K is 22% of revenue.
+```
+
+---
+
+### AI-ML Profile
+
+```
+ai-ml council: Should we fine-tune an open-source model (Llama 3) or use 
+GPT-4o via API for our customer support automation?
+
+Context: E-commerce company, 2000 tickets/day, 60% are repetitive (shipping, 
+returns, order status). Current accuracy with GPT-4o prompting: 78%. Need 95%+ 
+for autonomous resolution. Budget: $15K/month for AI infra. Team has 1 ML 
+engineer. Data: 50K labeled ticket-response pairs from last 2 years.
+Constraints: GDPR compliance required. Response latency must be <2s.
+```
+
+---
+
+### Innovation Profile
+
+```
+innovation council: We've been a B2B analytics dashboard for 5 years. 
+Should we pivot toward AI-powered insights, build an agent marketplace, 
+or double down on our current dashboard with better UX?
+
+Context: $2M ARR, flat growth for 18 months. 800 customers but NPS dropped 
+from 45 to 32. Three AI-native competitors launched in the last year. Our 
+data pipeline is strong but UI is dated. Team of 20, half are backend/data 
+engineers. $3M runway remaining.
+```
+
+---
+
+### Budget Mode — Lean
+
+```
+lean council: Redis or Memcached for our session store?
+
+Context: 10K concurrent users, AWS infrastructure, team knows Redis, 
+need sub-5ms latency, sessions expire after 30 minutes.
+```
+
+---
+
+### Budget Mode — Deep
+
+```
+deep council: Should we raise a Series B now at a lower valuation, or wait 
+6 months hoping metrics improve?
+
+Context: SaaS, $3M ARR growing 8% MoM (was 15% 6 months ago). Two term 
+sheets: $20M at $80M pre vs waiting for $30M at $120M+ if growth re-accelerates. 
+Runway: 14 months. Market is cooling. Three portfolio companies of our lead 
+investor went under this quarter. Team: 35 people, burn $450K/month.
+Stakes: Dilution is permanent. But running out of cash is fatal.
+```
+
+---
+
+### Cost Budget — Explicit Token Limit
+
+```
+council this with ~8k token budget: Should we use Postgres or MongoDB 
+for our new event store?
+
+Context: 50K events/day, need flexible schema, team knows Postgres, 
+running on AWS with RDS already provisioned.
+```
+
+---
+
+### Fact-Checker in Action
+
+```
+engineering council: Should we rewrite our real-time sync engine in Rust, 
+or optimize the existing Node.js implementation?
+
+Context: Current p99 latency is 340ms, target is sub-50ms. Processing 
+10K messages/sec. Memory usage spikes to 4GB under load. Team: 8 engineers, 
+2 have Rust experience. Competitor's Rust-based sync achieves 12ms p99.
+```
+
+*In this session, the fact-checker would flag claims like "Competitor's Rust-based sync achieves 12ms p99" as UNVERIFIABLE and "Node.js cannot achieve sub-50ms at 10K msg/sec" (if any advisor claims this) as DISPUTED.*
+
+---
+
+### Early Termination Example
+
+When 4 out of 5 advisors reach the same stance with high confidence after cross-examination, and no DEALBREAKER is flagged, the council skips the crystallization round:
+
+```
+quick council: Should we use GitHub Actions or GitLab CI for our new project?
+
+Context: Team of 6, all code on GitHub, need Docker builds + deploy to AWS ECS. 
+No existing CI. Budget is not a constraint. Need it running this week.
+```
+
+*Likely outcome: strong consensus on GitHub Actions (code already on GitHub, simpler setup, same-week timeline). Early termination fires → saves ~30% tokens.*
+
+---
+
+### Analytics Tracking
+
+```
+council this with analytics: Should we acquire this 5-person startup 
+or build the feature in-house?
+
+Context: They have a working product with 200 users. Would take us 4 months 
+to build equivalent. Asking price: $2M. Our engineering team has capacity 
+in Q1. Their tech stack is incompatible with ours (Ruby vs our Go).
+```
+
+*Session analytics tracked: position changes, who convinced whom, token usage per round, consensus strength. Available via "council stats" after session.*
+
+---
+
+### Follow-Up Commands (work after any verdict)
+
+```
+expand on the tail-watcher's point
+```
+```
+challenge the verdict with: our CTO says we must ship by December regardless
+```
+```
+weight toward risk
+```
+```
+re-run with innovation profile
+```
+```
+duo architect vs shipper on this
+```
+```
+council stats
+```
+```
+save transcript
+```
