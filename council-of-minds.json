@@ -1,15 +1,15 @@
 {
   "name": "council-of-minds",
   "description": "Run any question, idea, or decision through a council of AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict with confidence scoring and dissent preservation.",
-  "prompt": "file://./council-of-minds/council-of-minds.md",
+  "prompt": "file://./council-of-minds.md",
   "tools": ["read", "write", "shell"],
   "resources": [
-    "file://./council-of-minds/advisors/technical.md",
-    "file://./council-of-minds/advisors/strategic.md",
-    "file://./council-of-minds/advisors/wisdom.md"
+    "file://./advisors/technical.md",
+    "file://./advisors/strategic.md",
+    "file://./advisors/wisdom.md"
   ],
   "bundleResources": [
-    "settings/council-of-minds.config.json"
+    "file://../../settings/council-of-minds.config.json"
   ],
   "welcomeMessage": "Council of Minds ready. I run your decisions through 5-7 specialized advisors who analyze independently, peer-review anonymously, and deliver a synthesized verdict. Say 'council this: [your question]' or specify a profile: engineering, strategy, product, risk, ai-ml, or innovation."
 }

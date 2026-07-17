@@ -3,11 +3,13 @@ set -euo pipefail
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Council of Minds — Install Script
-# Detects AI coding clients and installs the council in their native format.
+# Detects installed AI coding clients and installs the council in their native format.
+# Mirrors context-sect install pattern: git-aware, per-agent, proper path resolution.
 # ─────────────────────────────────────────────────────────────────────────────
 
-VERSION="1.0.0"
+VERSION="2.0.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+INSTALL_DIR="${HOME}/.council-of-minds"
 
 # Colors
 RED='\033[0;31m'
@@ -48,13 +50,13 @@ log_step() { echo -e "  ${PURPLE}[$1]${NC} $2"; }
 declare -a DETECTED_CLIENTS=()
 
 detect_clients() {
-  log_step "1/4" "Detecting installed AI clients..."
+  log_step "1/3" "Detecting installed AI clients..."
   echo ""
 
   # Kiro
-  if [ -d "$HOME/.kiro" ]; then
+  if [ -d "$HOME/.kiro" ] || command -v kiro &>/dev/null || command -v kiro-cli &>/dev/null; then
     DETECTED_CLIENTS+=("kiro")
-    echo -e "    ${GREEN}✓${NC} Kiro (global: ~/.kiro)"
+    echo -e "    ${GREEN}✓${NC} Kiro"
   fi
 
   # Claude Code / Claude Desktop
@@ -64,13 +66,13 @@ detect_clients() {
   fi
 
   # Cursor
-  if [ -d "$HOME/.cursor" ] || [ -d "$HOME/Library/Application Support/Cursor" ]; then
+  if [ -d "$HOME/.cursor" ] || [ -d "$HOME/Library/Application Support/Cursor" ] || [ -d "/Applications/Cursor.app" ]; then
     DETECTED_CLIENTS+=("cursor")
     echo -e "    ${GREEN}✓${NC} Cursor"
   fi
 
   # Windsurf
-  if [ -d "$HOME/.windsurf" ] || [ -d "$HOME/Library/Application Support/Windsurf" ]; then
+  if [ -d "$HOME/.windsurf" ] || [ -d "$HOME/Library/Application Support/Windsurf" ] || [ -d "/Applications/Windsurf.app" ]; then
     DETECTED_CLIENTS+=("windsurf")
     echo -e "    ${GREEN}✓${NC} Windsurf"
   fi
@@ -82,7 +84,7 @@ detect_clients() {
   fi
 
   # Aider
-  if command -v aider &>/dev/null; then
+  if command -v aider &>/dev/null || [ -f "$HOME/.aider.conf.yml" ]; then
     DETECTED_CLIENTS+=("aider")
     echo -e "    ${GREEN}✓${NC} Aider"
   fi
@@ -94,22 +96,66 @@ detect_clients() {
   fi
 
   # OpenCode
-  if command -v opencode &>/dev/null; then
+  if command -v opencode &>/dev/null || [ -f "$HOME/.config/opencode/config.json" ]; then
     DETECTED_CLIENTS+=("opencode")
     echo -e "    ${GREEN}✓${NC} OpenCode"
+  fi
+
+  # GitHub Copilot
+  if find "${HOME}/.vscode/extensions" -maxdepth 1 -name "*copilot*" -print -quit 2>/dev/null | grep -q . || command -v gh &>/dev/null; then
+    DETECTED_CLIENTS+=("github-copilot")
+    echo -e "    ${GREEN}✓${NC} GitHub Copilot"
+  fi
+
+  # Codex
+  if command -v codex &>/dev/null || [ -f "$HOME/.codex/config.toml" ]; then
+    DETECTED_CLIENTS+=("codex")
+    echo -e "    ${GREEN}✓${NC} OpenAI Codex"
   fi
 
   echo ""
 
   if [ ${#DETECTED_CLIENTS[@]} -eq 0 ]; then
-    log_warn "No AI clients detected. You can still install manually."
-    echo ""
-    echo -e "    Available targets: kiro, claude, cursor, windsurf, cline, aider, roocode, opencode"
-    echo ""
-    read -rp "  Enter client(s) to install for (comma-separated): " manual_input
-    IFS=',' read -ra DETECTED_CLIENTS <<< "$manual_input"
-    for i in "${!DETECTED_CLIENTS[@]}"; do
-      DETECTED_CLIENTS[$i]="$(echo "${DETECTED_CLIENTS[$i]}" | xargs)"
+    log_warn "No AI clients detected. Choose manually:"
+    select_clients_manually
+  fi
+}
+
+select_clients_manually() {
+  echo ""
+  echo "  Available clients:"
+  echo "    1) Kiro"
+  echo "    2) Claude Code"
+  echo "    3) Cursor"
+  echo "    4) Windsurf"
+  echo "    5) Cline"
+  echo "    6) Aider"
+  echo "    7) RooCode"
+  echo "    8) OpenCode"
+  echo "    9) GitHub Copilot"
+  echo "   10) OpenAI Codex"
+  echo "    a) All"
+  echo ""
+  read -rp "  Select (comma-separated numbers, or 'a' for all): " selection </dev/tty
+
+  if [[ "$selection" == "a" ]]; then
+    DETECTED_CLIENTS=("kiro" "claude" "cursor" "windsurf" "cline" "aider" "roocode" "opencode" "github-copilot" "codex")
+  else
+    IFS=',' read -ra choices <<< "$selection"
+    for choice in "${choices[@]}"; do
+      choice=$(echo "$choice" | tr -d ' ')
+      case "$choice" in
+        1) DETECTED_CLIENTS+=("kiro") ;;
+        2) DETECTED_CLIENTS+=("claude") ;;
+        3) DETECTED_CLIENTS+=("cursor") ;;
+        4) DETECTED_CLIENTS+=("windsurf") ;;
+        5) DETECTED_CLIENTS+=("cline") ;;
+        6) DETECTED_CLIENTS+=("aider") ;;
+        7) DETECTED_CLIENTS+=("roocode") ;;
+        8) DETECTED_CLIENTS+=("opencode") ;;
+        9) DETECTED_CLIENTS+=("github-copilot") ;;
+        10) DETECTED_CLIENTS+=("codex") ;;
+      esac
     done
   fi
 }
@@ -121,7 +167,7 @@ detect_clients() {
 declare -a SELECTED_CLIENTS=()
 
 select_clients() {
-  log_step "2/4" "Select which clients to install for:"
+  log_step "2/3" "Select which clients to install for:"
   echo ""
 
   if [ ${#DETECTED_CLIENTS[@]} -eq 1 ]; then
@@ -139,7 +185,7 @@ select_clients() {
   echo -e "    A. All detected clients"
   echo ""
 
-  read -rp "  Select (numbers comma-separated, or A for all) [A]: " selection
+  read -rp "  Select (numbers comma-separated, or A for all) [A]: " selection </dev/tty
   selection="${selection:-A}"
 
   if [[ "$selection" =~ ^[Aa]$ ]]; then
@@ -160,162 +206,177 @@ select_clients() {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Scope Selection
+# Install Functions (per client)
 # ─────────────────────────────────────────────────────────────────────────────
 
-INSTALL_SCOPE="global"
-
-select_scope() {
-  log_step "3/4" "Installation scope:"
-  echo ""
-  echo -e "    1. ${BOLD}Global${NC}  — available in all workspaces (recommended)"
-  echo -e "    2. ${BOLD}Project${NC} — current directory only"
-  echo ""
-
-  read -rp "  Select [1]: " scope_choice
-  scope_choice="${scope_choice:-1}"
-
-  if [ "$scope_choice" = "2" ]; then
-    INSTALL_SCOPE="project"
-    log_info "Installing to: $(pwd)"
-  else
-    INSTALL_SCOPE="global"
-    log_info "Installing globally"
-  fi
-  echo ""
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Install Functions
-# ─────────────────────────────────────────────────────────────────────────────
-
-copy_advisors() {
-  local target_dir="$1"
-  mkdir -p "$target_dir/advisors"
-  cp "$SCRIPT_DIR/council-of-minds.md" "$target_dir/"
-  cp "$SCRIPT_DIR/advisors/technical.md" "$target_dir/advisors/"
-  cp "$SCRIPT_DIR/advisors/strategic.md" "$target_dir/advisors/"
-  cp "$SCRIPT_DIR/advisors/wisdom.md" "$target_dir/advisors/"
-  cp "$SCRIPT_DIR/settings/council-of-minds.config.json" "$target_dir/"
-}
+# Source directory for council content (always from the repo/install dir)
+SRC_DIR="${SCRIPT_DIR}"
 
 install_kiro() {
-  local target_dir
-  if [ "$INSTALL_SCOPE" = "global" ]; then target_dir="$HOME/.kiro"; else target_dir="$(pwd)/.kiro"; fi
+  echo -e "\n  ${BLUE}Installing for Kiro...${NC}"
+  local target="${HOME}/.kiro"
 
-  mkdir -p "$target_dir/agents/council-of-minds/advisors"
-  mkdir -p "$target_dir/settings"
+  mkdir -p "${target}/agents/council-of-minds/advisors"
+  mkdir -p "${target}/settings"
 
-  cp "$SCRIPT_DIR/council-of-minds.json" "$target_dir/agents/council-of-minds/"
-  cp "$SCRIPT_DIR/council-of-minds.md" "$target_dir/agents/council-of-minds/"
-  cp "$SCRIPT_DIR/advisors/technical.md" "$target_dir/agents/council-of-minds/advisors/"
-  cp "$SCRIPT_DIR/advisors/strategic.md" "$target_dir/agents/council-of-minds/advisors/"
-  cp "$SCRIPT_DIR/advisors/wisdom.md" "$target_dir/agents/council-of-minds/advisors/"
-  cp "$SCRIPT_DIR/settings/council-of-minds.config.json" "$target_dir/settings/"
+  # Copy agent definition (with corrected paths)
+  cp "${SRC_DIR}/council-of-minds.json" "${target}/agents/council-of-minds/"
+  cp "${SRC_DIR}/council-of-minds.md" "${target}/agents/council-of-minds/"
+  cp "${SRC_DIR}/advisors/technical.md" "${target}/agents/council-of-minds/advisors/"
+  cp "${SRC_DIR}/advisors/strategic.md" "${target}/agents/council-of-minds/advisors/"
+  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/agents/council-of-minds/advisors/"
+  cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/settings/"
 
-  log_ok "Kiro: $target_dir/agents/council-of-minds/"
+  log_ok "Kiro: ${target}/agents/council-of-minds/"
 }
 
 install_claude() {
-  local target_dir
-  if [ "$INSTALL_SCOPE" = "global" ]; then target_dir="$HOME/.claude/council-of-minds"; else target_dir="$(pwd)/council-of-minds"; fi
+  echo -e "\n  ${BLUE}Installing for Claude Code...${NC}"
+  local target="${HOME}/.claude/council-of-minds"
 
-  copy_advisors "$target_dir"
+  mkdir -p "${target}/advisors"
+  cp "${SRC_DIR}/council-of-minds.md" "${target}/"
+  cp "${SRC_DIR}/advisors/technical.md" "${target}/advisors/"
+  cp "${SRC_DIR}/advisors/strategic.md" "${target}/advisors/"
+  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/advisors/"
+  cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
 
   # Add include reference to CLAUDE.md
-  local claude_md
-  if [ "$INSTALL_SCOPE" = "global" ]; then claude_md="$HOME/.claude/CLAUDE.md"; else claude_md="$(pwd)/CLAUDE.md"; fi
-
+  local claude_md="${HOME}/.claude/CLAUDE.md"
   if [ -f "$claude_md" ]; then
     if ! grep -q "council-of-minds" "$claude_md" 2>/dev/null; then
       printf '\n# Council of Minds — say "council this: [question]" to activate\n#[[file:council-of-minds/council-of-minds.md]]\n' >> "$claude_md"
-      log_info "Added include reference to $claude_md"
+      echo -e "    ${GREEN}✓${NC} Added include reference to CLAUDE.md"
     fi
   else
     printf '# Council of Minds — say "council this: [question]" to activate\n#[[file:council-of-minds/council-of-minds.md]]\n' > "$claude_md"
-    log_info "Created $claude_md with council reference"
+    echo -e "    ${GREEN}✓${NC} Created CLAUDE.md with council reference"
   fi
 
-  log_ok "Claude: $target_dir/"
+  log_ok "Claude: ${target}/"
 }
 
 install_cursor() {
-  local target_dir
-  if [ "$INSTALL_SCOPE" = "global" ]; then target_dir="$HOME/.cursor/rules"; else target_dir="$(pwd)/.cursor/rules"; fi
+  echo -e "\n  ${BLUE}Installing for Cursor...${NC}"
+  local target="${HOME}/.cursor/rules"
 
-  mkdir -p "$target_dir/council-advisors"
-  cp "$SCRIPT_DIR/council-of-minds.md" "$target_dir/council-of-minds.md"
-  cp "$SCRIPT_DIR/advisors/technical.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/advisors/strategic.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/advisors/wisdom.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/settings/council-of-minds.config.json" "$target_dir/council-advisors/"
+  mkdir -p "${target}/council-advisors"
+  cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
+  cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
 
-  log_ok "Cursor: $target_dir/council-of-minds.md"
+  log_ok "Cursor: ${target}/council-of-minds.md"
 }
 
 install_windsurf() {
-  local target_dir
-  if [ "$INSTALL_SCOPE" = "global" ]; then target_dir="$HOME/.windsurf/rules"; else target_dir="$(pwd)/.windsurf/rules"; fi
+  echo -e "\n  ${BLUE}Installing for Windsurf...${NC}"
+  local target="${HOME}/.windsurf/rules"
 
-  mkdir -p "$target_dir/council-advisors"
-  cp "$SCRIPT_DIR/council-of-minds.md" "$target_dir/council-of-minds.md"
-  cp "$SCRIPT_DIR/advisors/technical.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/advisors/strategic.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/advisors/wisdom.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/settings/council-of-minds.config.json" "$target_dir/council-advisors/"
+  mkdir -p "${target}/council-advisors"
+  cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
+  cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
 
-  log_ok "Windsurf: $target_dir/council-of-minds.md"
+  log_ok "Windsurf: ${target}/council-of-minds.md"
 }
 
 install_cline() {
-  local target_dir
-  if [ "$INSTALL_SCOPE" = "global" ]; then target_dir="$HOME/.cline/rules"; else target_dir="$(pwd)/.clinerules"; fi
+  echo -e "\n  ${BLUE}Installing for Cline...${NC}"
+  local target="${HOME}/.cline/rules"
 
-  mkdir -p "$target_dir/council-advisors"
-  cp "$SCRIPT_DIR/council-of-minds.md" "$target_dir/council-of-minds.md"
-  cp "$SCRIPT_DIR/advisors/technical.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/advisors/strategic.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/advisors/wisdom.md" "$target_dir/council-advisors/"
+  mkdir -p "${target}/council-advisors"
+  cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
+  cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
 
-  log_ok "Cline: $target_dir/council-of-minds.md"
+  log_ok "Cline: ${target}/council-of-minds.md"
 }
 
 install_aider() {
-  local target_dir
-  if [ "$INSTALL_SCOPE" = "global" ]; then target_dir="$HOME/.aider/council-of-minds"; else target_dir="$(pwd)/.aider/council-of-minds"; fi
+  echo -e "\n  ${BLUE}Installing for Aider...${NC}"
+  local target="${HOME}/.aider/council-of-minds"
 
-  copy_advisors "$target_dir"
+  mkdir -p "${target}/advisors"
+  cp "${SRC_DIR}/council-of-minds.md" "${target}/"
+  cp "${SRC_DIR}/advisors/technical.md" "${target}/advisors/"
+  cp "${SRC_DIR}/advisors/strategic.md" "${target}/advisors/"
+  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/advisors/"
+  cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
 
-  local aider_conf="$HOME/.aider.conf.yml"
-  [ "$INSTALL_SCOPE" = "project" ] && aider_conf="$(pwd)/.aider.conf.yml"
-
-  if [ -f "$aider_conf" ] && ! grep -q "council-of-minds" "$aider_conf" 2>/dev/null; then
-    printf '\n# Council of Minds\nread: %s/council-of-minds.md\n' "$target_dir" >> "$aider_conf"
-    log_info "Added read reference to $aider_conf"
+  local aider_conf="${HOME}/.aider.conf.yml"
+  if [ -f "$aider_conf" ]; then
+    if ! grep -q "council-of-minds" "$aider_conf" 2>/dev/null; then
+      printf '\n# Council of Minds\nread: %s/council-of-minds.md\n' "$target" >> "$aider_conf"
+      echo -e "    ${GREEN}✓${NC} Added read reference to .aider.conf.yml"
+    fi
   fi
 
-  log_ok "Aider: $target_dir/"
+  log_ok "Aider: ${target}/"
 }
 
 install_roocode() {
-  local target_dir
-  if [ "$INSTALL_SCOPE" = "global" ]; then target_dir="$HOME/.roo/rules"; else target_dir="$(pwd)/.roo/rules"; fi
+  echo -e "\n  ${BLUE}Installing for RooCode...${NC}"
+  local target="${HOME}/.roo/rules"
 
-  mkdir -p "$target_dir/council-advisors"
-  cp "$SCRIPT_DIR/council-of-minds.md" "$target_dir/council-of-minds.md"
-  cp "$SCRIPT_DIR/advisors/technical.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/advisors/strategic.md" "$target_dir/council-advisors/"
-  cp "$SCRIPT_DIR/advisors/wisdom.md" "$target_dir/council-advisors/"
+  mkdir -p "${target}/council-advisors"
+  cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
+  cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
+  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
 
-  log_ok "RooCode: $target_dir/council-of-minds.md"
+  log_ok "RooCode: ${target}/council-of-minds.md"
 }
 
 install_opencode() {
-  local target_dir
-  if [ "$INSTALL_SCOPE" = "global" ]; then target_dir="$HOME/.opencode/council-of-minds"; else target_dir="$(pwd)/.opencode/council-of-minds"; fi
+  echo -e "\n  ${BLUE}Installing for OpenCode...${NC}"
+  local target="${HOME}/.opencode/council-of-minds"
 
-  copy_advisors "$target_dir"
-  log_ok "OpenCode: $target_dir/"
+  mkdir -p "${target}/advisors"
+  cp "${SRC_DIR}/council-of-minds.md" "${target}/"
+  cp "${SRC_DIR}/advisors/technical.md" "${target}/advisors/"
+  cp "${SRC_DIR}/advisors/strategic.md" "${target}/advisors/"
+  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/advisors/"
+  cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
+
+  log_ok "OpenCode: ${target}/"
+}
+
+install_github_copilot() {
+  echo -e "\n  ${BLUE}Installing for GitHub Copilot...${NC}"
+  local target="${HOME}/.github"
+  mkdir -p "${target}"
+
+  local instructions="${target}/copilot-instructions.md"
+  {
+    echo "# Council of Minds"
+    echo ""
+    echo "Multi-advisor deliberation framework. Say \"council this: [question]\" to activate."
+    echo ""
+    cat "${SRC_DIR}/council-of-minds.md"
+  } > "$instructions"
+
+  log_ok "GitHub Copilot: ${instructions}"
+}
+
+install_codex() {
+  echo -e "\n  ${BLUE}Installing for OpenAI Codex...${NC}"
+  local target="${HOME}"
+
+  local agents_md="${target}/AGENTS.md"
+  {
+    echo "# Council of Minds"
+    echo ""
+    echo "Multi-advisor deliberation framework. Say \"council this: [question]\" to activate."
+    echo ""
+    cat "${SRC_DIR}/council-of-minds.md"
+  } > "$agents_md"
+
+  log_ok "Codex: ~/AGENTS.md"
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -323,20 +384,22 @@ install_opencode() {
 # ─────────────────────────────────────────────────────────────────────────────
 
 run_install() {
-  log_step "4/4" "Installing..."
+  log_step "3/3" "Installing..."
   echo ""
 
   for client in "${SELECTED_CLIENTS[@]}"; do
     case "$client" in
-      kiro)     install_kiro ;;
-      claude)   install_claude ;;
-      cursor)   install_cursor ;;
-      windsurf) install_windsurf ;;
-      cline)    install_cline ;;
-      aider)    install_aider ;;
-      roocode)  install_roocode ;;
-      opencode) install_opencode ;;
-      *)        log_warn "Unknown client: $client (skipped)" ;;
+      kiro)           install_kiro ;;
+      claude)         install_claude ;;
+      cursor)         install_cursor ;;
+      windsurf)       install_windsurf ;;
+      cline)          install_cline ;;
+      aider)          install_aider ;;
+      roocode)        install_roocode ;;
+      opencode)       install_opencode ;;
+      github-copilot) install_github_copilot ;;
+      codex)          install_codex ;;
+      *)              log_warn "Unknown client: $client (skipped)" ;;
     esac
   done
 }
@@ -360,36 +423,12 @@ print_summary() {
   echo -e "  ${BOLD}Follow-up:${NC} expand on [advisor] · challenge · reweight · re-run · save"
   echo -e "  ${BOLD}Customize:${NC} Edit council-of-minds.config.json in your client's config dir"
   echo ""
-  echo -e "  ${BOLD}Uninstall:${NC} ./install.sh --uninstall"
-  echo ""
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Uninstall
-# ─────────────────────────────────────────────────────────────────────────────
-
-uninstall() {
-  print_header
-  log_info "Uninstalling Council of Minds from all locations..."
-  echo ""
-
-  local removed=0
-
-  [ -d "$HOME/.kiro/agents/council-of-minds" ] && rm -rf "$HOME/.kiro/agents/council-of-minds" && rm -f "$HOME/.kiro/settings/council-of-minds.config.json" && log_ok "Removed from Kiro" && ((removed++)) || true
-  [ -d "$HOME/.claude/council-of-minds" ] && rm -rf "$HOME/.claude/council-of-minds" && log_ok "Removed from Claude" && ((removed++)) || true
-  [ -f "$HOME/.cursor/rules/council-of-minds.md" ] && rm -f "$HOME/.cursor/rules/council-of-minds.md" && rm -rf "$HOME/.cursor/rules/council-advisors" && log_ok "Removed from Cursor" && ((removed++)) || true
-  [ -f "$HOME/.windsurf/rules/council-of-minds.md" ] && rm -f "$HOME/.windsurf/rules/council-of-minds.md" && rm -rf "$HOME/.windsurf/rules/council-advisors" && log_ok "Removed from Windsurf" && ((removed++)) || true
-  [ -f "$HOME/.cline/rules/council-of-minds.md" ] && rm -f "$HOME/.cline/rules/council-of-minds.md" && rm -rf "$HOME/.cline/rules/council-advisors" && log_ok "Removed from Cline" && ((removed++)) || true
-  [ -f "$HOME/.roo/rules/council-of-minds.md" ] && rm -f "$HOME/.roo/rules/council-of-minds.md" && rm -rf "$HOME/.roo/rules/council-advisors" && log_ok "Removed from RooCode" && ((removed++)) || true
-  [ -d "$HOME/.aider/council-of-minds" ] && rm -rf "$HOME/.aider/council-of-minds" && log_ok "Removed from Aider" && ((removed++)) || true
-  [ -d "$HOME/.opencode/council-of-minds" ] && rm -rf "$HOME/.opencode/council-of-minds" && log_ok "Removed from OpenCode" && ((removed++)) || true
-
-  echo ""
-  if [ "$removed" -eq 0 ]; then
-    log_info "Nothing to remove — council not found in any global location."
-  else
-    log_ok "Removed from $removed client(s)."
-  fi
+  echo -e "  ${BOLD}CLI:${NC}"
+  echo -e "    council status       Show installation status"
+  echo -e "    council update       Pull latest + reinstall"
+  echo -e "    council uninstall    Remove from all clients"
+  echo -e "    council disable      Temporarily disable"
+  echo -e "    council enable       Re-enable"
   echo ""
 }
 
@@ -399,36 +438,24 @@ uninstall() {
 
 main() {
   case "${1:-}" in
-    --uninstall|-u)
-      uninstall
-      exit 0
-      ;;
     --help|-h)
       print_header
       echo "  Usage: ./install.sh [options]"
       echo ""
       echo "  Options:"
-      echo "    --uninstall, -u    Remove council from all clients"
+      echo "    --client <list>    Comma-separated clients to install for"
       echo "    --help, -h         Show this help"
-      echo "    --client <name>    Skip detection, install for specific client"
-      echo "    --global           Skip scope prompt, install globally"
-      echo "    --project          Skip scope prompt, install to current directory"
       echo ""
       echo "  Supported clients:"
-      echo "    kiro, claude, cursor, windsurf, cline, aider, roocode, opencode"
+      echo "    kiro, claude, cursor, windsurf, cline, aider, roocode, opencode,"
+      echo "    github-copilot, codex"
       echo ""
       exit 0
       ;;
     --client)
-      DETECTED_CLIENTS=("${2:-}")
-      SELECTED_CLIENTS=("${2:-}")
+      IFS=',' read -ra DETECTED_CLIENTS <<< "${2:-}"
+      SELECTED_CLIENTS=("${DETECTED_CLIENTS[@]}")
       shift 2 || true
-      ;;
-    --global)
-      INSTALL_SCOPE="global"
-      ;;
-    --project)
-      INSTALL_SCOPE="project"
       ;;
   esac
 
@@ -439,8 +466,9 @@ main() {
     select_clients
   fi
 
-  if [ "${1:-}" != "--global" ] && [ "${1:-}" != "--project" ]; then
-    select_scope
+  if [ ${#SELECTED_CLIENTS[@]} -eq 0 ]; then
+    log_err "No clients selected. Exiting."
+    exit 1
   fi
 
   run_install

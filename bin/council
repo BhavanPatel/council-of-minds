@@ -1,0 +1,471 @@
+#!/usr/bin/env bash
+# council — CLI for Council of Minds multi-advisor deliberation framework
+# Installed to: /usr/local/bin/council (or ~/.local/bin/council)
+set -eo pipefail
+
+INSTALL_DIR="${HOME}/.council-of-minds"
+VERSION="2.0.0"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+BOLD='\033[1m'
+
+usage() {
+  echo ""
+  echo -e "  ${PURPLE}${BOLD}council${NC} — Multi-advisor deliberation for AI agents"
+  echo ""
+  echo "  Usage: council <command> [options]"
+  echo ""
+  echo "  Commands:"
+  echo "    install          Install/reinstall council for detected AI clients"
+  echo "    update           Pull latest changes and reinstall"
+  echo "    status           Show current installation status"
+  echo "    disable          Temporarily disable (renames files, keeps them)"
+  echo "    enable           Re-enable previously disabled council"
+  echo "    uninstall        Remove council from all AI clients"
+  echo "    version          Show version"
+  echo "    help             Show this help"
+  echo ""
+  echo "  Options:"
+  echo "    --client <list>  Comma-separated clients (kiro,claude,cursor,...)"
+  echo ""
+  echo "  Examples:"
+  echo "    council install                  # Auto-detect + interactive"
+  echo "    council install --client kiro    # Install for Kiro only"
+  echo "    council update                   # Pull latest + reinstall"
+  echo "    council status                   # Show what's installed"
+  echo "    council disable                  # Temporarily disable"
+  echo "    council enable                   # Re-enable"
+  echo "    council uninstall                # Remove from all clients"
+  echo ""
+}
+
+check_installed() {
+  if [[ ! -d "$INSTALL_DIR" ]]; then
+    echo -e "  ${RED}✗${NC} Council of Minds not installed. Run:"
+    echo "    git clone <repo-url> ~/.council-of-minds && ~/.council-of-minds/install.sh"
+    exit 1
+  fi
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Install
+# ─────────────────────────────────────────────────────────────────────────────
+
+cmd_install() {
+  check_installed
+  cd "$INSTALL_DIR"
+  exec bash ./install.sh "$@"
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Update
+# ─────────────────────────────────────────────────────────────────────────────
+
+cmd_update() {
+  check_installed
+  echo -e "  ${CYAN}Updating Council of Minds...${NC}"
+  echo ""
+
+  cd "$INSTALL_DIR"
+  local before
+  before=$(git rev-parse HEAD 2>/dev/null || echo "unknown")
+
+  git pull --quiet 2>/dev/null || {
+    echo -e "  ${RED}✗${NC} Git pull failed. Is ~/.council-of-minds a git repository?"
+    exit 1
+  }
+
+  local after
+  after=$(git rev-parse HEAD)
+
+  if [[ "$before" == "$after" ]]; then
+    echo -e "  ${GREEN}✓${NC} Already up to date (${after:0:7})"
+    return 0
+  fi
+
+  local count
+  count=$(git log --oneline "$before".."$after" | wc -l | tr -d ' ')
+  echo -e "  ${GREEN}✓${NC} Updated (${count} new commit(s))"
+  echo ""
+
+  # Show what changed
+  echo -e "  ${BLUE}Changes:${NC}"
+  git log --oneline "$before".."$after" | sed 's/^/    /'
+  echo ""
+
+  # Reinstall
+  read -rp "  Reinstall for all configured clients? [Y/n]: " confirm </dev/tty
+  if [[ "$confirm" =~ ^[Nn] ]]; then
+    echo -e "  ${YELLOW}Skipped reinstall.${NC} Run 'council install' when ready."
+    return 0
+  fi
+
+  echo ""
+  exec bash ./install.sh "$@"
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Status
+# ─────────────────────────────────────────────────────────────────────────────
+
+cmd_status() {
+  echo ""
+  echo -e "  ${PURPLE}${BOLD}Council of Minds — Status${NC}"
+  echo ""
+
+  # Installation dir
+  if [[ -d "$INSTALL_DIR" ]]; then
+    echo -e "  ${GREEN}✓${NC} Installed at: ${INSTALL_DIR}"
+    local commit
+    commit=$(cd "$INSTALL_DIR" && git log --oneline -1 2>/dev/null || echo "unknown")
+    echo -e "    Version: ${commit}"
+  else
+    echo -e "  ${RED}✗${NC} Not installed"
+    return
+  fi
+
+  echo ""
+
+  # Disabled state
+  if [[ -f "${INSTALL_DIR}/.disabled" ]]; then
+    echo -e "  State: ${YELLOW}DISABLED${NC} (run 'council enable' to restore)"
+  else
+    echo -e "  State: ${GREEN}ACTIVE${NC}"
+  fi
+
+  echo ""
+  echo "  Clients configured:"
+
+  # Kiro
+  [[ -d "${HOME}/.kiro/agents/council-of-minds" ]] && echo -e "    ${GREEN}✓${NC} Kiro"
+
+  # Claude
+  if [[ -f "${HOME}/.claude/CLAUDE.md" ]] && grep -q "council-of-minds" "${HOME}/.claude/CLAUDE.md" 2>/dev/null; then
+    echo -e "    ${GREEN}✓${NC} Claude Code"
+  fi
+
+  # Cursor
+  [[ -f "${HOME}/.cursor/rules/council-of-minds.md" ]] && echo -e "    ${GREEN}✓${NC} Cursor"
+
+  # Windsurf
+  [[ -f "${HOME}/.windsurf/rules/council-of-minds.md" ]] && echo -e "    ${GREEN}✓${NC} Windsurf"
+
+  # Cline
+  [[ -f "${HOME}/.cline/rules/council-of-minds.md" ]] && echo -e "    ${GREEN}✓${NC} Cline"
+
+  # Aider
+  [[ -d "${HOME}/.aider/council-of-minds" ]] && echo -e "    ${GREEN}✓${NC} Aider"
+
+  # RooCode
+  [[ -f "${HOME}/.roo/rules/council-of-minds.md" ]] && echo -e "    ${GREEN}✓${NC} RooCode"
+
+  # OpenCode
+  [[ -d "${HOME}/.opencode/council-of-minds" ]] && echo -e "    ${GREEN}✓${NC} OpenCode"
+
+  # GitHub Copilot
+  if [[ -f "${HOME}/.github/copilot-instructions.md" ]] && grep -q "Council of Minds" "${HOME}/.github/copilot-instructions.md" 2>/dev/null; then
+    echo -e "    ${GREEN}✓${NC} GitHub Copilot"
+  fi
+
+  # Codex
+  if [[ -f "${HOME}/AGENTS.md" ]] && grep -q "Council of Minds" "${HOME}/AGENTS.md" 2>/dev/null; then
+    echo -e "    ${GREEN}✓${NC} OpenAI Codex"
+  fi
+
+  echo ""
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Uninstall
+# ─────────────────────────────────────────────────────────────────────────────
+
+cmd_uninstall() {
+  echo -e "  ${YELLOW}This will remove Council of Minds from all AI clients.${NC}"
+  read -rp "  Continue? [y/N]: " confirm </dev/tty
+
+  if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+    echo "  Cancelled."
+    exit 0
+  fi
+
+  echo ""
+
+  # Kiro
+  if [[ -d "${HOME}/.kiro/agents/council-of-minds" ]]; then
+    rm -rf "${HOME}/.kiro/agents/council-of-minds"
+    rm -f "${HOME}/.kiro/settings/council-of-minds.config.json"
+    echo -e "  ${GREEN}✓${NC} Removed from Kiro"
+  fi
+
+  # Claude
+  if [[ -d "${HOME}/.claude/council-of-minds" ]]; then
+    rm -rf "${HOME}/.claude/council-of-minds"
+    # Remove reference from CLAUDE.md but keep the file
+    if [[ -f "${HOME}/.claude/CLAUDE.md" ]]; then
+      sed -i '' '/council-of-minds/d' "${HOME}/.claude/CLAUDE.md" 2>/dev/null || true
+    fi
+    echo -e "  ${GREEN}✓${NC} Removed from Claude Code"
+  fi
+
+  # Cursor
+  if [[ -f "${HOME}/.cursor/rules/council-of-minds.md" ]]; then
+    rm -f "${HOME}/.cursor/rules/council-of-minds.md"
+    rm -rf "${HOME}/.cursor/rules/council-advisors"
+    echo -e "  ${GREEN}✓${NC} Removed from Cursor"
+  fi
+
+  # Windsurf
+  if [[ -f "${HOME}/.windsurf/rules/council-of-minds.md" ]]; then
+    rm -f "${HOME}/.windsurf/rules/council-of-minds.md"
+    rm -rf "${HOME}/.windsurf/rules/council-advisors"
+    echo -e "  ${GREEN}✓${NC} Removed from Windsurf"
+  fi
+
+  # Cline
+  if [[ -f "${HOME}/.cline/rules/council-of-minds.md" ]]; then
+    rm -f "${HOME}/.cline/rules/council-of-minds.md"
+    rm -rf "${HOME}/.cline/rules/council-advisors"
+    echo -e "  ${GREEN}✓${NC} Removed from Cline"
+  fi
+
+  # Aider
+  if [[ -d "${HOME}/.aider/council-of-minds" ]]; then
+    rm -rf "${HOME}/.aider/council-of-minds"
+    # Remove reference from .aider.conf.yml
+    if [[ -f "${HOME}/.aider.conf.yml" ]]; then
+      sed -i '' '/council-of-minds/d' "${HOME}/.aider.conf.yml" 2>/dev/null || true
+    fi
+    echo -e "  ${GREEN}✓${NC} Removed from Aider"
+  fi
+
+  # RooCode
+  if [[ -f "${HOME}/.roo/rules/council-of-minds.md" ]]; then
+    rm -f "${HOME}/.roo/rules/council-of-minds.md"
+    rm -rf "${HOME}/.roo/rules/council-advisors"
+    echo -e "  ${GREEN}✓${NC} Removed from RooCode"
+  fi
+
+  # OpenCode
+  if [[ -d "${HOME}/.opencode/council-of-minds" ]]; then
+    rm -rf "${HOME}/.opencode/council-of-minds"
+    echo -e "  ${GREEN}✓${NC} Removed from OpenCode"
+  fi
+
+  # GitHub Copilot (only if it's ours)
+  if [[ -f "${HOME}/.github/copilot-instructions.md" ]] && grep -q "Council of Minds" "${HOME}/.github/copilot-instructions.md" 2>/dev/null; then
+    rm -f "${HOME}/.github/copilot-instructions.md"
+    echo -e "  ${GREEN}✓${NC} Removed from GitHub Copilot"
+  fi
+
+  # Codex (only if it's ours)
+  if [[ -f "${HOME}/AGENTS.md" ]] && grep -q "Council of Minds" "${HOME}/AGENTS.md" 2>/dev/null; then
+    rm -f "${HOME}/AGENTS.md"
+    echo -e "  ${GREEN}✓${NC} Removed from Codex"
+  fi
+
+  # Remove CLI itself?
+  echo ""
+  echo -e "  ${YELLOW}Remove the CLI and ~/.council-of-minds directory?${NC}"
+  read -rp "  Remove completely? [y/N]: " confirm2 </dev/tty
+  if [[ "$confirm2" == "y" || "$confirm2" == "Y" ]]; then
+    rm -rf "$INSTALL_DIR"
+    rm -f "/usr/local/bin/council" 2>/dev/null || rm -f "${HOME}/.local/bin/council" 2>/dev/null || true
+    echo -e "  ${GREEN}✓${NC} Fully uninstalled"
+  else
+    echo -e "  ${GREEN}✓${NC} Client rules removed. CLI and source kept."
+  fi
+
+  echo ""
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Disable / Enable
+# ─────────────────────────────────────────────────────────────────────────────
+
+STATE_FILE="${INSTALL_DIR}/.disabled"
+
+cmd_disable() {
+  if [[ -f "$STATE_FILE" ]]; then
+    echo -e "  ${YELLOW}Already disabled.${NC} Run 'council enable' to re-enable."
+    return
+  fi
+
+  echo -e "  ${CYAN}Disabling Council of Minds...${NC}"
+  echo ""
+
+  # Kiro — rename agent dir
+  if [[ -d "${HOME}/.kiro/agents/council-of-minds" ]]; then
+    mv "${HOME}/.kiro/agents/council-of-minds" "${HOME}/.kiro/agents/council-of-minds.disabled"
+    echo -e "  ${GREEN}✓${NC} Kiro — disabled"
+  fi
+
+  # Claude — rename council dir
+  if [[ -d "${HOME}/.claude/council-of-minds" ]]; then
+    mv "${HOME}/.claude/council-of-minds" "${HOME}/.claude/council-of-minds.disabled"
+    echo -e "  ${GREEN}✓${NC} Claude Code — disabled"
+  fi
+
+  # Cursor
+  if [[ -f "${HOME}/.cursor/rules/council-of-minds.md" ]]; then
+    mv "${HOME}/.cursor/rules/council-of-minds.md" "${HOME}/.cursor/rules/council-of-minds.md.disabled"
+    [[ -d "${HOME}/.cursor/rules/council-advisors" ]] && mv "${HOME}/.cursor/rules/council-advisors" "${HOME}/.cursor/rules/council-advisors.disabled"
+    echo -e "  ${GREEN}✓${NC} Cursor — disabled"
+  fi
+
+  # Windsurf
+  if [[ -f "${HOME}/.windsurf/rules/council-of-minds.md" ]]; then
+    mv "${HOME}/.windsurf/rules/council-of-minds.md" "${HOME}/.windsurf/rules/council-of-minds.md.disabled"
+    [[ -d "${HOME}/.windsurf/rules/council-advisors" ]] && mv "${HOME}/.windsurf/rules/council-advisors" "${HOME}/.windsurf/rules/council-advisors.disabled"
+    echo -e "  ${GREEN}✓${NC} Windsurf — disabled"
+  fi
+
+  # Cline
+  if [[ -f "${HOME}/.cline/rules/council-of-minds.md" ]]; then
+    mv "${HOME}/.cline/rules/council-of-minds.md" "${HOME}/.cline/rules/council-of-minds.md.disabled"
+    [[ -d "${HOME}/.cline/rules/council-advisors" ]] && mv "${HOME}/.cline/rules/council-advisors" "${HOME}/.cline/rules/council-advisors.disabled"
+    echo -e "  ${GREEN}✓${NC} Cline — disabled"
+  fi
+
+  # Aider
+  if [[ -d "${HOME}/.aider/council-of-minds" ]]; then
+    mv "${HOME}/.aider/council-of-minds" "${HOME}/.aider/council-of-minds.disabled"
+    echo -e "  ${GREEN}✓${NC} Aider — disabled"
+  fi
+
+  # RooCode
+  if [[ -f "${HOME}/.roo/rules/council-of-minds.md" ]]; then
+    mv "${HOME}/.roo/rules/council-of-minds.md" "${HOME}/.roo/rules/council-of-minds.md.disabled"
+    [[ -d "${HOME}/.roo/rules/council-advisors" ]] && mv "${HOME}/.roo/rules/council-advisors" "${HOME}/.roo/rules/council-advisors.disabled"
+    echo -e "  ${GREEN}✓${NC} RooCode — disabled"
+  fi
+
+  # OpenCode
+  if [[ -d "${HOME}/.opencode/council-of-minds" ]]; then
+    mv "${HOME}/.opencode/council-of-minds" "${HOME}/.opencode/council-of-minds.disabled"
+    echo -e "  ${GREEN}✓${NC} OpenCode — disabled"
+  fi
+
+  # GitHub Copilot
+  if [[ -f "${HOME}/.github/copilot-instructions.md" ]] && grep -q "Council of Minds" "${HOME}/.github/copilot-instructions.md" 2>/dev/null; then
+    mv "${HOME}/.github/copilot-instructions.md" "${HOME}/.github/copilot-instructions.md.disabled"
+    echo -e "  ${GREEN}✓${NC} GitHub Copilot — disabled"
+  fi
+
+  # Codex
+  if [[ -f "${HOME}/AGENTS.md" ]] && grep -q "Council of Minds" "${HOME}/AGENTS.md" 2>/dev/null; then
+    mv "${HOME}/AGENTS.md" "${HOME}/AGENTS.md.disabled"
+    echo -e "  ${GREEN}✓${NC} Codex — disabled"
+  fi
+
+  touch "$STATE_FILE"
+  echo ""
+  echo -e "  ${YELLOW}Council disabled.${NC} AI clients will not see the council."
+  echo -e "  Run 'council enable' to restore."
+  echo ""
+}
+
+cmd_enable() {
+  if [[ ! -f "$STATE_FILE" ]]; then
+    echo -e "  ${GREEN}Already enabled.${NC} Council is active."
+    return
+  fi
+
+  echo -e "  ${CYAN}Re-enabling Council of Minds...${NC}"
+  echo ""
+
+  # Kiro
+  if [[ -d "${HOME}/.kiro/agents/council-of-minds.disabled" ]]; then
+    mv "${HOME}/.kiro/agents/council-of-minds.disabled" "${HOME}/.kiro/agents/council-of-minds"
+    echo -e "  ${GREEN}✓${NC} Kiro — enabled"
+  fi
+
+  # Claude
+  if [[ -d "${HOME}/.claude/council-of-minds.disabled" ]]; then
+    mv "${HOME}/.claude/council-of-minds.disabled" "${HOME}/.claude/council-of-minds"
+    echo -e "  ${GREEN}✓${NC} Claude Code — enabled"
+  fi
+
+  # Cursor
+  if [[ -f "${HOME}/.cursor/rules/council-of-minds.md.disabled" ]]; then
+    mv "${HOME}/.cursor/rules/council-of-minds.md.disabled" "${HOME}/.cursor/rules/council-of-minds.md"
+    [[ -d "${HOME}/.cursor/rules/council-advisors.disabled" ]] && mv "${HOME}/.cursor/rules/council-advisors.disabled" "${HOME}/.cursor/rules/council-advisors"
+    echo -e "  ${GREEN}✓${NC} Cursor — enabled"
+  fi
+
+  # Windsurf
+  if [[ -f "${HOME}/.windsurf/rules/council-of-minds.md.disabled" ]]; then
+    mv "${HOME}/.windsurf/rules/council-of-minds.md.disabled" "${HOME}/.windsurf/rules/council-of-minds.md"
+    [[ -d "${HOME}/.windsurf/rules/council-advisors.disabled" ]] && mv "${HOME}/.windsurf/rules/council-advisors.disabled" "${HOME}/.windsurf/rules/council-advisors"
+    echo -e "  ${GREEN}✓${NC} Windsurf — enabled"
+  fi
+
+  # Cline
+  if [[ -f "${HOME}/.cline/rules/council-of-minds.md.disabled" ]]; then
+    mv "${HOME}/.cline/rules/council-of-minds.md.disabled" "${HOME}/.cline/rules/council-of-minds.md"
+    [[ -d "${HOME}/.cline/rules/council-advisors.disabled" ]] && mv "${HOME}/.cline/rules/council-advisors.disabled" "${HOME}/.cline/rules/council-advisors"
+    echo -e "  ${GREEN}✓${NC} Cline — enabled"
+  fi
+
+  # Aider
+  if [[ -d "${HOME}/.aider/council-of-minds.disabled" ]]; then
+    mv "${HOME}/.aider/council-of-minds.disabled" "${HOME}/.aider/council-of-minds"
+    echo -e "  ${GREEN}✓${NC} Aider — enabled"
+  fi
+
+  # RooCode
+  if [[ -f "${HOME}/.roo/rules/council-of-minds.md.disabled" ]]; then
+    mv "${HOME}/.roo/rules/council-of-minds.md.disabled" "${HOME}/.roo/rules/council-of-minds.md"
+    [[ -d "${HOME}/.roo/rules/council-advisors.disabled" ]] && mv "${HOME}/.roo/rules/council-advisors.disabled" "${HOME}/.roo/rules/council-advisors"
+    echo -e "  ${GREEN}✓${NC} RooCode — enabled"
+  fi
+
+  # OpenCode
+  if [[ -d "${HOME}/.opencode/council-of-minds.disabled" ]]; then
+    mv "${HOME}/.opencode/council-of-minds.disabled" "${HOME}/.opencode/council-of-minds"
+    echo -e "  ${GREEN}✓${NC} OpenCode — enabled"
+  fi
+
+  # GitHub Copilot
+  if [[ -f "${HOME}/.github/copilot-instructions.md.disabled" ]]; then
+    mv "${HOME}/.github/copilot-instructions.md.disabled" "${HOME}/.github/copilot-instructions.md"
+    echo -e "  ${GREEN}✓${NC} GitHub Copilot — enabled"
+  fi
+
+  # Codex
+  if [[ -f "${HOME}/AGENTS.md.disabled" ]]; then
+    mv "${HOME}/AGENTS.md.disabled" "${HOME}/AGENTS.md"
+    echo -e "  ${GREEN}✓${NC} Codex — enabled"
+  fi
+
+  rm -f "$STATE_FILE"
+  echo ""
+  echo -e "  ${GREEN}Council re-enabled.${NC} Active on next AI session."
+  echo ""
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Main
+# ─────────────────────────────────────────────────────────────────────────────
+
+case "${1:-help}" in
+  install)    shift; cmd_install "$@" ;;
+  update)     shift; cmd_update "$@" ;;
+  status)     cmd_status ;;
+  disable)    cmd_disable ;;
+  enable)     cmd_enable ;;
+  uninstall)  cmd_uninstall ;;
+  version|-v|--version) echo "council ${VERSION}" ;;
+  help|-h|--help) usage ;;
+  *)
+    echo -e "  ${RED}Unknown command: $1${NC}"
+    usage
+    exit 1
+    ;;
+esac

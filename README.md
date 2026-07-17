@@ -4,10 +4,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.0-a78bfa?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-2.0.0-a78bfa?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/advisors-18_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
   <img src="https://img.shields.io/badge/profiles-6_domains-f59e0b?style=flat-square" alt="Profiles" />
-  <img src="https://img.shields.io/badge/agents-kiro_·_cursor_·_claude_·_windsurf-3b82f6?style=flat-square" alt="Agents" />
+  <img src="https://img.shields.io/badge/agents-kiro_·_cursor_·_claude_·_windsurf_·_+6_more-3b82f6?style=flat-square" alt="Agents" />
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" alt="License" />
 </p>
 
@@ -72,17 +72,40 @@ graph LR
 ## Install
 
 ```bash
-curl -sL https://raw.githubusercontent.com/BhavanPatel/council-of-minds/main/install.sh | bash
+# Step 1: Setup (clones repo + installs CLI)
+curl -sL https://raw.githubusercontent.com/BhavanPatel/council-of-minds/main/setup.sh | bash
+
+# Step 2: Install for your AI clients
+council install
 ```
 
-Auto-detects your AI clients (Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode), lets you choose which to install for, and copies everything in native format.
+Auto-detects your AI clients (Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode, GitHub Copilot, Codex), lets you choose which to install for, and copies everything in native format.
 
 ```bash
-curl -sL https://raw.githubusercontent.com/BhavanPatel/council-of-minds/main/install.sh | bash -s -- --client kiro --global    # Non-interactive
-curl -sL https://raw.githubusercontent.com/BhavanPatel/council-of-minds/main/install.sh | bash -s -- --uninstall               # Remove from all clients
+# If already installed, use the CLI directly
+council install --client claude
 ```
 
-See [docs/install.md](docs/) for per-client details and manual install.
+### CLI Commands
+
+After install, the `council` command is available globally:
+
+```bash
+council install      # Install/reinstall for detected AI clients
+council status       # Show what's installed and for which clients
+council update       # Pull latest from git + reinstall
+council disable      # Temporarily disable (reversible)
+council enable       # Re-enable
+council uninstall    # Remove from all clients
+council version      # Show version
+```
+
+### Manual Install
+
+```bash
+git clone https://github.com/BhavanPatel/council-of-minds.git ~/.council-of-minds
+cd ~/.council-of-minds && ./install.sh
+```
 
 ---
 
@@ -212,7 +235,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 | **Minority Report** | Explicit section with full reasoning | Mentioned in synthesis | No formal section |
 | **Acceptable Compromises** | Required section | No | No |
 | **Follow-up protocol** | expand · challenge · reweight · re-run · duo | None | None |
-| **Agent-agnostic** | Kiro · Cursor · Claude · Windsurf · 8 clients | Claude only | Claude only |
+| **Agent-agnostic** | Kiro · Cursor · Claude · Windsurf · 10 clients | Claude only | Claude only |
 | **Grounding protocols** | Per-advisor with hard constraints | None | Per-advisor |
 | **Polarity pairs** | 10 defined tension pairs for Duo mode | N/A | Yes |
 
@@ -228,7 +251,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 
 5. **3 modes for 3 situations.** Full (complex decisions), Quick (time-sensitive), Duo (binary choices with polarity pairs). Neither alternative adapts process to decision weight.
 
-6. **Agent-agnostic with install script.** Works on Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode. Auto-detects and installs in native format. Not locked to one client.
+6. **Agent-agnostic with one-line install.** Works on Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode, GitHub Copilot, and Codex. One curl command installs everything with a persistent `council` CLI for update/disable/uninstall. Not locked to one client.
 
 ---
 
