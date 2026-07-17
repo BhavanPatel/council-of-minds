@@ -2,6 +2,33 @@
 
 Real-world council sessions demonstrating the full deliberation process and verdict output format.
 
+## Table of Contents
+
+### Full Output Examples (showing verdict format)
+- [Example 1: Open-Source Decision (Strategy Profile — Full Mode)](#example-1-open-source-decision-strategy-profile--full-mode)
+- [Example 2: Duo Mode — Quick Binary Decision](#example-2-duo-mode--quick-binary-decision)
+- [Example 3: Quick Mode — Production Incident](#example-3-quick-mode--production-incident)
+
+### Input Examples by Profile
+- [Engineering Profile](#engineering-profile)
+- [Product Profile](#product-profile)
+- [Risk Profile](#risk-profile)
+- [AI-ML Profile](#ai-ml-profile)
+- [Innovation Profile](#innovation-profile)
+
+### Input Examples by Budget Mode
+- [Budget Mode — Lean](#budget-mode--lean)
+- [Budget Mode — Deep](#budget-mode--deep)
+- [Cost Budget — Explicit Token Limit](#cost-budget--explicit-token-limit)
+
+### v2.0 Feature Examples
+- [Fact-Checker in Action](#fact-checker-in-action)
+- [Early Termination Example](#early-termination-example)
+- [Analytics Tracking](#analytics-tracking)
+
+### Reference
+- [Follow-Up Commands](#follow-up-commands-work-after-any-verdict)
+
 ---
 
 ## Example 1: Open-Source Decision (Strategy Profile — Full Mode)
