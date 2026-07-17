@@ -76,6 +76,16 @@ Profiles determine which 4-6 advisors are selected for a council session. Each p
 
 ---
 
+### people
+
+**Advisors:** empath · culture-reader · negotiator · motivator · devil's-advocate · historian
+
+**Best for:** Hiring decisions, team dynamics, conflict resolution, organizational change, people management, stakeholder alignment, motivation design.
+
+**Why these 6:** Covers emotional intelligence (empath), organizational dynamics (culture-reader), interest-based bargaining (negotiator), behavioral activation (motivator), systematic opposition (devil's-advocate), and historical precedent (historian). Natural tensions: empath vs architect (feelings vs structure), culture-reader vs shipper (readiness vs speed), devil's-advocate vs narrator (opposition vs story).
+
+---
+
 ## Auto-Selection Logic
 
 When the user says `council this: [question]` without specifying a profile, the orchestrator scores each advisor against keyword maps:

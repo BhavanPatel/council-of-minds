@@ -16,6 +16,7 @@ Real-world council sessions demonstrating the full deliberation process and verd
 - [AI-ML Profile](#ai-ml-profile)
 - [Innovation Profile](#innovation-profile)
 - [Creative Profile](#creative-profile)
+- [People Profile](#people-profile)
 
 ### Input Examples by Budget Mode
 - [Budget Mode — Lean](#budget-mode--lean)
@@ -380,6 +381,22 @@ Context: Target audience is senior engineers who hate boilerplate. Competitors
 are named Copilot, Cursor, Windsurf, Cody. We want something that signals 
 "anticipatory" and "invisible effort" without being cute or forgettable. 
 Need both a product name and a tagline.
+```
+
+---
+
+### People Profile
+
+```
+people council: Our senior backend engineer (8 years at the company, respected 
+by everyone) just told me privately she's thinking of leaving. She says she 
+feels "invisible" despite being promoted last year. Her team loves her but she 
+reports to a new VP who she says "doesn't get engineering culture."
+
+Context: She's the technical anchor for our payments team. Losing her would 
+set that team back 6+ months. The new VP came from a sales-heavy org 3 months 
+ago. Other engineers have mentioned feeling "managed" rather than "led" since 
+the VP started. We can't just throw money at this.
 ```
 
 ---

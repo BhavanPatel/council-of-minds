@@ -273,6 +273,7 @@ Full definitions with reasoning_method, polarity_pairs, and structured output fo
 - `advisors/strategic.md` — strategist, realist, timer, inverter, tail-watcher, taxonomist
 - `advisors/wisdom.md` — questioner, subtractor, reframer, stoic, bias-hunter, user-advocate
 - `advisors/creative.md` — ideator, synthesizer, narrator, provocateur, aesthete, analogist
+- `advisors/human.md` — empath, culture-reader, negotiator, motivator, devil's-advocate, historian
 
 ---
 
@@ -292,7 +293,7 @@ Full definitions with reasoning_method, polarity_pairs, and structured output fo
 
 ## Anti-Patterns
 
-- Running all 24 simultaneously (noise > signal past 6)
+- Running all 30 simultaneously (noise > signal past 6)
 - Skipping enforcement scan (produces low-quality crystallizations)
 - Equal-weighting all advisors (domain-weight exists for a reason)
 - Omitting Kill Criteria (creates false permanence)

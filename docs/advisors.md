@@ -1,8 +1,8 @@
 # Advisor Reference
 
-Complete reference for all 24 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
+Complete reference for all 30 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
 
-Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, and `advisors/creative.md`.
+Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, and `advisors/creative.md`, and `advisors/human.md`.
 
 ---
 
@@ -85,3 +85,22 @@ Every advisor has constraints that prevent drift into generic advice:
 | provocateur | Max 2 sacred cows per analysis; depth over breadth |
 | aesthete | Must find structural reason behind "feels wrong"; max 1 design reference |
 | analogist | Must specify 3+ corresponding relationships; abandon if breaks in 2+ critical places |
+| empath | Name SPECIFIC emotions and their SPECIFIC sources; max 2 explorations |
+| culture-reader | Cite specific behaviors/rituals as evidence; max 1 cultural theory |
+| negotiator | Check for irrational = unfound interests; max 2 BATNA analyses |
+| motivator | "Should want to" is not design; max 2 behavioral frameworks |
+| devil's-advocate | Must genuinely try to convince; max 3 attack vectors |
+| historian | Cite specific cases with dates/actors/outcomes; max 3 precedents |
+
+## Human Advisors
+
+| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
+|---------|----------|-------------|--------|------|
+| **empath** | Emotional landscape mapping | Read subtext, map stakes, identify needs, check safety | Emotional infrastructure beneath decisions | Over-prioritizing harmony |
+| **culture-reader** | Organizational culture decoding | Read incentives, map power, identify tribes, predict response | Invisible operating system of organizations | Cultural fatalism |
+| **negotiator** | Interest discovery and value creation | Separate positions/interests, map BATNA, find trades | Hidden positive-sum structures | Forcing win-win on zero-sum |
+| **motivator** | Motivation architecture | Diagnose gap, map drivers, design choice architecture | Gap between intention and action | Treating people as behavioral machines |
+| **devil's-advocate** | Systematic stress-testing | Steel-man opposition, find weakest link, pre-mortem | Failure modes consensus suppresses | Paralyzing action with perpetual opposition |
+| **historian** | Historical pattern recognition | Find precedent, extract pattern, map outcome distribution | Recurring patterns others think are unique | Over-reliance when "this time is different" |
+
+---
