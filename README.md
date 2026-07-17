@@ -376,6 +376,18 @@ See [docs/competitive-analysis.md](docs/competitive-analysis.md) for the full co
 
 ---
 
+## Roadmap
+
+| Version | Theme | Features | Status |
+|---------|-------|----------|--------|
+| **v2.0** | Research-Backed Optimization | Advisor count 4-6, sparse cross-exam, early termination, cost budget mode, fact-checker, debate analytics | Current |
+| **v2.1** | Memory & Learning | Persistent transcripts, cross-session advisor effectiveness learning, confidence calibration against outcomes | Planned |
+| **v3.0** | Multi-Model Diversity | Different LLM backends per advisor, true reasoning diversity, human-in-the-loop during deliberation rounds | Future |
+
+See [docs/competitive-analysis.md](docs/competitive-analysis.md) for full roadmap details and research backing.
+
+---
+
 ## Author
 
 <p>
