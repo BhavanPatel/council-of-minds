@@ -86,6 +86,46 @@ Profiles determine which 4-6 advisors are selected for a council session. Each p
 
 ---
 
+### finance
+
+**Advisors:** financier · data-analyst · strategist · tail-watcher · realist
+
+**Best for:** Investment decisions, pricing strategy, capital allocation, economic modeling, ROI analysis.
+
+**Why these 5:** Covers quantitative modeling (financier), data rigor (data-analyst), competitive positioning (strategist), downside protection (tail-watcher), and political realism (realist). Natural tensions: financier vs stoic (profit vs duty), tail-watcher vs strategist (caution vs aggression).
+
+---
+
+### legal
+
+**Advisors:** legalist · stoic · bias-hunter · historian · diplomat
+
+**Best for:** Contracts, compliance, regulatory navigation, liability assessment, legal strategy.
+
+**Why these 5:** Covers regulatory analysis (legalist), moral clarity (stoic), cognitive bias (bias-hunter), precedent (historian), and stakeholder management (diplomat). Natural tensions: legalist vs shipper (compliance vs speed), stoic vs strategist (principle vs pragmatism).
+
+---
+
+### science
+
+**Advisors:** scientist · data-analyst · deriver · devil's-advocate · frontier-scout
+
+**Best for:** Research direction, hypothesis testing, evidence evaluation, experimental design, scientific rigor.
+
+**Why these 5:** Covers hypothesis testing (scientist), statistical inference (data-analyst), first principles (deriver), adversarial testing (devil's-advocate), and frontier awareness (frontier-scout). Natural tensions: scientist vs narrator (evidence vs story), devil's-advocate vs narrator (opposition vs coherence).
+
+---
+
+### operations
+
+**Advisors:** operator · systems-mapper · shipper · timer · diplomat
+
+**Best for:** Execution planning, resource allocation, logistics, process optimization, delivery.
+
+**Why these 5:** Covers resource orchestration (operator), feedback loops (systems-mapper), pragmatic shipping (shipper), timing (timer), and stakeholder alignment (diplomat). Natural tensions: operator vs architect (execution vs elegance), shipper vs timer (now vs right moment).
+
+---
+
 ## Auto-Selection Logic
 
 When the user says `council this: [question]` without specifying a profile, the orchestrator scores each advisor against keyword maps:

@@ -130,6 +130,50 @@
       ],
       "domainWeight": "empath",
       "description": "Hiring, teams, conflict resolution, organizational dynamics, people management"
+    },
+    "finance": {
+      "advisors": [
+        "financier",
+        "data-analyst",
+        "strategist",
+        "tail-watcher",
+        "realist"
+      ],
+      "domainWeight": "financier",
+      "description": "Investment decisions, pricing, economics, capital allocation, financial modeling"
+    },
+    "legal": {
+      "advisors": [
+        "legalist",
+        "stoic",
+        "bias-hunter",
+        "historian",
+        "diplomat"
+      ],
+      "domainWeight": "legalist",
+      "description": "Contracts, compliance, liability, regulatory navigation, legal strategy"
+    },
+    "science": {
+      "advisors": [
+        "scientist",
+        "data-analyst",
+        "deriver",
+        "devil's-advocate",
+        "frontier-scout"
+      ],
+      "domainWeight": "scientist",
+      "description": "Research decisions, hypothesis testing, evidence evaluation, experimental design"
+    },
+    "operations": {
+      "advisors": [
+        "operator",
+        "systems-mapper",
+        "shipper",
+        "timer",
+        "diplomat"
+      ],
+      "domainWeight": "operator",
+      "description": "Logistics, execution planning, resource orchestration, supply chain, process"
     }
   },
   "advisors": {
@@ -372,6 +416,54 @@
         "ideator"
       ],
       "evidence_type_default": "empirical"
+    },
+    "financier": {
+      "reasoning_method": "quantitative-modeling",
+      "polarity_pairs": [
+        "stoic",
+        "ideator"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "legalist": {
+      "reasoning_method": "regulatory-analysis",
+      "polarity_pairs": [
+        "shipper",
+        "reframer"
+      ],
+      "evidence_type_default": "mechanistic"
+    },
+    "scientist": {
+      "reasoning_method": "hypothesis-testing",
+      "polarity_pairs": [
+        "narrator",
+        "strategist"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "operator": {
+      "reasoning_method": "resource-orchestration",
+      "polarity_pairs": [
+        "architect",
+        "frontier-scout"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "diplomat": {
+      "reasoning_method": "stakeholder-alignment",
+      "polarity_pairs": [
+        "provocateur",
+        "subtractor"
+      ],
+      "evidence_type_default": "strategic"
+    },
+    "data-analyst": {
+      "reasoning_method": "statistical-inference",
+      "polarity_pairs": [
+        "reframer",
+        "narrator"
+      ],
+      "evidence_type_default": "empirical"
     }
   },
   "polarityPairs": [
@@ -462,6 +554,30 @@
     [
       "historian",
       "frontier-scout"
+    ],
+    [
+      "financier",
+      "stoic"
+    ],
+    [
+      "legalist",
+      "shipper"
+    ],
+    [
+      "scientist",
+      "narrator"
+    ],
+    [
+      "operator",
+      "architect"
+    ],
+    [
+      "diplomat",
+      "provocateur"
+    ],
+    [
+      "data-analyst",
+      "reframer"
     ]
   ],
   "autoSelectKeywords": {
@@ -716,6 +832,66 @@
       "base rate",
       "tried",
       "learned"
+    ],
+    "financier": [
+      "finance",
+      "investment",
+      "ROI",
+      "cost",
+      "revenue",
+      "pricing",
+      "valuation",
+      "NPV"
+    ],
+    "legalist": [
+      "legal",
+      "compliance",
+      "regulation",
+      "liability",
+      "contract",
+      "GDPR",
+      "patent",
+      "lawsuit"
+    ],
+    "scientist": [
+      "hypothesis",
+      "experiment",
+      "evidence",
+      "causation",
+      "correlation",
+      "study",
+      "research",
+      "test"
+    ],
+    "operator": [
+      "operations",
+      "execute",
+      "bottleneck",
+      "capacity",
+      "timeline",
+      "resource",
+      "logistics",
+      "delivery"
+    ],
+    "diplomat": [
+      "stakeholder",
+      "coalition",
+      "communicate",
+      "align",
+      "politics",
+      "buy-in",
+      "announce",
+      "manage up"
+    ],
+    "data-analyst": [
+      "data",
+      "metrics",
+      "dashboard",
+      "analysis",
+      "statistics",
+      "trend",
+      "segment",
+      "sample"
     ]
   },
   "voting": {

@@ -17,13 +17,17 @@ Real-world council sessions demonstrating the full deliberation process and verd
 - [Innovation Profile](#innovation-profile)
 - [Creative Profile](#creative-profile)
 - [People Profile](#people-profile)
+- [Finance Profile](#finance-profile)
+- [Legal Profile](#legal-profile)
+- [Science Profile](#science-profile)
+- [Operations Profile](#operations-profile)
 
-### Input Examples by Budget Mode
+### Input Examples by Mode & Budget
 - [Budget Mode — Lean](#budget-mode--lean)
 - [Budget Mode — Deep](#budget-mode--deep)
 - [Cost Budget — Explicit Token Limit](#cost-budget--explicit-token-limit)
 
-### v2.0 Feature Examples
+### Feature Examples
 - [Fact-Checker in Action](#fact-checker-in-action)
 - [Early Termination Example](#early-termination-example)
 - [Analytics Tracking](#analytics-tracking)
@@ -255,7 +259,7 @@ Session: quick | Panel: 6 | Rounds: 3 | Domain-weight: tail-watcher (1.5x) | Evi
 
 ---
 
-## Format Summary
+## Verdict Format Reference
 
 Every council verdict follows this structure:
 
@@ -277,21 +281,11 @@ Every council verdict follows this structure:
 |-- Session metadata footer
 ```
 
-Designed to be:
-- **Scannable** — jump to any section by header
-- **Auditable** — vote tally shows exactly how the decision was reached
-- **Actionable** — one concrete next step, not a list of 10 things
-- **Honest** — Kill Criteria and Compromises prevent false certainty
-- **Revisitable** — Kill Criteria tell you when the verdict expires
-- **Attributable** — every insight traced to which advisor produced it
-
-
-
 ---
 
-## More Input Examples
+## Input Examples by Profile
 
-The 3 examples above demonstrate the full verdict output format for Full, Duo, and Quick modes. Below are input-only examples showing how to trigger each profile and v2.0 feature — the output follows the same structured format shown above.
+The 3 examples above demonstrate the full verdict output format. Below are input-only examples showing how to trigger each profile — the output follows the same structured format.
 
 ---
 
@@ -401,6 +395,75 @@ the VP started. We can't just throw money at this.
 
 ---
 
+### Finance Profile
+
+```
+finance council: We have $2M in the bank and need to decide between three 
+options: (A) hire 4 more engineers at $800K/year burn increase, (B) spend 
+$500K on a marketing push to accelerate revenue, or (C) acquire a small 
+competitor for $1.2M who has 50 customers and a complementary product.
+
+Context: Current MRR $120K growing 8% MoM. 18 months runway at current burn. 
+Team of 8. Our product is technically superior but competitor has better 
+distribution. Acquisition target is profitable but barely growing.
+```
+
+---
+
+### Legal Profile
+
+```
+legal council: A competitor just launched a product that looks identical to 
+our UI — same layout, same color scheme, same workflow. Their marketing even 
+uses phrases from our website. Should we pursue legal action?
+
+Context: We're a 20-person B2B SaaS. They're a well-funded startup (Series A, 
+$12M raised). We have no patents but our product has been live for 3 years. 
+We have screenshots showing they copied our onboarding flow step-by-step. 
+They launched 2 months ago and are already signing some of our prospects.
+Constraints: Legal budget is limited (~$50K max). We're in the US, they're 
+incorporated in Delaware but team is remote/international.
+```
+
+---
+
+### Science Profile
+
+```
+science council: Our A/B test shows the new checkout flow has 12% higher 
+conversion, but the sample size is only 800 users over 5 days. Should we 
+ship it to 100% of traffic?
+
+Context: E-commerce, $5M monthly GMV. Control: 3.2% conversion. Variant: 
+3.58% conversion. p-value: 0.04. But the test ran over a weekend + 3 weekdays, 
+and we know weekend traffic converts differently. Three previous "winning" 
+A/B tests reverted within 2 weeks after full rollout.
+Stakes: If real, 12% lift = $600K additional annual GMV. If false positive, 
+we degrade UX for millions of sessions while we re-test.
+```
+
+---
+
+### Operations Profile
+
+```
+operations council: We need to migrate 500 enterprise customers from our 
+legacy platform to the new one within 6 months. What's the execution strategy?
+
+Context: Legacy platform is PHP/MySQL, new is Go/PostgreSQL. Customer data 
+ranges from 1GB to 500GB per account. Downtime tolerance varies: 40% need 
+zero-downtime, 60% accept a 2-hour maintenance window. Team of 6 for migration. 
+Three previous attempts at "big bang" migration failed. Customers are already 
+frustrated with delays.
+Constraints: Cannot run both platforms beyond 6 months (cost + security patches).
+```
+
+---
+
+## Input Examples by Mode & Budget
+
+---
+
 ### Budget Mode — Lean
 
 ```
@@ -436,6 +499,10 @@ for our new event store?
 Context: 50K events/day, need flexible schema, team knows Postgres, 
 running on AWS with RDS already provisioned.
 ```
+
+---
+
+## Feature Examples
 
 ---
 
@@ -484,7 +551,7 @@ in Q1. Their tech stack is incompatible with ours (Ruby vs our Go).
 
 ---
 
-### Follow-Up Commands (work after any verdict)
+## Follow-Up Commands (work after any verdict)
 
 ```
 expand on the tail-watcher's point

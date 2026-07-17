@@ -1,6 +1,6 @@
 # Advisor Reference
 
-Complete reference for all 30 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
+Complete reference for all 36 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
 
 Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, and `advisors/creative.md`, and `advisors/human.md`.
 
@@ -8,6 +8,7 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ## Technical Advisors
 
+| Advisor | Core Function | Archetype | Method | Key Strength | Key Blind Spot |
 |---------|----------|-------------|--------|------|--------|
 | **architect** | Formal structure, abstraction boundaries | Ada Lovelace | Extract skeleton, find abstraction level, check properties | Well-solved problem classes hidden beneath messy surfaces | Practical constraints; elegant but unmaintainable |
 | **deriver** | First-principles reconstruction | Richard Feynman | Observe, derive from basics, explain simply, test | Cargo-cult practices; jargon hiding confusion | Systemic patterns at higher abstraction |
@@ -20,6 +21,7 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ## Strategic Advisors
 
+| Advisor | Core Function | Archetype | Method | Key Strength | Key Blind Spot |
 |---------|----------|-------------|--------|------|--------|
 | **strategist** | Adversarial terrain reading | Sun Tzu | Read terrain, assess position, find decisive point | Competitive dynamics; 2nd/3rd-order consequences | Over-indexing on adversarial thinking |
 | **realist** | Incentive mapping, power dynamics | Machiavelli | Map incentives, identify real decision-makers, read behavior | Solutions that fail because no adoption incentive | Genuine cooperation exists |
@@ -32,6 +34,7 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ## Wisdom Advisors
 
+| Advisor | Core Function | Archetype | Method | Key Strength | Key Blind Spot |
 |---------|----------|-------------|--------|------|--------|
 | **questioner** | Assumption destruction | Socrates | Identify assumptions, test by contradiction, force precision | Load-bearing unexamined assumptions | Paralysis from questioning everything |
 | **subtractor** | Via negativa, minimum intervention | Lao Tzu | Ask if real, check intervention damage, subtract first | Over-engineering; patch-upon-patch | Genuine need for intervention |
@@ -65,6 +68,19 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 | **motivator** | Motivation architecture | Diagnose gap, map drivers, design choice architecture | Gap between intention and action | Treating people as behavioral machines |
 | **devil's-advocate** | Systematic stress-testing | Steel-man opposition, find weakest link, pre-mortem | Failure modes consensus suppresses | Paralyzing action with perpetual opposition |
 | **historian** | Historical pattern recognition | Find precedent, extract pattern, map outcome distribution | Recurring patterns others think are unique | Over-reliance when "this time is different" |
+
+---
+
+## Domain Advisors
+
+| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
+|---------|----------|-------------|--------|------|
+| **financier** | Quantitative modeling | Quantify value, model cash flows, price optionality, stress-test | Quantitative structure beneath qualitative decisions | Mistaking precision for accuracy |
+| **legalist** | Regulatory analysis | Map landscape, assess compliance, map liability, find safe harbor | Regulatory constraints others dismiss | Over-conservative blocking of innovation |
+| **scientist** | Hypothesis testing | State hypothesis, grade evidence, hunt confounders, design test | Gap between "we believe" and "we know" | Paralyzing action with evidence demands |
+| **operator** | Resource orchestration | Map dependencies, find bottleneck, check resources, plan failures | Execution reality beneath strategy | Operational conservatism blocking growth |
+| **diplomat** | Stakeholder alignment | Map stakeholders, assess power, find coalition, sequence comms | Political landscape around decisions | Stakeholder appeasement diluting boldness |
+| **data-analyst** | Statistical inference | Assess quality, describe before inferring, quantify uncertainty | Signal within noise, noise disguised as signal | Data paralysis when judgment suffices |
 
 ---
 
@@ -104,3 +120,9 @@ Every advisor has constraints that prevent drift into generic advice:
 | motivator | "Should want to" is not design; max 2 behavioral frameworks |
 | devil's-advocate | Must genuinely try to convince; max 3 attack vectors |
 | historian | Cite specific cases with dates/actors/outcomes; max 3 precedents |
+| financier | Must include numbers/ranges; max 2 financial models |
+| legalist | Must reference specific regulations/statutes; max 2 jurisdictions |
+| scientist | Must address confounders for causal claims; max 1 statistical framework |
+| operator | Must reference specific resources (people, dates, dollars); max 1 dependency diagram |
+| diplomat | Must name specific stakeholders with interests; max 6 stakeholders |
+| data-analyst | Must include sample size, time period, source; max 2 statistical techniques |
