@@ -102,26 +102,6 @@ The multi-agent deliberation space in 2025-2026 spans three categories:
 | Swarm | Peer collaboration | OpenAI Swarm |
 | Fan-out | Parallel research | AutoGen |
 
-## Roadmap
-
-### v2.0 (Current) — Research-Backed Optimization
-- Advisor count: 4-6 (from 5-7)
-- Sparse cross-examination
-- Adaptive early termination
-- Cost budget mode (6 tiers)
-- Fact-checker mechanism
-- Debate analytics
-
-### v2.1 (Planned) — Memory and Learning
-- Persistent transcripts with searchable history
-- Cross-session advisor effectiveness learning
-- Confidence calibration against outcomes
-
-### v3.0 (Future) — Multi-Model Diversity
-- Different LLM backends per advisor
-- True reasoning diversity (not just persona diversity)
-- Human-in-the-loop during deliberation rounds
-
 ---
 
 *Last updated: July 2026*
