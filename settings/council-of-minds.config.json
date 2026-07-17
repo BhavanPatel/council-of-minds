@@ -3,12 +3,12 @@
     "full": {
       "rounds": 5,
       "wordLimits": { "round1": 300, "round2": 200, "round3": 100 },
-      "steps": ["restate", "analyze", "cross-examine", "crystallize", "synthesize"]
+      "steps": ["restate", "analyze", "fact-check", "cross-examine", "crystallize", "synthesize"]
     },
     "quick": {
       "rounds": 3,
       "wordLimits": { "round1": 200, "round2": 75 },
-      "steps": ["analyze", "cross-examine", "synthesize"]
+      "steps": ["analyze", "fact-check", "cross-examine", "synthesize"]
     },
     "duo": {
       "rounds": 3,
@@ -18,32 +18,32 @@
   },
   "profiles": {
     "engineering": {
-      "advisors": ["architect", "deriver", "shipper", "systems-mapper", "inverter", "user-advocate"],
+      "advisors": ["architect", "deriver", "shipper", "systems-mapper", "inverter"],
       "domainWeight": "architect",
       "description": "Technical architecture, code design, infrastructure decisions"
     },
     "strategy": {
-      "advisors": ["strategist", "realist", "inverter", "timer", "tail-watcher", "systems-mapper"],
+      "advisors": ["strategist", "realist", "inverter", "timer", "tail-watcher"],
       "domainWeight": "strategist",
       "description": "Competitive moves, market entry, positioning, organizational strategy"
     },
     "product": {
-      "advisors": ["user-advocate", "shipper", "realist", "bias-hunter", "reframer", "deriver"],
+      "advisors": ["user-advocate", "shipper", "realist", "bias-hunter", "reframer"],
       "domainWeight": "user-advocate",
       "description": "Product direction, feature decisions, UX tradeoffs"
     },
     "risk": {
-      "advisors": ["tail-watcher", "bias-hunter", "inverter", "systems-mapper", "stoic", "strategist"],
+      "advisors": ["tail-watcher", "bias-hunter", "inverter", "systems-mapper", "stoic"],
       "domainWeight": "tail-watcher",
       "description": "High-stakes decisions, go/no-go, investment, irreversible choices"
     },
     "ai-ml": {
-      "advisors": ["model-whisperer", "frontier-scout", "architect", "deriver", "tail-watcher", "shipper"],
+      "advisors": ["model-whisperer", "frontier-scout", "architect", "deriver", "tail-watcher"],
       "domainWeight": "model-whisperer",
       "description": "AI product decisions, model selection, capability assessment, safety"
     },
     "innovation": {
-      "advisors": ["questioner", "subtractor", "reframer", "taxonomist", "deriver", "inverter"],
+      "advisors": ["questioner", "subtractor", "reframer", "taxonomist", "inverter"],
       "domainWeight": "questioner",
       "description": "Exploring new spaces, challenging assumptions, finding novel approaches"
     }
@@ -184,10 +184,102 @@
     "engagementRequired": true
   },
   "settings": {
-    "minAdvisors": 5,
-    "maxAdvisors": 7,
+    "minAdvisors": 4,
+    "maxAdvisors": 6,
+    "defaultAdvisors": 5,
     "alwaysIncludeChallenger": true,
+    "alwaysIncludePolarityPair": true,
     "challengerAdvisors": ["questioner", "subtractor", "reframer"],
-    "defaultMode": "full"
+    "defaultMode": "full",
+    "defaultCrossExam": "sparse",
+    "earlyTermination": true
+  },
+  "costBudget": {
+    "tiers": {
+      "minimal": { "maxTokens": 3000, "mode": "duo", "advisors": 2, "crossExam": "none" },
+      "lean": { "maxTokens": 8000, "mode": "quick", "advisors": 4, "crossExam": "sparse" },
+      "standard": { "maxTokens": 15000, "mode": "quick", "advisors": 5, "crossExam": "sparse" },
+      "full": { "maxTokens": 25000, "mode": "full", "advisors": 5, "crossExam": "sparse" },
+      "deep": { "maxTokens": 40000, "mode": "full", "advisors": 6, "crossExam": "all-pairs" },
+      "unlimited": { "maxTokens": null, "mode": "full", "advisors": 6, "crossExam": "all-pairs" }
+    },
+    "defaultTier": "full",
+    "wordLimitScaling": {
+      "minimal": 0.4,
+      "lean": 0.6,
+      "standard": 0.8,
+      "full": 1.0,
+      "deep": 1.0,
+      "unlimited": 1.0
+    }
+  },
+  "factChecker": {
+    "enabled": true,
+    "maxFlags": 5,
+    "flagTypes": ["verified", "unverifiable", "disputed"],
+    "exemptContent": ["opinions", "recommendations", "analogies", "thought-experiments"]
+  },
+  "analytics": {
+    "enabled": true,
+    "autoTrackOnBudgetMode": true,
+    "storageFormat": "council-analytics-{date}.json",
+    "metrics": [
+      "position_changes",
+      "influence_map",
+      "enforcement_scan",
+      "consensus_strength",
+      "early_termination",
+      "fact_checker",
+      "token_usage"
+    ]
+  },
+  "sparseExamination": {
+    "defaultEnabled": true,
+    "engagementsPerAdvisor": {
+      "panel4": 3,
+      "panel5": 2,
+      "panel6": 3
+    },
+    "assignmentPriority": ["polarity_pair", "evidence_diversity", "similarity_check"],
+    "fallbackToAllPairs": ["panel4", "user_request", "enforcement_failure"]
+  },
+  "earlyTermination": {
+    "enabled": true,
+    "conditions": {
+      "consensusThreshold": 0.8,
+      "requiredConfidence": "high",
+      "noDealbreaker": true,
+      "enforcementPassed": true
+    },
+    "overrideKeywords": ["thorough", "deep dive", "full deliberation"],
+    "tokenSavingsEstimate": "30-40%"
+  },
+  "roadmap": {
+    "planned": [
+      {
+        "feature": "multi-model-support",
+        "description": "Allow different LLM backends per advisor for true reasoning diversity",
+        "priority": "high",
+        "status": "deferred"
+      },
+      {
+        "feature": "persistent-memory",
+        "description": "Cross-session transcript storage and pattern learning",
+        "priority": "medium",
+        "status": "planned"
+      },
+      {
+        "feature": "human-in-the-loop",
+        "description": "Allow user intervention during deliberation rounds, not just after verdict",
+        "priority": "medium",
+        "status": "planned"
+      },
+      {
+        "feature": "confidence-calibration",
+        "description": "Calibrate confidence scores against outcomes over time",
+        "priority": "low",
+        "status": "planned"
+      }
+    ]
   }
 }

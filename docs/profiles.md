@@ -1,6 +1,6 @@
 # Council Profiles
 
-Profiles determine which 5-7 advisors are selected for a council session. Each profile is optimized for a specific decision domain.
+Profiles determine which 4-6 advisors are selected for a council session. Each profile is optimized for a specific decision domain.
 
 ---
 

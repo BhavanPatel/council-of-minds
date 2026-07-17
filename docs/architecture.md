@@ -26,7 +26,7 @@ graph LR
 sequenceDiagram
     participant U as User
     participant O as Orchestrator
-    participant A as Advisors (5-7)
+    participant A as Advisors (4-6)
     participant C as Chairman
 
     U->>O: "council this: [question]"
@@ -85,8 +85,8 @@ graph TD
 
 | Mode | When to Use | Rounds | Panel |
 |------|-------------|--------|-------|
-| **Full** | Complex decisions with genuine uncertainty | 5 | 5-7 advisors |
-| **Quick** | Time-sensitive, lower stakes | 3 | 5-7 advisors |
+| **Full** | Complex decisions with genuine uncertainty | 5 | 4-6 advisors |
+| **Quick** | Time-sensitive, lower stakes | 3 | 4-6 advisors |
 | **Duo** | Binary choice, rapid opposing views | 3 | 2 (polarity pair) |
 
 ---
@@ -208,11 +208,11 @@ graph TD
 | Step | Input | Output |
 |------|-------|--------|
 | 0: Framing | Raw question + workspace | Framed question + panel + domain-weight |
-| 1: Restate | Framed question | 5-7 one-sentence restatements (catches wrong questions) |
-| 2: Analysis | Framed question + advisor identity | 5-7 structured analyses with STANCE/CONFIDENCE/DEALBREAKER |
-| 3: Cross-exam | All Round 1 responses | 5-7 Disagree/Strengthen/Update with evidence labels |
+| 1: Restate | Framed question | 4-6 one-sentence restatements (catches wrong questions) |
+| 2: Analysis | Framed question + advisor identity | 4-6 structured analyses with STANCE/CONFIDENCE/DEALBREAKER |
+| 3: Cross-exam | All Round 1 responses | 4-6 Disagree/Strengthen/Update with evidence labels |
 | 4: Enforcement | All Round 2 responses | Pass/fail + revision requests if needed |
-| 5: Crystallize | Post-exam positions | 5-7 declarative 100-word final positions |
+| 5: Crystallize | Post-exam positions | 4-6 declarative 100-word final positions |
 | 6: Vote tally | All crystallized stances | Weighted option scores + consensus/split determination |
 | 7: Synthesis | Everything above | Structured verdict (13 sections) |
 | 8: Follow-up | User command + verdict | Expanded analysis / re-synthesis / transcript |
