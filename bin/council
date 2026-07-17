@@ -95,11 +95,6 @@ cmd_update() {
   echo -e "  ${GREEN}✓${NC} Updated (${count} new commit(s))"
   echo ""
 
-  # Show commit log
-  echo -e "  ${BLUE}Commits:${NC}"
-  git log --oneline "$before".."$after" | sed 's/^/    /'
-  echo ""
-
   # Show change summary for advisors, config, and main prompt
   echo -e "  ┌──────────────────────────────────────────────────┐"
   echo -e "  │  ${CYAN}Changes that will be applied:${NC}                    │"
