@@ -55,6 +55,19 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ---
 
+## Human Advisors
+
+| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
+|---------|----------|-------------|--------|------|
+| **empath** | Emotional landscape mapping | Read subtext, map stakes, identify needs, check safety | Emotional infrastructure beneath decisions | Over-prioritizing harmony |
+| **culture-reader** | Organizational culture decoding | Read incentives, map power, identify tribes, predict response | Invisible operating system of organizations | Cultural fatalism |
+| **negotiator** | Interest discovery and value creation | Separate positions/interests, map BATNA, find trades | Hidden positive-sum structures | Forcing win-win on zero-sum |
+| **motivator** | Motivation architecture | Diagnose gap, map drivers, design choice architecture | Gap between intention and action | Treating people as behavioral machines |
+| **devil's-advocate** | Systematic stress-testing | Steel-man opposition, find weakest link, pre-mortem | Failure modes consensus suppresses | Paralyzing action with perpetual opposition |
+| **historian** | Historical pattern recognition | Find precedent, extract pattern, map outcome distribution | Recurring patterns others think are unique | Over-reliance when "this time is different" |
+
+---
+
 ## Grounding Protocols (Summary)
 
 Every advisor has constraints that prevent drift into generic advice:
@@ -91,16 +104,3 @@ Every advisor has constraints that prevent drift into generic advice:
 | motivator | "Should want to" is not design; max 2 behavioral frameworks |
 | devil's-advocate | Must genuinely try to convince; max 3 attack vectors |
 | historian | Cite specific cases with dates/actors/outcomes; max 3 precedents |
-
-## Human Advisors
-
-| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
-|---------|----------|-------------|--------|------|
-| **empath** | Emotional landscape mapping | Read subtext, map stakes, identify needs, check safety | Emotional infrastructure beneath decisions | Over-prioritizing harmony |
-| **culture-reader** | Organizational culture decoding | Read incentives, map power, identify tribes, predict response | Invisible operating system of organizations | Cultural fatalism |
-| **negotiator** | Interest discovery and value creation | Separate positions/interests, map BATNA, find trades | Hidden positive-sum structures | Forcing win-win on zero-sum |
-| **motivator** | Motivation architecture | Diagnose gap, map drivers, design choice architecture | Gap between intention and action | Treating people as behavioral machines |
-| **devil's-advocate** | Systematic stress-testing | Steel-man opposition, find weakest link, pre-mortem | Failure modes consensus suppresses | Paralyzing action with perpetual opposition |
-| **historian** | Historical pattern recognition | Find precedent, extract pattern, map outcome distribution | Recurring patterns others think are unique | Over-reliance when "this time is different" |
-
----
