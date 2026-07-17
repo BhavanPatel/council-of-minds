@@ -4,7 +4,7 @@
 set -eo pipefail
 
 INSTALL_DIR="${HOME}/.council-of-minds"
-VERSION="2.0.0"
+VERSION="1.0.5"
 
 # Colors
 RED='\033[0;31m'
@@ -95,19 +95,71 @@ cmd_update() {
   echo -e "  ${GREEN}✓${NC} Updated (${count} new commit(s))"
   echo ""
 
-  # Show what changed
-  echo -e "  ${BLUE}Changes:${NC}"
+  # Show commit log
+  echo -e "  ${BLUE}Commits:${NC}"
   git log --oneline "$before".."$after" | sed 's/^/    /'
   echo ""
 
-  # Reinstall
-  read -rp "  Reinstall for all configured clients? [Y/n]: " confirm </dev/tty
+  # Show change summary for advisors, config, and main prompt
+  echo -e "  ┌──────────────────────────────────────────────────┐"
+  echo -e "  │  ${CYAN}Changes that will be applied:${NC}                    │"
+  echo -e "  ├──────────────────────────────────────────────────┤"
+  echo ""
+
+  # Detect advisor changes
+  echo -e "  ${BLUE}Advisors:${NC}"
+
+  # Check for new/modified/removed advisors
+  local diff_output
+  diff_output=$(git diff --name-status "$before".."$after" -- advisors/ 2>/dev/null || true)
+  if [[ -n "$diff_output" ]]; then
+    while IFS=$'\t' read -r status file; do
+      local fname
+      fname="$(basename "$file")"
+      case "$status" in
+        A) echo -e "    ${GREEN}+${NC} ${fname}  ${GREEN}(new advisor)${NC}" ;;
+        M) echo -e "    ${YELLOW}~${NC} ${fname}  ${YELLOW}(modified)${NC}" ;;
+        D) echo -e "    ${RED}-${NC} ${fname}  ${RED}(removed)${NC}" ;;
+      esac
+    done <<< "$diff_output"
+  else
+    echo -e "    · No advisor changes"
+  fi
+
+  # Check main prompt
+  echo ""
+  echo -e "  ${BLUE}Council Prompt:${NC}"
+  if git diff --quiet "$before".."$after" -- council-of-minds.md 2>/dev/null; then
+    echo -e "    · council-of-minds.md  (unchanged)"
+  else
+    echo -e "    ${YELLOW}~${NC} council-of-minds.md  ${YELLOW}(modified)${NC}"
+  fi
+
+  # Check config
+  echo ""
+  echo -e "  ${BLUE}Config:${NC}"
+  if git diff --quiet "$before".."$after" -- settings/ council-of-minds.json 2>/dev/null; then
+    echo -e "    · config  (unchanged)"
+  else
+    echo -e "    ${YELLOW}~${NC} config  ${YELLOW}(modified)${NC}"
+  fi
+
+  echo ""
+  echo -e "  └──────────────────────────────────────────────────┘"
+  echo ""
+
+  # Ask before proceeding
+  read -rp "  Proceed with reinstall? [Y/n]: " confirm </dev/tty
   if [[ "$confirm" =~ ^[Nn] ]]; then
     echo -e "  ${YELLOW}Skipped reinstall.${NC} Run 'council install' when ready."
     return 0
   fi
 
   echo ""
+  echo -e "  Reinstalling..."
+  echo ""
+
+  # Run install (which will copy fresh files including any new/removed advisors)
   exec bash ./install.sh "$@"
 }
 

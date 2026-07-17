@@ -7,7 +7,7 @@ set -euo pipefail
 # Mirrors context-sect install pattern: git-aware, per-agent, proper path resolution.
 # ─────────────────────────────────────────────────────────────────────────────
 
-VERSION="2.0.0"
+VERSION="1.0.5"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="${HOME}/.council-of-minds"
 
@@ -212,6 +212,22 @@ select_clients() {
 # Source directory for council content (always from the repo/install dir)
 SRC_DIR="${SCRIPT_DIR}"
 
+# Sync advisors: remove installed advisors that no longer exist in source
+sync_advisors() {
+  local target_dir="$1"
+  [[ -d "$target_dir" ]] || return 0
+
+  for installed_file in "$target_dir"/*.md; do
+    [[ -f "$installed_file" ]] || continue
+    local fname
+    fname="$(basename "$installed_file")"
+    if [[ ! -f "${SRC_DIR}/advisors/${fname}" ]]; then
+      rm -f "$installed_file"
+      echo -e "    ${RED}✗${NC} Removed ${fname} (no longer in council)"
+    fi
+  done
+}
+
 install_kiro() {
   echo -e "\n  ${BLUE}Installing for Kiro...${NC}"
   local target="${HOME}/.kiro"
@@ -227,6 +243,9 @@ install_kiro() {
   cp "${SRC_DIR}/advisors/wisdom.md" "${target}/agents/council-of-minds/advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/settings/"
 
+  # Remove advisors that no longer exist in source
+  sync_advisors "${target}/agents/council-of-minds/advisors"
+
   log_ok "Kiro: ${target}/agents/council-of-minds/"
 }
 
@@ -240,6 +259,9 @@ install_claude() {
   cp "${SRC_DIR}/advisors/strategic.md" "${target}/advisors/"
   cp "${SRC_DIR}/advisors/wisdom.md" "${target}/advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
+
+  # Remove advisors that no longer exist in source
+  sync_advisors "${target}/advisors"
 
   # Add include reference to CLAUDE.md
   local claude_md="${HOME}/.claude/CLAUDE.md"
@@ -267,6 +289,9 @@ install_cursor() {
   cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
 
+  # Remove advisors that no longer exist in source
+  sync_advisors "${target}/council-advisors"
+
   log_ok "Cursor: ${target}/council-of-minds.md"
 }
 
@@ -281,6 +306,9 @@ install_windsurf() {
   cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
 
+  # Remove advisors that no longer exist in source
+  sync_advisors "${target}/council-advisors"
+
   log_ok "Windsurf: ${target}/council-of-minds.md"
 }
 
@@ -293,6 +321,9 @@ install_cline() {
   cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
   cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
   cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
+
+  # Remove advisors that no longer exist in source
+  sync_advisors "${target}/council-advisors"
 
   log_ok "Cline: ${target}/council-of-minds.md"
 }
@@ -328,6 +359,9 @@ install_roocode() {
   cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
   cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
   cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
+
+  # Remove advisors that no longer exist in source
+  sync_advisors "${target}/council-advisors"
 
   log_ok "RooCode: ${target}/council-of-minds.md"
 }
