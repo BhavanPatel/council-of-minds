@@ -46,6 +46,11 @@
       "advisors": ["questioner", "subtractor", "reframer", "taxonomist", "inverter"],
       "domainWeight": "questioner",
       "description": "Exploring new spaces, challenging assumptions, finding novel approaches"
+    },
+    "creative": {
+      "advisors": ["ideator", "synthesizer", "narrator", "provocateur", "aesthete"],
+      "domainWeight": "ideator",
+      "description": "Brainstorming, naming, brand, creative direction, narrative design"
     }
   },
   "advisors": {
@@ -138,6 +143,36 @@
       "reasoning_method": "subtractive-essentialism",
       "polarity_pairs": ["architect", "strategist"],
       "evidence_type_default": "empirical"
+    },
+    "ideator": {
+      "reasoning_method": "divergent-generation",
+      "polarity_pairs": ["subtractor", "realist"],
+      "evidence_type_default": "generative"
+    },
+    "synthesizer": {
+      "reasoning_method": "cross-domain-connection",
+      "polarity_pairs": ["taxonomist", "deriver"],
+      "evidence_type_default": "heuristic"
+    },
+    "narrator": {
+      "reasoning_method": "narrative-construction",
+      "polarity_pairs": ["deriver", "architect"],
+      "evidence_type_default": "heuristic"
+    },
+    "provocateur": {
+      "reasoning_method": "creative-destruction",
+      "polarity_pairs": ["stoic", "strategist"],
+      "evidence_type_default": "heuristic"
+    },
+    "aesthete": {
+      "reasoning_method": "form-function-harmony",
+      "polarity_pairs": ["shipper", "bias-hunter"],
+      "evidence_type_default": "heuristic"
+    },
+    "analogist": {
+      "reasoning_method": "structural-mapping",
+      "polarity_pairs": ["deriver", "taxonomist"],
+      "evidence_type_default": "heuristic"
     }
   },
   "polarityPairs": [
@@ -150,7 +185,13 @@
     ["realist", "stoic"],
     ["inverter", "reframer"],
     ["model-whisperer", "frontier-scout"],
-    ["timer", "shipper"]
+    ["timer", "shipper"],
+    ["ideator", "subtractor"],
+    ["synthesizer", "taxonomist"],
+    ["narrator", "deriver"],
+    ["provocateur", "stoic"],
+    ["aesthete", "shipper"],
+    ["analogist", "deriver"]
   ],
   "autoSelectKeywords": {
     "architect": ["architecture", "abstraction", "formal", "computation", "type system", "interface", "contract"],
@@ -170,7 +211,13 @@
     "reframer": ["perspective", "frame", "reframe", "different angle", "false choice"],
     "stoic": ["control", "accept", "duty", "resilience", "moral", "right thing"],
     "bias-hunter": ["bias", "decision", "judgment", "cognitive", "heuristic", "planning fallacy"],
-    "user-advocate": ["user", "UX", "design", "experience", "interface", "usability"]
+    "user-advocate": ["user", "UX", "design", "experience", "interface", "usability"],
+    "ideator": ["brainstorm", "ideas", "options", "alternatives", "possibilities", "generate", "creative"],
+    "synthesizer": ["connect", "combine", "unify", "integrate", "merge", "bridge", "fusion"],
+    "narrator": ["story", "narrative", "audience", "communicate", "pitch", "message", "brand"],
+    "provocateur": ["challenge", "disrupt", "sacred cow", "assumption", "heresy", "conventional"],
+    "aesthete": ["elegant", "beautiful", "proportional", "harmony", "design", "craft", "quality"],
+    "analogist": ["analogy", "like", "similar", "parallel", "metaphor", "precedent", "pattern"]
   },
   "voting": {
     "confidenceWeights": { "high": 1.0, "medium": 0.75, "low": 0.5 },
@@ -189,7 +236,7 @@
     "defaultAdvisors": 5,
     "alwaysIncludeChallenger": true,
     "alwaysIncludePolarityPair": true,
-    "challengerAdvisors": ["questioner", "subtractor", "reframer"],
+    "challengerAdvisors": ["questioner", "subtractor", "reframer", "provocateur"],
     "defaultMode": "full",
     "defaultCrossExam": "sparse",
     "earlyTermination": true

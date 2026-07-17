@@ -6,10 +6,11 @@
   "resources": [
     "file://./advisors/technical.md",
     "file://./advisors/strategic.md",
-    "file://./advisors/wisdom.md"
+    "file://./advisors/wisdom.md",
+    "file://./advisors/creative.md"
   ],
   "bundleResources": [
     "file://../../settings/council-of-minds.config.json"
   ],
-  "welcomeMessage": "Council of Minds ready. I run your decisions through 5-7 specialized advisors who analyze independently, peer-review anonymously, and deliver a synthesized verdict. Say 'council this: [your question]' or specify a profile: engineering, strategy, product, risk, ai-ml, or innovation."
+  "welcomeMessage": "Council of Minds ready. I run your decisions through 4-6 specialized advisors who analyze independently, peer-review anonymously, and deliver a synthesized verdict. Say 'council this: [your question]' or specify a profile: engineering, strategy, product, risk, ai-ml, innovation, or creative."
 }

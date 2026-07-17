@@ -15,6 +15,7 @@ Real-world council sessions demonstrating the full deliberation process and verd
 - [Risk Profile](#risk-profile)
 - [AI-ML Profile](#ai-ml-profile)
 - [Innovation Profile](#innovation-profile)
+- [Creative Profile](#creative-profile)
 
 ### Input Examples by Budget Mode
 - [Budget Mode — Lean](#budget-mode--lean)
@@ -364,6 +365,21 @@ Context: $2M ARR, flat growth for 18 months. 800 customers but NPS dropped
 from 45 to 32. Three AI-native competitors launched in the last year. Our 
 data pipeline is strong but UI is dated. Team of 20, half are backend/data 
 engineers. $3M runway remaining.
+```
+
+---
+
+### Creative Profile
+
+```
+creative council: We need to name our new developer productivity tool. 
+It's a CLI that watches your code changes, predicts what you're building, 
+and auto-generates tests, docs, and deployment configs.
+
+Context: Target audience is senior engineers who hate boilerplate. Competitors 
+are named Copilot, Cursor, Windsurf, Cody. We want something that signals 
+"anticipatory" and "invisible effort" without being cute or forgettable. 
+Need both a product name and a tagline.
 ```
 
 ---

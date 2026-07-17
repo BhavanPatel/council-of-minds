@@ -66,6 +66,16 @@ Profiles determine which 4-6 advisors are selected for a council session. Each p
 
 ---
 
+### creative
+
+**Advisors:** ideator · synthesizer · narrator · provocateur · aesthete · analogist
+
+**Best for:** Brainstorming, naming, brand strategy, creative direction, narrative design, product storytelling, design critique, cross-domain ideation.
+
+**Why these 6:** Covers divergent generation (ideator), structural fusion (synthesizer), narrative coherence (narrator), sacred-cow destruction (provocateur), form-function elegance (aesthete), and cross-domain transfer (analogist). Natural tensions: ideator vs subtractor (generate vs eliminate), provocateur vs stoic (destroy vs accept), aesthete vs shipper (elegance vs pragmatism).
+
+---
+
 ## Auto-Selection Logic
 
 When the user says `council this: [question]` without specifying a profile, the orchestrator scores each advisor against keyword maps:

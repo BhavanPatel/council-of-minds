@@ -258,10 +258,11 @@ Use when: binary choice, rapid turnaround, user says "duo this".
 | **risk** | tail-watcher, bias-hunter, inverter, systems-mapper, stoic | tail-watcher |
 | **ai-ml** | model-whisperer, frontier-scout, architect, deriver, tail-watcher | model-whisperer |
 | **innovation** | questioner, subtractor, reframer, taxonomist, inverter | questioner |
+| **creative** | ideator, synthesizer, narrator, provocateur, aesthete | ideator |
 
 ### Auto-Selection (for "council this:" without profile)
 
-Score each advisor against keyword maps in `council-of-minds.config.json`. Select top 5 (up to 6 for high-complexity decisions). Ensure at least one challenger (questioner, subtractor, or reframer) is always included. Ensure at least one polarity pair is present for productive tension. Assign domain-weight to highest-scoring advisor.
+Score each advisor against keyword maps in `council-of-minds.config.json`. Select top 5 (up to 6 for high-complexity decisions). Ensure at least one challenger (questioner, subtractor, reframer, or provocateur) is always included. Ensure at least one polarity pair is present for productive tension. Assign domain-weight to highest-scoring advisor.
 
 ---
 
@@ -271,6 +272,7 @@ Full definitions with reasoning_method, polarity_pairs, and structured output fo
 - `advisors/technical.md` — architect, deriver, shipper, model-whisperer, frontier-scout, systems-mapper
 - `advisors/strategic.md` — strategist, realist, timer, inverter, tail-watcher, taxonomist
 - `advisors/wisdom.md` — questioner, subtractor, reframer, stoic, bias-hunter, user-advocate
+- `advisors/creative.md` — ideator, synthesizer, narrator, provocateur, aesthete, analogist
 
 ---
 
@@ -290,7 +292,7 @@ Full definitions with reasoning_method, polarity_pairs, and structured output fo
 
 ## Anti-Patterns
 
-- Running all 18 simultaneously (noise > signal past 6)
+- Running all 24 simultaneously (noise > signal past 6)
 - Skipping enforcement scan (produces low-quality crystallizations)
 - Equal-weighting all advisors (domain-weight exists for a reason)
 - Omitting Kill Criteria (creates false permanence)

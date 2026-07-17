@@ -104,7 +104,7 @@ flowchart TD
     Top --> Challenger{Challenger included?}
 
     Challenger -->|Yes| Weight[Assign domain-weight 1.5x to top scorer]
-    Challenger -->|No| Add[Add questioner/subtractor/reframer]
+    Challenger -->|No| Add[Add questioner/subtractor/reframer/provocateur]
     Add --> Weight
     Weight --> Done[Final panel ready]
     Use --> Done

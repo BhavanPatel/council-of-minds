@@ -7,7 +7,7 @@ set -euo pipefail
 # Mirrors context-sect install pattern: git-aware, per-agent, proper path resolution.
 # ─────────────────────────────────────────────────────────────────────────────
 
-VERSION="2.0.0"
+VERSION="2.1.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="${HOME}/.council-of-minds"
 
@@ -30,7 +30,7 @@ print_header() {
   echo -e "${PURPLE}${BOLD}  Council of Minds${NC} ${CYAN}v${VERSION}${NC}"
   echo -e "  ${CYAN}Multi-advisor deliberation for AI agents${NC}"
   echo ""
-  echo -e "  18 cognitive lenses · 6 profiles · 3 modes (Full/Quick/Duo)"
+  echo -e "  24 cognitive lenses · 7 profiles · 3 modes (Full/Quick/Duo)"
   echo -e "  5-round deliberation · weighted voting · kill criteria · evidence labels"
   echo ""
   echo -e "  ─────────────────────────────────────────────────────────────"
@@ -228,6 +228,15 @@ sync_advisors() {
   done
 }
 
+# Copy all advisor files from source to target directory
+copy_advisors() {
+  local target_dir="$1"
+  for advisor_file in "${SRC_DIR}"/advisors/*.md; do
+    [[ -f "$advisor_file" ]] || continue
+    cp "$advisor_file" "$target_dir/"
+  done
+}
+
 install_kiro() {
   echo -e "\n  ${BLUE}Installing for Kiro...${NC}"
   local target="${HOME}/.kiro"
@@ -238,9 +247,7 @@ install_kiro() {
   # Copy agent definition (with corrected paths)
   cp "${SRC_DIR}/council-of-minds.json" "${target}/agents/council-of-minds/"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/agents/council-of-minds/"
-  cp "${SRC_DIR}/advisors/technical.md" "${target}/agents/council-of-minds/advisors/"
-  cp "${SRC_DIR}/advisors/strategic.md" "${target}/agents/council-of-minds/advisors/"
-  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/agents/council-of-minds/advisors/"
+  copy_advisors "${target}/agents/council-of-minds/advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/settings/"
 
   # Remove advisors that no longer exist in source
@@ -255,9 +262,7 @@ install_claude() {
 
   mkdir -p "${target}/advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/"
-  cp "${SRC_DIR}/advisors/technical.md" "${target}/advisors/"
-  cp "${SRC_DIR}/advisors/strategic.md" "${target}/advisors/"
-  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/advisors/"
+  copy_advisors "${target}/advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
 
   # Remove advisors that no longer exist in source
@@ -284,9 +289,7 @@ install_cursor() {
 
   mkdir -p "${target}/council-advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
-  cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
-  cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
-  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
+  copy_advisors "${target}/council-advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
@@ -301,9 +304,7 @@ install_windsurf() {
 
   mkdir -p "${target}/council-advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
-  cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
-  cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
-  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
+  copy_advisors "${target}/council-advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
@@ -318,9 +319,7 @@ install_cline() {
 
   mkdir -p "${target}/council-advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
-  cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
-  cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
-  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
+  copy_advisors "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
@@ -334,9 +333,7 @@ install_aider() {
 
   mkdir -p "${target}/advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/"
-  cp "${SRC_DIR}/advisors/technical.md" "${target}/advisors/"
-  cp "${SRC_DIR}/advisors/strategic.md" "${target}/advisors/"
-  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/advisors/"
+  copy_advisors "${target}/advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
 
   local aider_conf="${HOME}/.aider.conf.yml"
@@ -356,9 +353,7 @@ install_roocode() {
 
   mkdir -p "${target}/council-advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
-  cp "${SRC_DIR}/advisors/technical.md" "${target}/council-advisors/"
-  cp "${SRC_DIR}/advisors/strategic.md" "${target}/council-advisors/"
-  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/council-advisors/"
+  copy_advisors "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
@@ -372,9 +367,7 @@ install_opencode() {
 
   mkdir -p "${target}/advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/"
-  cp "${SRC_DIR}/advisors/technical.md" "${target}/advisors/"
-  cp "${SRC_DIR}/advisors/strategic.md" "${target}/advisors/"
-  cp "${SRC_DIR}/advisors/wisdom.md" "${target}/advisors/"
+  copy_advisors "${target}/advisors/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
 
   log_ok "OpenCode: ${target}/"

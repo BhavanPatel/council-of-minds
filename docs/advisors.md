@@ -1,8 +1,8 @@
 # Advisor Reference
 
-Complete reference for all 18 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
+Complete reference for all 24 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
 
-Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, and `advisors/wisdom.md`.
+Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, and `advisors/creative.md`.
 
 ---
 
@@ -42,6 +42,19 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 
 ---
 
+## Creative Advisors
+
+| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
+|---------|----------|-------------|--------|------|
+| **ideator** | Divergent idea generation | Suspend judgment, vary axis, cross-pollinate, push to absurdity | Unexplored possibility space | Overwhelming with options when action is needed |
+| **synthesizer** | Cross-domain pattern integration | Identify deep structure, find shared skeleton, fuse structurally | Hidden unity beneath disparate ideas | Forcing false connections |
+| **narrator** | Story structure and meaning-making | Identify story, check coherence, find audience, test against reality | Implicit narrative beneath every strategy | Prioritizing tellability over accuracy |
+| **provocateur** | Creative destruction | Identify sacred cows, attack foundation, propose heresy | Unquestioned assumptions constraining thinking | Destruction without superior alternative |
+| **aesthete** | Form-function harmony | Assess proportionality, check consistency, evaluate compression | Design coherence and structural elegance | Confusing taste with objective quality |
+| **analogist** | Structural analogy and transfer | Identify relational structure, map systematically, test limits | Deep structural parallels across domains | Seductive but broken analogies |
+
+---
+
 ## Grounding Protocols (Summary)
 
 Every advisor has constraints that prevent drift into generic advice:
@@ -66,3 +79,9 @@ Every advisor has constraints that prevent drift into generic advice:
 | stoic | Ground in specifics ("reduce scope" not "be resilient") |
 | bias-hunter | Name SPECIFIC biases; max 3 per analysis |
 | user-advocate | Specify WHO the user is; ground in interaction moments |
+| ideator | Must generate 7+ ideas before converging; max 3 "what if" chains |
+| synthesizer | Synthesis must be one sentence; max 2 domain bridges |
+| narrator | Max 1 extended metaphor; say "narrative is not the right lens" when appropriate |
+| provocateur | Max 2 sacred cows per analysis; depth over breadth |
+| aesthete | Must find structural reason behind "feels wrong"; max 1 design reference |
+| analogist | Must specify 3+ corresponding relationships; abandon if breaks in 2+ critical places |
