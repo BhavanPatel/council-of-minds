@@ -384,6 +384,16 @@ See [docs/competitive-analysis.md](docs/competitive-analysis.md) for the full co
 | **v2.1** | Memory & Learning | Persistent transcripts, cross-session advisor effectiveness learning, confidence calibration against outcomes | Planned |
 | **v3.0** | Multi-Model Diversity | Different LLM backends per advisor, true reasoning diversity, human-in-the-loop during deliberation rounds | Future |
 
+### Known Gaps vs Best-in-Class
+
+| Gap | Who Does It Best | Our Plan |
+|-----|------------------|----------|
+| Multi-model support (different LLMs per advisor) | ReConcile, WISE, MindStudio | v3.0 |
+| Persistent memory across sessions | mikeh-studio, Claw-Orchestrator | v2.1 |
+| Human-in-the-loop during deliberation | Agent-Debate | v3.0 |
+| Confidence calibration against outcomes | DiscoUQ, Roundtable Policy | v2.1 |
+| Tool/web access during deliberation | Agent4Debate, AutoGen | Under evaluation |
+
 See [docs/competitive-analysis.md](docs/competitive-analysis.md) for full roadmap details and research backing.
 
 ---
