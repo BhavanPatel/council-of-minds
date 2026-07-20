@@ -26,6 +26,7 @@ Real-world council sessions demonstrating the full deliberation process and verd
 - [Future Profile](#future-profile)
 - [Learning Profile](#learning-profile)
 - [Sustainability Profile](#sustainability-profile)
+- [Hardware Profile](#hardware-profile)
 
 ### Input Examples by Mode & Budget
 - [Budget Mode — Lean](#budget-mode--lean)
@@ -554,6 +555,27 @@ costs $45 to manufacture. Battery replacement visit costs $8/sensor if
 batched. Product lifetime target: 15 years.
 Stakes: Design choice affects manufacturing, logistics, environmental 
 compliance, and total cost of ownership for 150,000 sensor-years.
+```
+
+---
+
+### Hardware Profile
+
+```
+hardware council: We're designing a collaborative robot arm for small 
+manufacturing workshops. Should we prioritize maximum payload capacity 
+(15kg) with industrial-grade components, or focus on lightweight design 
+(5kg payload) optimized for safety and ease of installation?
+
+Context: Target market: workshops with 5-20 employees, no dedicated 
+robotics engineers on staff. Competitors offer 10kg payload but require 
+professional installation ($5K) and safety caging. Our target price point 
+is $12K all-in. Current prototype weighs 28kg (can be wall/table mounted 
+by 2 people). Lightweight version would weigh 12kg (one-person install). 
+ISO/TS 15066 compliance required for collaborative operation. Mean time 
+between failures target: 30,000 hours.
+Stakes: Determines our market position, manufacturing complexity, 
+certification path, and competitive differentiation for next 5 years.
 ```
 
 ---
