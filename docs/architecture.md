@@ -188,6 +188,42 @@ graph TD
 
 ---
 
+## Multi-Model Diversity
+
+The system auto-detects available model backends and assigns different models to different evidence-type groups for genuine reasoning diversity.
+
+```mermaid
+flowchart TD
+    Start[Panel Selected] --> Detect{How many models available?}
+    
+    Detect -->|"3+"| Multi[Multi-Model Assignment]
+    Detect -->|"2"| Dual[Dual-Model Split]
+    Detect -->|"1"| Single[Single-Model + Variation]
+    
+    Multi --> Group[Group advisors by evidence_type]
+    Group --> Assign[Map groups to model-a/b/c]
+    Assign --> Check{Any model >50%?}
+    Check -->|No| Done[Assignment Complete]
+    Check -->|Yes| Rotate[Rotate overflow to other models]
+    Rotate --> Done
+    
+    Dual --> Split[Empirical+Strategic → model-a\nMechanistic+Heuristic → model-b]
+    Split --> Done
+    
+    Single --> Vary[Prepend reasoning-variation directive per evidence type]
+    Vary --> Done
+```
+
+| Mode | Condition | What happens |
+|------|-----------|-------------|
+| **Multi-model** | 3+ models detected | Each evidence-type cluster gets a different backend |
+| **Dual-model** | 2 models detected | Split by complementary reasoning styles |
+| **Single-model varied** | 1 model (most common) | Reasoning-variation directives create cognitive diversity |
+
+**Key principle:** Zero config required. Auto-detects and maximizes diversity with whatever is available. Users CAN override with explicit model mapping in config.
+
+---
+
 ## Key Design Decisions
 
 | Decision | Choice | Why |
@@ -200,6 +236,7 @@ graph TD
 | DEALBREAKER flag | Advisors can flag fatal-flaw arguments | Chairman MUST address — cannot be buried in synthesis |
 | Confidence weighting | high/med/low maps to 1.0/0.75/0.5 | Low-confidence votes count less — honest uncertainty in tally |
 | Crystallization round | 100-word final positions after cross-exam | Produces clean, unambiguous inputs for chairman |
+| Multi-model auto-assignment | Evidence-type → model mapping with auto-detect | Same-model panels produce correlated reasoning errors; diversity of backend creates genuine cognitive diversity |
 
 ---
 

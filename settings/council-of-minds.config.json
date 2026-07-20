@@ -1574,6 +1574,41 @@
       "token_usage"
     ]
   },
+  "multiModel": {
+    "enabled": true,
+    "mode": "auto",
+    "diversityThreshold": 0.5,
+    "evidenceTypeModelMapping": {
+      "empirical": "model-a",
+      "mechanistic": "model-b",
+      "strategic": "model-c",
+      "heuristic": "model-a",
+      "ethical": "model-b",
+      "experiential": "model-c",
+      "generative": "model-a"
+    },
+    "modelSlots": {
+      "model-a": { "description": "Primary model (auto-detected from client)", "strengths": ["analysis", "creativity", "nuance"] },
+      "model-b": { "description": "Secondary model (if available)", "strengths": ["logic", "systems", "formal"] },
+      "model-c": { "description": "Tertiary model (if available)", "strengths": ["planning", "adversarial", "game-theory"] }
+    },
+    "fallback": {
+      "singleModelDiversity": true,
+      "reasoningVariation": ["analytical", "creative", "adversarial", "empathetic", "systematic"],
+      "description": "When only one model is available, vary prompting strategy per evidence type to simulate cognitive diversity"
+    },
+    "userOverride": {
+      "description": "Users can override by setting availableModels array with actual model names",
+      "example": {
+        "availableModels": ["claude-sonnet-4", "gpt-4o", "gemini-2.5-pro"],
+        "mapping": {
+          "model-a": "claude-sonnet-4",
+          "model-b": "gpt-4o",
+          "model-c": "gemini-2.5-pro"
+        }
+      }
+    }
+  },
   "sparseExamination": {
     "defaultEnabled": true,
     "engagementsPerAdvisor": {
@@ -1613,7 +1648,7 @@
         "feature": "multi-model-support",
         "description": "Allow different LLM backends per advisor for true reasoning diversity",
         "priority": "high",
-        "status": "deferred"
+        "status": "implemented"
       },
       {
         "feature": "persistent-memory",
