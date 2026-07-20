@@ -467,18 +467,6 @@ See [docs/competitive-analysis.md](docs/competitive-analysis.md) for the full co
 
 ---
 
-## Roadmap
-
-| Version | Theme | Features | Status |
-|---------|-------|----------|--------|
-| **v2.0** | Research-Backed Optimization | Advisor count 4-6, sparse cross-exam, early termination, cost budget mode, fact-checker, debate analytics | Done |
-| **v2.1-2.4** | Creative + Human + Domain + Epistemic | 24 advisors across 4 new themes, 8 new profiles | Done |
-| **v2.5** | Futurist Theme | 6 futurist advisors, `future` profile, trend/scenario/resilience coverage | Done |
-| **v3.0** | Pedagogical + Applied Themes | 12 advisors across 2 themes, `learning`/`sustainability`/`hardware` profiles. 60 total advisors, 10 themes, 18 profiles | Current |
-| **v3.1** | Multi-Model + Infra | Different LLM backends per advisor, human-in-the-loop, confidence calibration against outcomes | Planned |
-
-See [docs/competitive-analysis.md](docs/competitive-analysis.md) for full competitive landscape and known gaps.
-
 ---
 
 ## Author
