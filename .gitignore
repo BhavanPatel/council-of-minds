@@ -1,2 +1,4 @@
 # Local development context (not for repo)
 .kiro/
+
+.DS_Store
