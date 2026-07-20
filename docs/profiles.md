@@ -146,6 +146,16 @@ Profiles determine which 4-6 advisors are selected for a council session. Each p
 
 ---
 
+### future
+
+**Advisors:** futurist · scenario-planner · pattern-hunter · complexity-navigator · resilience-architect · horizon-scanner
+
+**Best for:** Long-term bets, trend analysis, scenario planning, emerging patterns, resilience strategy, technology trajectories.
+
+**Why these 6:** Covers trend extrapolation (futurist), multi-path testing (scenario-planner), weak signal detection (pattern-hunter), complex systems (complexity-navigator), antifragile design (resilience-architect), and peripheral vision (horizon-scanner). Natural tensions: futurist vs realist (trajectory vs present constraints), scenario-planner vs deriver (multiple futures vs one answer).
+
+---
+
 ## Auto-Selection Logic
 
 When the user says `council this: [question]` without specifying a profile, the orchestrator scores each advisor against keyword maps:
@@ -204,4 +214,5 @@ Or create persistent custom profiles by editing `council-of-minds.config.json`:
 | High stakes, irreversible, security | `risk` |
 | AI/ML, models, training, prompting | `ai-ml` |
 | "Should we even do this?", challenging assumptions | `innovation` |
+| Future trends, long-term bets, scenario planning | `future` |
 | Uncertain — multiple domains | `council this:` (auto-select) |

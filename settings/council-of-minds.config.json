@@ -196,6 +196,17 @@
       ],
       "domainWeight": "scientist",
       "description": "Research direction, methodology review, evidence synthesis, hypothesis evaluation"
+    },
+    "future": {
+      "advisors": [
+        "futurist",
+        "scenario-planner",
+        "pattern-hunter",
+        "complexity-navigator",
+        "resilience-architect"
+      ],
+      "domainWeight": "futurist",
+      "description": "Trends, long-term bets, scenario planning, emerging patterns, resilience"
     }
   },
   "advisors": {
@@ -534,6 +545,54 @@
         "taxonomist"
       ],
       "evidence_type_default": "empirical"
+    },
+    "futurist": {
+      "reasoning_method": "trend-extrapolation-plus",
+      "polarity_pairs": [
+        "realist",
+        "historian"
+      ],
+      "evidence_type_default": "strategic"
+    },
+    "scenario-planner": {
+      "reasoning_method": "multi-path-simulation",
+      "polarity_pairs": [
+        "deriver",
+        "operator"
+      ],
+      "evidence_type_default": "strategic"
+    },
+    "pattern-hunter": {
+      "reasoning_method": "weak-signal-detection",
+      "polarity_pairs": [
+        "data-analyst",
+        "bias-hunter"
+      ],
+      "evidence_type_default": "heuristic"
+    },
+    "complexity-navigator": {
+      "reasoning_method": "emergence-recognition",
+      "polarity_pairs": [
+        "architect",
+        "taxonomist"
+      ],
+      "evidence_type_default": "mechanistic"
+    },
+    "resilience-architect": {
+      "reasoning_method": "antifragile-design",
+      "polarity_pairs": [
+        "shipper",
+        "strategist"
+      ],
+      "evidence_type_default": "mechanistic"
+    },
+    "horizon-scanner": {
+      "reasoning_method": "peripheral-vision",
+      "polarity_pairs": [
+        "subtractor",
+        "realist"
+      ],
+      "evidence_type_default": "heuristic"
     }
   },
   "polarityPairs": [
@@ -671,6 +730,30 @@
     ],
     [
       "integrator",
+      "subtractor"
+    ],
+    [
+      "futurist",
+      "realist"
+    ],
+    [
+      "scenario-planner",
+      "deriver"
+    ],
+    [
+      "pattern-hunter",
+      "data-analyst"
+    ],
+    [
+      "complexity-navigator",
+      "architect"
+    ],
+    [
+      "resilience-architect",
+      "shipper"
+    ],
+    [
+      "horizon-scanner",
       "subtractor"
     ]
   ],
@@ -1040,6 +1123,60 @@
       "synthesis",
       "holistic",
       "conflicting"
+    ],
+    "futurist": [
+      "future",
+      "trend",
+      "trajectory",
+      "emerging",
+      "long-term",
+      "next decade",
+      "where is this going"
+    ],
+    "scenario-planner": [
+      "scenario",
+      "what if",
+      "contingency",
+      "plan B",
+      "uncertainty",
+      "multiple futures",
+      "robust"
+    ],
+    "pattern-hunter": [
+      "weak signal",
+      "early sign",
+      "emerging pattern",
+      "periphery",
+      "leading indicator",
+      "faint signal",
+      "edge"
+    ],
+    "complexity-navigator": [
+      "complex",
+      "emergent",
+      "nonlinear",
+      "adaptive",
+      "feedback loop",
+      "unpredictable",
+      "system dynamics"
+    ],
+    "resilience-architect": [
+      "resilience",
+      "antifragile",
+      "shock",
+      "redundancy",
+      "fragility",
+      "survive",
+      "stress test"
+    ],
+    "horizon-scanner": [
+      "adjacent",
+      "outside",
+      "blind spot",
+      "peripheral",
+      "cross-domain",
+      "wild card",
+      "disruption"
     ]
   },
   "voting": {

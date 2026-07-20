@@ -60,7 +60,7 @@ The multi-agent deliberation space in 2025-2026 spans three categories:
 9. **Cost Budget Mode** — 6 tiers auto-configuring panel size, mode, cross-exam
 10. **Fact-Checker Mechanism** — Claim verification between rounds
 11. **Debate Analytics** — Position change tracking, influence mapping, token efficiency
-12. **42 Cognitive Lenses** — Largest defined advisor registry with unique reasoning methods
+12. **48 Cognitive Lenses** — Largest defined advisor registry with unique reasoning methods
 13. **Multi-mode** — Full / Quick / Duo / Budget tiers
 14. **Agent-agnostic** — Works across 10+ AI coding clients
 

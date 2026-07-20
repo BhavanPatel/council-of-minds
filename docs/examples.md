@@ -23,6 +23,7 @@ Real-world council sessions demonstrating the full deliberation process and verd
 - [Operations Profile](#operations-profile)
 - [Truth Profile](#truth-profile)
 - [Research Profile](#research-profile)
+- [Future Profile](#future-profile)
 
 ### Input Examples by Mode & Budget
 - [Budget Mode — Lean](#budget-mode--lean)
@@ -494,6 +495,23 @@ teams are lobbying for Q4 roadmap priority. Our NPS has dropped 8 points in
 Power users (>12 months) have 95% retention.
 Stakes: Q4 roadmap decision. Wrong direction means 3 months of engineering 
 on the wrong thing.
+```
+
+---
+
+### Future Profile
+
+```
+future council: Should we invest in building our own LLM fine-tuning 
+infrastructure or continue relying on API providers for the next 3 years?
+
+Context: We're a B2B SaaS company with 500 enterprise customers. Currently 
+spending $400K/month on OpenAI and Anthropic APIs. Our data moat is growing 
+(2TB of domain-specific training data). Open-weight models are improving 
+rapidly. Three competitors have announced in-house model efforts. Our ML team 
+is 4 people. Hiring is hard.
+Stakes: $2-5M investment if we build. Lock-in risk if we don't. Competitive 
+dynamics shifting fast. Decision horizon: next 6 months.
 ```
 
 ---

@@ -1,8 +1,8 @@
 # Advisor Reference
 
-Complete reference for all 42 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
+Complete reference for all 48 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
 
-Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, and `advisors/creative.md`, and `advisors/human.md`.
+Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, `advisors/creative.md`, `advisors/human.md`, `advisors/domain.md`, `advisors/epistemic.md`, and `advisors/futurist.md`.
 
 ---
 
@@ -96,6 +96,18 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 | **integrator** | Evidence integration | Inventory evidence, map contradictions, weight by quality | Coherent picture from messy contradictory evidence | Forcing false coherence on genuine uncertainty |
 
 
+## Futurist Advisors
+
+| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
+|---------|----------|-------------|--------|------|
+| **futurist** | Trend trajectory analysis | Identify forces, extrapolate trajectories, find inflection points | Forces in motion that reshape the decision landscape | Seductive trend lines that miss disruptions and reversals |
+| **scenario-planner** | Parallel future simulation | Identify uncertainties, construct matrix, test decisions across scenarios | Fragility of single-future planning | Excuse for inaction through endless hedging |
+| **pattern-hunter** | Weak signal detection | Scan periphery, identify recurrence, trace propagation, assess strength | Future arriving unevenly at the edges | Apophenia — seeing patterns in noise |
+| **complexity-navigator** | Complex systems reasoning | Classify system, map feedback, identify emergence, find leverage | Difference between complicated and genuinely complex | Over-labeling things as complex when they're solvable |
+| **resilience-architect** | Antifragile design | Assess volatility, find fragilities, design optionality, stress-test | Hidden fragility in optimized systems | Over-investing in resilience for stable environments |
+| **horizon-scanner** | Systematic peripheral vision | Define boundary, scan adjacent, check wild cards, assess reframe risk | What's outside the frame that could redefine the problem | Creating anxiety about distant possibilities |
+
+
 ## Grounding Protocols (Summary)
 
 Every advisor has constraints that prevent drift into generic advice:
@@ -144,3 +156,9 @@ Every advisor has constraints that prevent drift into generic advice:
 | red-teamer | Must specify threat model (who, what resources); max 3 attack vectors |
 | calibrator | Must reference specific comparison class; max 2 reference class comparisons |
 | integrator | Must name specific sources with weights; max 4 sources integrated |
+| futurist | Must cite specific observable signal for every trend claim; max 3 driving forces |
+| scenario-planner | Every scenario must be internally consistent; max 4 scenarios per analysis |
+| pattern-hunter | Must cite 2+ independent instances per pattern; max 3 patterns |
+| complexity-navigator | Must classify system (simple/complicated/complex/chaotic) with evidence; max 2 feedback loops |
+| resilience-architect | Must specify WHAT protected against and at WHAT COST; max 3 fragilities |
+| horizon-scanner | Must specify domain and transmission mechanism; max 3 adjacent developments |

@@ -14,10 +14,11 @@
     "file://./advisors/creative.md",
     "file://./advisors/human.md",
     "file://./advisors/domain.md",
-    "file://./advisors/epistemic.md"
+    "file://./advisors/epistemic.md",
+    "file://./advisors/futurist.md"
   ],
   "bundleResources": [
     "file://../../settings/council-of-minds.config.json"
   ],
-  "welcomeMessage": "Council of Minds ready. I run your decisions through 4-6 specialized advisors who analyze independently, peer-review anonymously, and deliver a synthesized verdict. Say 'council this: [your question]' or specify a profile: engineering, strategy, product, risk, ai-ml, innovation, creative, people, finance, legal, science, operations, truth, or research."
+  "welcomeMessage": "Council of Minds ready. I run your decisions through 4-6 specialized advisors who analyze independently, peer-review anonymously, and deliver a synthesized verdict. Say 'council this: [your question]' or specify a profile: engineering, strategy, product, risk, ai-ml, innovation, creative, people, finance, legal, science, operations, truth, research, or future."
 }

@@ -4,7 +4,7 @@
 set -eo pipefail
 
 INSTALL_DIR="${HOME}/.council-of-minds"
-VERSION="2.4.0"
+VERSION="2.5.0"
 
 # Colors
 RED='\033[0;31m'
