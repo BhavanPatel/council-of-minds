@@ -27,6 +27,9 @@ Real-world council sessions demonstrating the full deliberation process and verd
 - [Learning Profile](#learning-profile)
 - [Sustainability Profile](#sustainability-profile)
 - [Hardware Profile](#hardware-profile)
+- [Crisis Profile](#crisis-profile)
+- [Startup Profile](#startup-profile)
+- [Governance Profile](#governance-profile)
 
 ### Input Examples by Mode & Budget
 - [Budget Mode — Lean](#budget-mode--lean)
@@ -576,6 +579,69 @@ ISO/TS 15066 compliance required for collaborative operation. Mean time
 between failures target: 30,000 hours.
 Stakes: Determines our market position, manufacturing complexity, 
 certification path, and competitive differentiation for next 5 years.
+```
+
+---
+
+### Crisis Profile
+
+```
+crisis council: Our SaaS platform just experienced a data breach affecting 
+12,000 customer accounts. Preliminary investigation shows an exposed API 
+endpoint leaked email addresses and hashed passwords. No financial data 
+was compromised. We need to decide on our communication strategy and 
+immediate response plan.
+
+Context: B2B SaaS with 450 enterprise customers, SOC 2 Type II certified. 
+Breach discovered 2 hours ago by our security team. No media coverage yet. 
+Legal team says we have 72 hours for GDPR notification. Our CEO wants to 
+get ahead of the story. Customer success team is already fielding questions 
+from 3 accounts who noticed unusual activity. Board meeting in 6 hours.
+Stakes: Company reputation, customer retention, regulatory compliance, 
+potential litigation, team morale.
+```
+
+---
+
+### Startup Profile
+
+```
+startup council: We're a pre-seed startup with 6 months of runway left. 
+Our B2B analytics tool has 15 paying customers ($2K MRR) but our biggest 
+user segment is actually solo consultants who use our free tier heavily. 
+Should we pivot to serve consultants (larger market, lower ACV) or double 
+down on our current B2B mid-market positioning (smaller market, higher ACV)?
+
+Context: Team of 3 (2 engineers, 1 founder/sales). Current B2B customers 
+came through founder's network — no scalable acquisition channel yet. 
+Free tier has 800 active consultants, 12% week-over-week growth. 
+Consultants have asked about a $49/mo plan. Competitor just raised $15M 
+for the mid-market segment. Angel investors say they'd fund either 
+direction but want to see conviction.
+Stakes: Company direction for next 18 months, fundraising narrative, 
+team focus, survival.
+```
+
+---
+
+### Governance Profile
+
+```
+governance council: Our 200-person engineering org is debating whether to 
+adopt an Architecture Decision Record (ADR) process with binding authority 
+(teams must follow approved ADRs) or advisory authority (ADRs document 
+decisions but teams can deviate with justification). How should we 
+structure this governance?
+
+Context: Currently no formal architecture governance — decisions happen 
+in Slack threads and get lost. 12 teams, 4 platform teams, 3 tech leads 
+who informally set direction. Recent incidents caused by inconsistent 
+approaches to auth, caching, and API versioning. Engineering VP wants 
+"alignment without bureaucracy." Two previous attempts at architecture 
+review boards failed due to slow turnaround and perceived gatekeeping. 
+Company culture values autonomy and speed.
+Stakes: Engineering velocity, technical coherence, team autonomy, 
+institutional knowledge preservation.
 ```
 
 ---

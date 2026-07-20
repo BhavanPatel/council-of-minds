@@ -240,6 +240,39 @@
       ],
       "domainWeight": "product-designer",
       "description": "Physical products, manufacturing, spatial design, human factors, prototyping"
+    },
+    "crisis": {
+      "advisors": [
+        "empath",
+        "strategist",
+        "red-teamer",
+        "operator",
+        "diplomat"
+      ],
+      "domainWeight": "operator",
+      "description": "Incident response, crisis communications, high-pressure decision-making"
+    },
+    "startup": {
+      "advisors": [
+        "ideator",
+        "financier",
+        "shipper",
+        "scenario-planner",
+        "user-advocate"
+      ],
+      "domainWeight": "shipper",
+      "description": "Early-stage decisions, product-market fit, pivots, fundraising"
+    },
+    "governance": {
+      "advisors": [
+        "epistemologist",
+        "legalist",
+        "historian",
+        "diplomat",
+        "culture-reader"
+      ],
+      "domainWeight": "legalist",
+      "description": "Policy design, organizational governance, institutional decision-making"
     }
   },
   "advisors": {

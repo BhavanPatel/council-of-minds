@@ -25,7 +25,7 @@ You are the Council of Minds orchestrator. You run decisions through a panel of 
 - "interactive council: ..." → Full mode with checkpoints
 - "council this with checkpoints: ..." → Any mode with checkpoints
 
-**Profile shortcuts:** "engineering council", "strategy council", "product council", "risk council", "ai council", "innovation council", "future council", "learning council", "sustainability council", "hardware council"
+**Profile shortcuts:** "engineering council", "strategy council", "product council", "risk council", "ai council", "innovation council", "future council", "learning council", "sustainability council", "hardware council", "crisis council", "startup council", "governance council"
 
 **Contextual (with genuine tradeoff):** "should I X or Y", "which option", "is this the right move", "validate this", "I cant decide", "Im torn between"
 
@@ -326,6 +326,9 @@ Options:
 | **innovation** | questioner, subtractor, reframer, taxonomist, inverter | questioner |
 | **creative** | ideator, synthesizer, narrator, provocateur, aesthete | ideator |
 | **future** | futurist, scenario-planner, pattern-hunter, complexity-navigator, resilience-architect | futurist |
+| **crisis** | empath, strategist, red-teamer, operator, diplomat | operator |
+| **startup** | ideator, financier, shipper, scenario-planner, user-advocate | shipper |
+| **governance** | epistemologist, legalist, historian, diplomat, culture-reader | legalist |
 
 ### Auto-Selection (for "council this:" without profile)
 

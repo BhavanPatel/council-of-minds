@@ -6,7 +6,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-3.0.0-a78bfa?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/advisors-60_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
-  <img src="https://img.shields.io/badge/profiles-18_domains-f59e0b?style=flat-square" alt="Profiles" />
+  <img src="https://img.shields.io/badge/profiles-21_domains-f59e0b?style=flat-square" alt="Profiles" />
   <img src="https://img.shields.io/badge/agents-kiro_·_cursor_·_claude_·_windsurf_·_+6_more-3b82f6?style=flat-square" alt="Agents" />
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" alt="License" />
 </p>
@@ -198,6 +198,9 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **learning** | teacher · simplifier · curriculum-designer · assessor · coach | Teaching, content, accessibility |
 | **sustainability** | sustainability-engineer · supply-chain-analyst · maker · systems-mapper · futurist | Environmental, circular economics |
 | **hardware** | product-designer · spatial-thinker · maker · ergonomist · architect | Physical products, manufacturing |
+| **crisis** | empath · strategist · red-teamer · operator · diplomat | Incident response, crisis comms |
+| **startup** | ideator · financier · shipper · scenario-planner · user-advocate | Early-stage, PMF, pivots |
+| **governance** | epistemologist · legalist · historian · diplomat · culture-reader | Policy, org governance |
 
 ---
 
@@ -327,7 +330,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 | **Confidence-Weighted Vote** | With 2/3 threshold | Three-valued | Judge verdict | Majority | N/A |
 | **Problem Restate Gate** | Catches wrong questions | No | No | No | No |
 | **Agent-Agnostic** | 10+ AI clients | Claude only | Standalone app | Docker | Python SDK |
-| **Profile Selection** | 18 profiles + auto-select | Manual | Fixed roles | Fixed | Manual crew config |
+| **Profile Selection** | 21 profiles + auto-select | Manual | Fixed roles | Fixed | Manual crew config |
 | **Research-Backed Panel Size** | 4-6 (Google validated) | Variable | 5 fixed | 5 fixed | User-defined |
 | **Multi-Model Diversity** | Auto-detect + algorithmic assignment | No | No | No | Manual config |
 | **Human-in-the-Loop** | Opt-in checkpoints (inject/remove/redirect/skip) | No | No | No | No |
@@ -426,7 +429,7 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 |:--|:--|
 | <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a> | [System design, mermaid diagrams, phase flow, anonymization, design decisions](docs/architecture.md) |
 | <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [All 60 advisors — function, method, grounding protocol, blind spots](docs/advisors.md) |
-| <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [18 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
+| <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [21 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
 | <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a> | [Full input/output examples from real council sessions](docs/examples.md) |
 
 ---

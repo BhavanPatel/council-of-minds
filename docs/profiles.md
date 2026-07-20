@@ -186,6 +186,36 @@ Profiles determine which 4-6 advisors are selected for a council session. Each p
 
 ---
 
+### crisis
+
+**Advisors:** empath · strategist · red-teamer · operator · diplomat
+
+**Best for:** Incident response, crisis communications, high-pressure decision-making, damage control, stakeholder management under pressure.
+
+**Why these 5:** Covers emotional intelligence (empath), strategic positioning (strategist), adversarial thinking (red-teamer), execution under pressure (operator), and stakeholder alignment (diplomat). Natural tensions: empath vs strategist (people-first vs outcome-first), red-teamer vs diplomat (expose vulnerability vs manage perception), operator vs empath (speed vs care).
+
+---
+
+### startup
+
+**Advisors:** ideator · financier · shipper · scenario-planner · user-advocate
+
+**Best for:** Early-stage decisions, product-market fit, pivot evaluation, fundraising strategy, MVP scoping, resource allocation with limited runway.
+
+**Why these 5:** Covers creative generation (ideator), financial modeling (financier), shipping pragmatism (shipper), future planning (scenario-planner), and user focus (user-advocate). Natural tensions: ideator vs shipper (possibilities vs pragmatism), financier vs user-advocate (unit economics vs user delight), scenario-planner vs shipper (planning vs execution).
+
+---
+
+### governance
+
+**Advisors:** epistemologist · legalist · historian · diplomat · culture-reader
+
+**Best for:** Policy design, organizational governance, institutional decision-making, compliance frameworks, rule-setting, constitutional questions.
+
+**Why these 5:** Covers knowledge foundations (epistemologist), regulatory analysis (legalist), historical precedent (historian), stakeholder alignment (diplomat), and organizational dynamics (culture-reader). Natural tensions: legalist vs culture-reader (rules vs norms), epistemologist vs diplomat (truth vs consensus), historian vs legalist (precedent vs statute).
+
+---
+
 ## Auto-Selection Logic
 
 When the user says `council this: [question]` without specifying a profile, the orchestrator scores each advisor against keyword maps:
@@ -248,4 +278,7 @@ Or create persistent custom profiles by editing `council-of-minds.config.json`:
 | Teaching, explaining, documentation, onboarding | `learning` |
 | Environmental impact, lifecycle, circular economy | `sustainability` |
 | Physical products, manufacturing, spatial design | `hardware` |
+| Incident response, crisis comms, high-pressure | `crisis` |
+| Early-stage, PMF, pivots, fundraising | `startup` |
+| Policy, org governance, institutional rules | `governance` |
 | Uncertain — multiple domains | `council this:` (auto-select) |
