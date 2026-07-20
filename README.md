@@ -4,9 +4,9 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.5.0-a78bfa?style=flat-square" alt="Version" />
-  <img src="https://img.shields.io/badge/advisors-48_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
-  <img src="https://img.shields.io/badge/profiles-15_domains-f59e0b?style=flat-square" alt="Profiles" />
+  <img src="https://img.shields.io/badge/version-3.0.0-a78bfa?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/advisors-60_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
+  <img src="https://img.shields.io/badge/profiles-18_domains-f59e0b?style=flat-square" alt="Profiles" />
   <img src="https://img.shields.io/badge/agents-kiro_·_cursor_·_claude_·_windsurf_·_+6_more-3b82f6?style=flat-square" alt="Agents" />
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" alt="License" />
 </p>
@@ -14,7 +14,7 @@
 <p align="center">
   <a href="#install"><strong>Install</strong></a> ·
   <a href="#how-it-works"><strong>How It Works</strong></a> ·
-  <a href="#the-48-advisors"><strong>Advisors</strong></a> ·
+  <a href="#the-60-advisors"><strong>Advisors</strong></a> ·
   <a href="#vs-alternatives"><strong>vs Alternatives</strong></a> ·
   <a href="#inspiration--research-foundation"><strong>Research</strong></a>
 </p>
@@ -47,7 +47,7 @@ Decisions with genuine uncertainty — architecture choices, product pivots, tec
 
 ## The Solution
 
-Council of Minds convenes 4-6 specialized advisors from a pool of 48, runs them through a structured deliberation process with fact-checking and adaptive optimization, and delivers a verdict that tells you where advisors agree, where they clash, and what you should actually do.
+Council of Minds convenes 4-6 specialized advisors from a pool of 60, runs them through a structured deliberation process with fact-checking and adaptive optimization, and delivers a verdict that tells you where advisors agree, where they clash, and what you should actually do.
 
 ```mermaid
 graph LR
@@ -195,10 +195,13 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **truth** | epistemologist · source-critic · bayesian · bias-hunter · integrator | Evidence evaluation, claims |
 | **research** | scientist · bayesian · source-critic · calibrator · data-analyst | Research, methodology |
 | **future** | futurist · scenario-planner · pattern-hunter · complexity-navigator · resilience-architect | Trends, scenarios, long-term |
+| **learning** | teacher · simplifier · curriculum-designer · assessor · coach | Teaching, content, accessibility |
+| **sustainability** | sustainability-engineer · supply-chain-analyst · maker · systems-mapper · futurist | Environmental, circular economics |
+| **hardware** | product-designer · spatial-thinker · maker · ergonomist · architect | Physical products, manufacturing |
 
 ---
 
-## The 48 Advisors
+## The 60 Advisors
 
 ### Technical (6) — Engineering, systems, computation
 | Advisor | Lens |
@@ -280,6 +283,26 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **resilience-architect** | Antifragile design, optionality, stress-testing protocols |
 | **horizon-scanner** | Peripheral vision, adjacent domains, wild cards, reframe risk |
 
+### Pedagogical (6) — Teaching, explaining, accessibility
+| Advisor | Lens |
+|---------|------|
+| **teacher** | Instructional design, learning objectives, knowledge transfer |
+| **simplifier** | Complexity reduction, plain language, essence extraction |
+| **curriculum-designer** | Learning path architecture, sequencing, prerequisites |
+| **assessor** | Understanding verification, mastery evaluation, feedback loops |
+| **coach** | Guided discovery, practice design, growth facilitation |
+| **translator** | Audience adaptation, technical-to-lay translation, context bridging |
+
+### Applied (6) — Physical reality, manufacturing, sustainability
+| Advisor | Lens |
+|---------|------|
+| **product-designer** | User-centered physical design, form factor, manufacturing constraints |
+| **spatial-thinker** | Dimensional reasoning, layout, geometry, physical arrangement |
+| **maker** | Prototype iteration, fabrication, hands-on learning, material constraints |
+| **sustainability-engineer** | Lifecycle analysis, circular design, environmental impact |
+| **supply-chain-analyst** | Flow optimization, logistics, sourcing, lead times |
+| **ergonomist** | Human-system fit, comfort, safety, anthropometrics |
+
 Full advisor details: [docs/advisors.md](docs/advisors.md)
 
 ---
@@ -288,7 +311,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 
 | Feature | Council of Minds | Councilverse | Deb8flow | Council of Five | CrewAI/AutoGen |
 |---------|:---:|:---:|:---:|:---:|:---:|
-| **Advisors** | 48 cognitive lenses | 15 methodologies | 5 (Pro/Con/Mod/Fact/Judge) | 5 governance agents | N (role-based) |
+| **Advisors** | 60 cognitive lenses | 15 methodologies | 5 (Pro/Con/Mod/Fact/Judge) | 5 governance agents | N (role-based) |
 | **Modes** | Full · Quick · Duo · Budget tiers | Single | Single | Single | Task pipelines |
 | **Enforcement Scan** | Dissent + novelty + diversity + engagement | No | No | No | No |
 | **Anti-Conformity** | Must name flaw to update | No | No | No | No |
@@ -304,7 +327,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 | **Confidence-Weighted Vote** | With 2/3 threshold | Three-valued | Judge verdict | Majority | N/A |
 | **Problem Restate Gate** | Catches wrong questions | No | No | No | No |
 | **Agent-Agnostic** | 10+ AI clients | Claude only | Standalone app | Docker | Python SDK |
-| **Profile Selection** | 15 profiles + auto-select | Manual | Fixed roles | Fixed | Manual crew config |
+| **Profile Selection** | 18 profiles + auto-select | Manual | Fixed roles | Fixed | Manual crew config |
 | **Research-Backed Panel Size** | 4-6 (Google validated) | Variable | 5 fixed | 5 fixed | User-defined |
 
 ### What Makes Us Different
@@ -393,8 +416,8 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 | | |
 |:--|:--|
 | <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a> | [System design, mermaid diagrams, phase flow, anonymization, design decisions](docs/architecture.md) |
-| <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [All 48 advisors — function, method, grounding protocol, blind spots](docs/advisors.md) |
-| <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [15 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
+| <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [All 60 advisors — function, method, grounding protocol, blind spots](docs/advisors.md) |
+| <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [18 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
 | <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a> | [Full input/output examples from real council sessions](docs/examples.md) |
 
 ---
@@ -429,7 +452,7 @@ This project synthesizes three original approaches plus extensive 2025-2026 rese
 - Sparse communication topology research (arxiv 2406.11776)
 
 **Original contributions:**
-- Profile-based dynamic advisor selection (never run all 48)
+- Profile-based dynamic advisor selection (never run all 60)
 - Enforcement scan with programmatic quality validation (unique — no competitor has this)
 - Adaptive early termination and sparse cross-examination for cost efficiency
 - Cost budget mode with 6 auto-configuring tiers

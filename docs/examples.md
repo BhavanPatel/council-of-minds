@@ -24,6 +24,8 @@ Real-world council sessions demonstrating the full deliberation process and verd
 - [Truth Profile](#truth-profile)
 - [Research Profile](#research-profile)
 - [Future Profile](#future-profile)
+- [Learning Profile](#learning-profile)
+- [Sustainability Profile](#sustainability-profile)
 
 ### Input Examples by Mode & Budget
 - [Budget Mode — Lean](#budget-mode--lean)
@@ -512,6 +514,46 @@ rapidly. Three competitors have announced in-house model efforts. Our ML team
 is 4 people. Hiring is hard.
 Stakes: $2-5M investment if we build. Lock-in risk if we don't. Competitive 
 dynamics shifting fast. Decision horizon: next 6 months.
+```
+
+---
+
+### Learning Profile
+
+```
+learning council: We need to onboard 20 new engineers onto our distributed 
+systems platform in the next quarter. Current onboarding takes 3 months 
+before engineers can contribute independently. How should we redesign the 
+learning path?
+
+Context: Platform has 40+ microservices, custom service mesh, proprietary 
+deployment tooling. Documentation exists but is scattered across Confluence, 
+README files, and tribal knowledge. Senior engineers spend 30% of their time 
+answering questions from new hires. Last 3 hires said the learning curve was 
+"brutal." Retention at 6 months is 70% (industry average: 85%).
+Stakes: Each month of unproductive onboarding costs ~$15K per engineer. 
+20 engineers x 2 months saved = $600K potential savings.
+```
+
+---
+
+### Sustainability Profile
+
+```
+sustainability council: We're designing a new IoT sensor product for 
+agricultural monitoring. Should we optimize for 10-year battery life with 
+non-replaceable batteries, or design for replaceable batteries with a 
+3-year cycle?
+
+Context: Target deployment: 10,000 sensors across remote farmland. Nearest 
+service point is 50km away for most installations. Current prototype uses 
+lithium thionyl chloride (non-rechargeable, 10-year life). Alternative: 
+replaceable AA lithium batteries (3-year life, farmer-serviceable). 
+E-waste regulations tightening in EU (our primary market). Each sensor 
+costs $45 to manufacture. Battery replacement visit costs $8/sensor if 
+batched. Product lifetime target: 15 years.
+Stakes: Design choice affects manufacturing, logistics, environmental 
+compliance, and total cost of ownership for 150,000 sensor-years.
 ```
 
 ---

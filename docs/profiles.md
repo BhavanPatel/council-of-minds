@@ -156,6 +156,36 @@ Profiles determine which 4-6 advisors are selected for a council session. Each p
 
 ---
 
+### learning
+
+**Advisors:** teacher · simplifier · curriculum-designer · assessor · coach · translator
+
+**Best for:** Teaching complex topics, explaining technology, creating documentation, onboarding design, training programs, knowledge transfer, accessibility improvements.
+
+**Why these 6:** Covers instructional design (teacher), complexity reduction (simplifier), learning sequencing (curriculum-designer), comprehension verification (assessor), guided discovery (coach), and audience bridging (translator). Natural tensions: teacher vs simplifier (structure vs reduction), assessor vs coach (testing vs discovery), curriculum-designer vs translator (optimal path vs audience adaptation).
+
+---
+
+### sustainability
+
+**Advisors:** sustainability-engineer · supply-chain-analyst · systems-mapper · futurist · operator · scientist
+
+**Best for:** Environmental impact decisions, circular economy design, lifecycle analysis, sustainable product development, carbon reduction strategy, ESG evaluation.
+
+**Why these 6:** Covers lifecycle analysis (sustainability-engineer), flow optimization (supply-chain-analyst), systemic feedback (systems-mapper), long-term trajectory (futurist), execution reality (operator), and evidence rigor (scientist). Natural tensions: sustainability-engineer vs operator (ideal vs feasible), futurist vs scientist (trajectory vs evidence), supply-chain-analyst vs systems-mapper (efficiency vs resilience).
+
+---
+
+### hardware
+
+**Advisors:** product-designer · spatial-thinker · maker · ergonomist · shipper · deriver
+
+**Best for:** Physical product decisions, manufacturing tradeoffs, prototype strategy, spatial design, human-factors evaluation, hardware engineering.
+
+**Why these 6:** Covers user-centered design (product-designer), dimensional reasoning (spatial-thinker), prototype iteration (maker), human-system fit (ergonomist), shipping pragmatism (shipper), and first principles (deriver). Natural tensions: product-designer vs maker (design vs build), ergonomist vs shipper (human fit vs ship now), spatial-thinker vs deriver (spatial intuition vs analytical derivation).
+
+---
+
 ## Auto-Selection Logic
 
 When the user says `council this: [question]` without specifying a profile, the orchestrator scores each advisor against keyword maps:
@@ -215,4 +245,7 @@ Or create persistent custom profiles by editing `council-of-minds.config.json`:
 | AI/ML, models, training, prompting | `ai-ml` |
 | "Should we even do this?", challenging assumptions | `innovation` |
 | Future trends, long-term bets, scenario planning | `future` |
+| Teaching, explaining, documentation, onboarding | `learning` |
+| Environmental impact, lifecycle, circular economy | `sustainability` |
+| Physical products, manufacturing, spatial design | `hardware` |
 | Uncertain — multiple domains | `council this:` (auto-select) |

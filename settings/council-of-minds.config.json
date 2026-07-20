@@ -207,6 +207,39 @@
       ],
       "domainWeight": "futurist",
       "description": "Trends, long-term bets, scenario planning, emerging patterns, resilience"
+    },
+    "learning": {
+      "advisors": [
+        "teacher",
+        "simplifier",
+        "curriculum-designer",
+        "assessor",
+        "coach"
+      ],
+      "domainWeight": "teacher",
+      "description": "Teaching, content design, learning paths, accessibility, guided discovery"
+    },
+    "sustainability": {
+      "advisors": [
+        "sustainability-engineer",
+        "supply-chain-analyst",
+        "maker",
+        "systems-mapper",
+        "futurist"
+      ],
+      "domainWeight": "sustainability-engineer",
+      "description": "Environmental impact, lifecycle analysis, circular economics, supply chain"
+    },
+    "hardware": {
+      "advisors": [
+        "product-designer",
+        "spatial-thinker",
+        "maker",
+        "ergonomist",
+        "architect"
+      ],
+      "domainWeight": "product-designer",
+      "description": "Physical products, manufacturing, spatial design, human factors, prototyping"
     }
   },
   "advisors": {
@@ -593,6 +626,102 @@
         "realist"
       ],
       "evidence_type_default": "heuristic"
+    },
+    "teacher": {
+      "reasoning_method": "instructional-design",
+      "polarity_pairs": [
+        "provocateur",
+        "deriver"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "simplifier": {
+      "reasoning_method": "complexity-reduction",
+      "polarity_pairs": [
+        "architect",
+        "taxonomist"
+      ],
+      "evidence_type_default": "heuristic"
+    },
+    "curriculum-designer": {
+      "reasoning_method": "learning-path-architecture",
+      "polarity_pairs": [
+        "timer",
+        "systems-mapper"
+      ],
+      "evidence_type_default": "mechanistic"
+    },
+    "assessor": {
+      "reasoning_method": "understanding-verification",
+      "polarity_pairs": [
+        "calibrator",
+        "scientist"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "coach": {
+      "reasoning_method": "guided-discovery",
+      "polarity_pairs": [
+        "questioner",
+        "motivator"
+      ],
+      "evidence_type_default": "experiential"
+    },
+    "translator": {
+      "reasoning_method": "audience-adaptation",
+      "polarity_pairs": [
+        "narrator",
+        "diplomat"
+      ],
+      "evidence_type_default": "heuristic"
+    },
+    "product-designer": {
+      "reasoning_method": "user-centered-physical",
+      "polarity_pairs": [
+        "financier",
+        "user-advocate"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "spatial-thinker": {
+      "reasoning_method": "dimensional-reasoning",
+      "polarity_pairs": [
+        "deriver",
+        "aesthete"
+      ],
+      "evidence_type_default": "mechanistic"
+    },
+    "maker": {
+      "reasoning_method": "prototype-iteration",
+      "polarity_pairs": [
+        "architect",
+        "shipper"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "sustainability-engineer": {
+      "reasoning_method": "lifecycle-analysis",
+      "polarity_pairs": [
+        "shipper",
+        "financier"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "supply-chain-analyst": {
+      "reasoning_method": "flow-optimization",
+      "polarity_pairs": [
+        "strategist",
+        "operator"
+      ],
+      "evidence_type_default": "empirical"
+    },
+    "ergonomist": {
+      "reasoning_method": "human-system-fit",
+      "polarity_pairs": [
+        "user-advocate",
+        "architect"
+      ],
+      "evidence_type_default": "empirical"
     }
   },
   "polarityPairs": [
@@ -755,6 +884,54 @@
     [
       "horizon-scanner",
       "subtractor"
+    ],
+    [
+      "teacher",
+      "provocateur"
+    ],
+    [
+      "simplifier",
+      "architect"
+    ],
+    [
+      "curriculum-designer",
+      "timer"
+    ],
+    [
+      "assessor",
+      "calibrator"
+    ],
+    [
+      "coach",
+      "questioner"
+    ],
+    [
+      "translator",
+      "narrator"
+    ],
+    [
+      "product-designer",
+      "financier"
+    ],
+    [
+      "spatial-thinker",
+      "deriver"
+    ],
+    [
+      "maker",
+      "architect"
+    ],
+    [
+      "sustainability-engineer",
+      "shipper"
+    ],
+    [
+      "supply-chain-analyst",
+      "strategist"
+    ],
+    [
+      "ergonomist",
+      "user-advocate"
     ]
   ],
   "autoSelectKeywords": {
@@ -1177,6 +1354,114 @@
       "cross-domain",
       "wild card",
       "disruption"
+    ],
+    "teacher": [
+      "teach",
+      "explain",
+      "lesson",
+      "instruct",
+      "curriculum",
+      "pedagogy",
+      "learning objective"
+    ],
+    "simplifier": [
+      "simplify",
+      "plain language",
+      "accessible",
+      "jargon-free",
+      "distill",
+      "essence",
+      "core concept"
+    ],
+    "curriculum-designer": [
+      "curriculum",
+      "learning path",
+      "sequence",
+      "prerequisite",
+      "progression",
+      "scaffold",
+      "syllabus"
+    ],
+    "assessor": [
+      "assess",
+      "evaluate",
+      "understand",
+      "comprehension",
+      "mastery",
+      "quiz",
+      "verify understanding"
+    ],
+    "coach": [
+      "coach",
+      "guide",
+      "mentor",
+      "discovery",
+      "practice",
+      "feedback",
+      "growth"
+    ],
+    "translator": [
+      "translate",
+      "audience",
+      "adapt",
+      "technical writing",
+      "communicate",
+      "non-technical",
+      "stakeholder audience"
+    ],
+    "product-designer": [
+      "physical product",
+      "industrial design",
+      "form factor",
+      "user-centered",
+      "prototype",
+      "manufacturing",
+      "hardware"
+    ],
+    "spatial-thinker": [
+      "spatial",
+      "3D",
+      "layout",
+      "dimension",
+      "geometry",
+      "arrangement",
+      "physical space"
+    ],
+    "maker": [
+      "build",
+      "prototype",
+      "iterate",
+      "fabricate",
+      "hands-on",
+      "material",
+      "craft"
+    ],
+    "sustainability-engineer": [
+      "sustainability",
+      "lifecycle",
+      "circular",
+      "carbon",
+      "environmental",
+      "waste",
+      "renewable"
+    ],
+    "supply-chain-analyst": [
+      "supply chain",
+      "logistics",
+      "flow",
+      "inventory",
+      "sourcing",
+      "distribution",
+      "lead time"
+    ],
+    "ergonomist": [
+      "ergonomics",
+      "human factors",
+      "usability",
+      "comfort",
+      "safety",
+      "accessibility",
+      "anthropometrics"
     ]
   },
   "voting": {

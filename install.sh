@@ -7,7 +7,7 @@ set -euo pipefail
 # Mirrors context-sect install pattern: git-aware, per-agent, proper path resolution.
 # ─────────────────────────────────────────────────────────────────────────────
 
-VERSION="2.5.0"
+VERSION="3.0.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="${HOME}/.council-of-minds"
 
@@ -30,7 +30,7 @@ print_header() {
   echo -e "${PURPLE}${BOLD}  Council of Minds${NC} ${CYAN}v${VERSION}${NC}"
   echo -e "  ${CYAN}Multi-advisor deliberation for AI agents${NC}"
   echo ""
-  echo -e "  42 cognitive lenses · 14 profiles · 3 modes (Full/Quick/Duo)"
+  echo -e "  60 cognitive lenses · 18 profiles · 3 modes (Full/Quick/Duo)"
   echo -e "  5-round deliberation · weighted voting · kill criteria · evidence labels"
   echo ""
   echo -e "  ─────────────────────────────────────────────────────────────"

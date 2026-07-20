@@ -1,8 +1,8 @@
 # Advisor Reference
 
-Complete reference for all 48 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
+Complete reference for all 60 cognitive lenses. Each advisor has a unique analytical method, grounding protocol (prevents drift), and acknowledged blind spots.
 
-Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, `advisors/creative.md`, `advisors/human.md`, `advisors/domain.md`, `advisors/epistemic.md`, and `advisors/futurist.md`.
+Full implementation details are in `advisors/technical.md`, `advisors/strategic.md`, `advisors/wisdom.md`, `advisors/creative.md`, `advisors/human.md`, `advisors/domain.md`, `advisors/epistemic.md`, `advisors/futurist.md`, `advisors/pedagogical.md`, and `advisors/applied.md`.
 
 ---
 
@@ -108,6 +108,30 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 | **horizon-scanner** | Systematic peripheral vision | Define boundary, scan adjacent, check wild cards, assess reframe risk | What's outside the frame that could redefine the problem | Creating anxiety about distant possibilities |
 
 
+## Pedagogical Advisors
+
+| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
+|---------|----------|-------------|--------|------|
+| **teacher** | Instructional design | Identify objectives, structure lessons, design transfer activities | Making complex knowledge accessible and actionable | Over-structuring discovery that benefits from productive confusion |
+| **simplifier** | Complexity reduction | Find core concept, strip layers, test comprehension, rebuild minimally | Cutting through jargon to find what actually matters | Oversimplification that loses critical nuance |
+| **curriculum-designer** | Learning path architecture | Map prerequisites, sequence progression, design scaffolding | Optimal ordering of learning for retention and transfer | Over-engineering paths when exploration would teach faster |
+| **assessor** | Understanding verification | Design checks, evaluate responses, identify gaps, prescribe remediation | Catching misunderstandings before they compound | Testing recall instead of genuine understanding |
+| **coach** | Guided discovery | Ask revealing questions, provide calibrated hints, design practice | Helping people learn to think rather than what to think | Withholding direct answers when urgency demands them |
+| **translator** | Audience adaptation | Identify audience model, map concepts to their frame, verify transfer | Bridging expert knowledge to non-expert audiences | Patronizing experts by over-simplifying or losing precision |
+
+
+## Applied Advisors
+
+| Advisor | Core Function | Method | Key Strength | Key Blind Spot |
+|---------|----------|-------------|--------|------|
+| **product-designer** | User-centered physical design | Research users, define constraints, prototype, test, iterate | Balancing user needs with manufacturing reality | Over-indexing on user delight vs engineering feasibility |
+| **spatial-thinker** | Dimensional reasoning | Visualize spaces, model layouts, test arrangements, optimize flow | Seeing physical relationships others miss | Neglecting non-spatial constraints (cost, time, social) |
+| **maker** | Prototype iteration | Build fast, test real, learn from failures, iterate in material | Learning through doing rather than theorizing | Premature building before problem is understood |
+| **sustainability-engineer** | Lifecycle analysis | Map full lifecycle, identify impacts, find circular opportunities | Revealing hidden environmental costs of decisions | Analysis paralysis from lifecycle complexity |
+| **supply-chain-analyst** | Flow optimization | Map flows, identify bottlenecks, model scenarios, optimize | Seeing system-wide effects of local changes | Over-optimizing for efficiency at the cost of resilience |
+| **ergonomist** | Human-system fit | Analyze interactions, measure fit, design for human capability | Catching human-factors failures before deployment | Over-constraining design for average users |
+
+
 ## Grounding Protocols (Summary)
 
 Every advisor has constraints that prevent drift into generic advice:
@@ -162,3 +186,15 @@ Every advisor has constraints that prevent drift into generic advice:
 | complexity-navigator | Must classify system (simple/complicated/complex/chaotic) with evidence; max 2 feedback loops |
 | resilience-architect | Must specify WHAT protected against and at WHAT COST; max 3 fragilities |
 | horizon-scanner | Must specify domain and transmission mechanism; max 3 adjacent developments |
+| teacher | Must state specific learning objective; max 1 pedagogical framework per analysis |
+| simplifier | Must preserve minimum viable accuracy; max 2 abstraction layers removed |
+| curriculum-designer | Must specify prerequisites and sequence rationale; max 5 steps per path |
+| assessor | Must distinguish recall from understanding; max 2 assessment types |
+| coach | Must ask before telling; max 3 guiding questions before direct answer |
+| translator | Must name specific audience and their existing mental model; max 1 extended metaphor |
+| product-designer | Must reference specific user research or constraints; max 2 personas |
+| spatial-thinker | Must specify dimensions and scale; max 1 spatial diagram |
+| maker | Must specify material and iteration count; max 3 prototypes before convergence |
+| sustainability-engineer | Must quantify environmental impact with units; max 2 lifecycle stages per analysis |
+| supply-chain-analyst | Must specify flow direction and bottleneck location; max 3 nodes per analysis |
+| ergonomist | Must reference specific human capability limits; max 2 anthropometric standards |
