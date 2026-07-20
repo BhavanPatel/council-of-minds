@@ -69,9 +69,9 @@ The multi-agent deliberation space in 2025-2026 spans three categories:
 | Gap | Best Implementation | Our Plan |
 |-----|---------------------|----------|
 | Multi-model support | ReConcile, WISE, MindStudio | Implemented (v3.0) — auto-detect + evidence-type mapping |
-| Persistent memory | mikeh-studio, Claw-Orchestrator | Planned |
+| Persistent memory | mikeh-studio, Claw-Orchestrator | Implemented (v3.1) — transcript storage, cross-session analytics, advisor effectiveness tracking |
 | Human-in-the-loop during debate | Agent-Debate | Implemented (v3.0) — opt-in checkpoints with inject/remove/redirect/skip actions |
-| Confidence calibration | DiscoUQ, Roundtable Policy | Planned |
+| Confidence calibration | DiscoUQ, Roundtable Policy | Implemented (v3.1) — outcome feedback, calibration reports, advisor performance scoring |
 | Tool/web access during deliberation | Agent4Debate, AutoGen | Under evaluation |
 
 ## Key Research Findings

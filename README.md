@@ -331,6 +331,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 | **Research-Backed Panel Size** | 4-6 (Google validated) | Variable | 5 fixed | 5 fixed | User-defined |
 | **Multi-Model Diversity** | Auto-detect + algorithmic assignment | No | No | No | Manual config |
 | **Human-in-the-Loop** | Opt-in checkpoints (inject/remove/redirect/skip) | No | No | No | No |
+| **Confidence Calibration** | Outcome tracking + advisor scoring + calibration report | No | No | No | No |
 
 ### What Makes Us Different
 
@@ -348,7 +349,7 @@ Council of Minds is the **only system** that combines:
 
 Backed by research: Google's 2025 study of 180 agent configurations, ACL 2026 findings on debate effectiveness, and convergent market evidence from 25+ independent implementations.
 
-### Why Ours Is Better — 12 Competitive Advantages
+### Why Ours Is Better — 13 Competitive Advantages
 
 We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns, Councilverse, WISE, ReConcile, Deb8flow, Council of Five, and academic papers from 2024-2026). Here's what sets Council of Minds apart:
 
@@ -376,6 +377,8 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 
 12. **Human-in-the-Loop.** Opt-in interactive checkpoints after each round. Inject context, remove advisors, redirect the question, or skip to verdict mid-deliberation. Non-interactive by default — zero overhead unless triggered.
 
+13. **Confidence Calibration.** Track verdict outcomes over time. Log feedback ("council feedback: good/bad/mixed"), generate calibration reports comparing predicted confidence vs actual results, and score individual advisor alignment rates. No competitor offers outcome-based learning.
+
 > Research-backed panel size: Our 4-6 default is validated by Google's "Towards a Science of Scaling Agent Systems" (2025) which tested 180 configurations and found that more agents often hits a ceiling or degrades performance by 39-70% when misaligned with task structure.
 
 ---
@@ -394,7 +397,7 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 | 6 | **Crystallization** — 100-word final declarative positions with STANCE/CONFIDENCE/DEALBREAKER |
 | 6 | **Vote Tally** — confidence-weighted scoring with domain-weight seat (1.5x), 2/3 threshold |
 | 7 | **Chairman Synthesis** — verdict with Kill Criteria, Compromises, Minority Report, Next Step |
-| 8 | **Follow-Up** — expand, challenge, reweight, re-run, duo, save transcript |
+| 8 | **Follow-Up** — expand, challenge, reweight, re-run, duo, save transcript, feedback, calibration report |
 
 ---
 

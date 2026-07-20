@@ -226,10 +226,13 @@ After presenting the verdict, support:
 - **"weight toward {lens}"** → Re-synthesize with that advisor at 2.0x weight
 - **"re-run with {profile}"** → Fresh session, different composition
 - **"duo {advisor-a} vs {advisor-b}"** → Run duo mode with specific pair
-- **"save transcript"** → Write full session to `council-transcript-{timestamp}.md`
+- **"save transcript"** → Write full session to `council-transcripts/council-transcript-{YYYY-MM-DD}-{short-id}.md`
 - **"council stats"** → Show aggregate analytics across recent sessions
 - **"advisor leaderboard"** → Show which advisors have highest influence/shift rates
 - **"cost report"** → Show average token usage by mode and panel size
+- **"council feedback: [good/bad/mixed] — [details]"** → Log outcome against this verdict for calibration tracking
+- **"calibration report"** → Show confidence calibration stats: predicted vs actual across past sessions
+- **"advisor scores"** → Show which advisors most frequently align with positive outcomes
 
 ---
 
@@ -585,7 +588,7 @@ Track over time to improve panel selection and configuration:
 ### Analytics Storage
 
 Write analytics to `council-analytics-{date}.json` when:
-- User says "save transcript" (appends analytics to transcript)
+- User says "save transcript" (appends analytics to transcript in `council-transcripts/`)
 - Session uses Cost Budget Mode (automatic tracking)
 - User explicitly enables: "council this with analytics: [question]"
 
@@ -594,3 +597,181 @@ Write analytics to `council-analytics-{date}.json` when:
 - **"council stats"** → Show aggregate analytics summary across recent sessions
 - **"advisor leaderboard"** → Show which advisors have highest influence/shift rates
 - **"cost report"** → Show average token usage by mode and panel size
+
+---
+
+## Persistent Memory & Confidence Calibration
+
+Track outcomes over time to improve council accuracy and identify top-performing advisors.
+
+### Transcript Storage
+
+Every council session can be persisted to `council-transcripts/` for cross-session learning:
+
+```
+council-transcripts/
+├── council-transcript-2026-07-20-a3f2.md     — Full session transcript
+├── council-transcript-2026-07-21-b7e1.md     — Full session transcript
+├── outcomes.json                              — Outcome feedback log
+└── council-analytics-aggregate.json           — Cross-session advisor effectiveness
+```
+
+**Transcript file format** (`council-transcript-{YYYY-MM-DD}-{short-id}.md`):
+```markdown
+# Council Transcript — {YYYY-MM-DD}-{short-id}
+
+## Metadata
+- **Question:** {original question}
+- **Profile:** {profile used}
+- **Mode:** {full/quick/duo}
+- **Panel:** {advisor-1}, {advisor-2}, ..., {advisor-N}
+- **Models:** {model assignments}
+- **Verdict ID:** {YYYY-MM-DD}-{short-id}
+- **Confidence:** {high/medium/low}
+- **Result:** {consensus/supermajority/split}
+
+## Round 1: Independent Analysis
+{full round 1 output per advisor}
+
+## Round 2: Cross-Examination
+{full round 2 output per advisor}
+
+## Round 3: Crystallization
+{crystallized positions}
+
+## Vote Tally
+{weighted scores and distribution}
+
+## Verdict
+{full chairman synthesis}
+
+## Analytics
+{session analytics JSON}
+```
+
+**Auto-save rules:**
+- Always saved when user says "save transcript"
+- Auto-saved in Cost Budget Mode (when `autoSaveOnBudgetMode: true`)
+- Auto-saved always (when `autoSaveAlways: true`)
+- Directory auto-created on first save
+
+### Outcome Feedback
+
+Users provide feedback on verdict quality after implementation/observation:
+
+**Trigger phrases:**
+- `"council feedback: [verdict-id] — outcome was [description]"`
+- `"council outcome: [good/bad/mixed] — [details]"`
+
+**Feedback logged to `council-transcripts/outcomes.json`:**
+```json
+{
+  "outcomes": [
+    {
+      "verdict_id": "2026-07-20-a3f2",
+      "feedback_date": "2026-08-15",
+      "rating": "good",
+      "details": "Chose option A as recommended, shipped on time, metrics improved 23%",
+      "predicted_confidence": "high",
+      "actual_outcome": "correct",
+      "panel": ["architect", "strategist", "realist", "shipper", "scientist"],
+      "profile": "engineering",
+      "mode": "full"
+    }
+  ]
+}
+```
+
+**Rating mapping:**
+- `good` → actual_outcome: `correct`
+- `mixed` → actual_outcome: `partially-correct`
+- `bad` → actual_outcome: `incorrect`
+
+### Confidence Calibration
+
+Track predicted confidence vs actual outcomes to assess council reliability:
+
+**Calibration report** (triggered by `"calibration report"`):
+```
+╔═══════════════════════════════════════════════════════════╗
+║           CONFIDENCE CALIBRATION REPORT                  ║
+╠═══════════════════════════════════════════════════════════╣
+
+  Predicted: HIGH    → Correct: 82% | Partial: 12% | Wrong: 6%   (n=17)
+  Predicted: MEDIUM  → Correct: 61% | Partial: 24% | Wrong: 15%  (n=13)
+  Predicted: LOW     → Correct: 40% | Partial: 35% | Wrong: 25%  (n=8)
+
+  Overall accuracy: 68% correct, 20% partial, 12% incorrect (n=38)
+
+  Calibration score: 0.84 (1.0 = perfectly calibrated)
+  — HIGH predictions are slightly overconfident (-4%)
+  — MEDIUM predictions are well-calibrated
+  — LOW predictions are slightly underconfident (+5%)
+
+  Minimum outcomes required: 5 (met ✓)
+  Last feedback: 2026-08-15
+
+╚═══════════════════════════════════════════════════════════╝
+```
+
+### Advisor Performance Scoring
+
+Track which advisors most often align with positive outcomes:
+
+**Advisor scores report** (triggered by `"advisor scores"`):
+```
+╔═══════════════════════════════════════════════════════════╗
+║           ADVISOR PERFORMANCE SCORES                     ║
+╠═══════════════════════════════════════════════════════════╣
+
+  Top performers (outcome alignment rate):
+  1. architect      — 87% (sessions: 15)
+  2. strategist     — 83% (sessions: 12)
+  3. scientist      — 81% (sessions: 9)
+  4. realist        — 79% (sessions: 11)
+  5. data-analyst   — 78% (sessions: 7)
+
+  Needs more data (< 3 sessions):
+  — ergonomist, supply-chain-analyst, spatial-thinker
+
+  Notes:
+  — Scores reflect how often an advisor's recommended direction
+    aligned with the reported positive outcome
+  — Minimum 3 sessions required for scoring
+  — Scores are advisory only — not used for automatic exclusion
+
+╚═══════════════════════════════════════════════════════════╝
+```
+
+### Aggregate Analytics
+
+Cross-session patterns stored in `council-transcripts/council-analytics-aggregate.json`:
+```json
+{
+  "total_sessions": 38,
+  "total_outcomes_logged": 38,
+  "advisor_scores": {
+    "architect": { "sessions": 15, "correct": 13, "partial": 1, "incorrect": 1, "alignment_rate": 0.87 },
+    "strategist": { "sessions": 12, "correct": 10, "partial": 1, "incorrect": 1, "alignment_rate": 0.83 }
+  },
+  "calibration": {
+    "high": { "total": 17, "correct": 14, "partial": 2, "incorrect": 1 },
+    "medium": { "total": 13, "correct": 8, "partial": 3, "incorrect": 2 },
+    "low": { "total": 8, "correct": 3, "partial": 3, "incorrect": 2 }
+  },
+  "profile_effectiveness": {
+    "engineering": { "sessions": 8, "alignment_rate": 0.85 },
+    "strategy": { "sessions": 6, "alignment_rate": 0.78 }
+  },
+  "last_updated": "2026-08-15"
+}
+```
+
+### Rules
+
+1. **Opt-in by default.** Transcript saving requires explicit trigger unless `autoSaveAlways: true`
+2. **Minimum thresholds.** Calibration report requires at least 5 logged outcomes. Advisor scores require at least 3 sessions per advisor.
+3. **Advisory only.** Calibration data and advisor scores are informational — they do NOT automatically exclude advisors or override panel selection
+4. **Weight adjustment is manual.** `adjustWeightsAutomatically: false` by default. Users can enable auto-adjustment, which adds a small weight bonus (+0.1x) to top-performing advisors
+5. **Privacy.** Transcripts are local-only, stored in the project directory. No external transmission.
+6. **No retroactive scoring.** Only sessions with saved transcripts AND subsequent outcome feedback count toward calibration

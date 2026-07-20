@@ -281,6 +281,45 @@ sequenceDiagram
 
 ---
 
+## Persistent Memory & Calibration
+
+```mermaid
+flowchart TD
+    A[Council Session] -->|"save transcript"| B[council-transcripts/]
+    A -->|Auto-save Budget Mode| B
+    B --> C[council-transcript-YYYY-MM-DD-id.md]
+    B --> D[outcomes.json]
+    B --> E[council-analytics-aggregate.json]
+
+    F[User Feedback] -->|"council feedback: good/bad/mixed"| D
+    D --> G{Min 5 outcomes?}
+    G -->|Yes| H[Calibration Report]
+    G -->|No| I[Insufficient data]
+
+    D --> J{Min 3 sessions per advisor?}
+    J -->|Yes| K[Advisor Performance Scores]
+    J -->|No| L[Needs more data]
+
+    E --> H
+    E --> K
+    H --> M[Predicted vs Actual Confidence]
+    K --> N[Advisor Alignment Rates]
+```
+
+### Calibration Design Decisions
+
+| Decision | Choice | Why |
+|----------|--------|-----|
+| Opt-in transcript saving | Explicit trigger or config flag | Privacy by default; no surprise file creation |
+| Minimum 5 outcomes for calibration | Hard threshold | Statistically meaningless below this |
+| Minimum 3 sessions per advisor | Hard threshold | Too few data points for reliable scoring |
+| Advisory-only scores | No automatic exclusion | Avoids feedback loops where good advisors are overused |
+| Manual weight adjustment | `adjustWeightsAutomatically: false` default | User control over panel composition |
+| Local-only storage | Project directory, no external transmission | Data sovereignty, works offline |
+| Rating → outcome mapping | good=correct, mixed=partial, bad=incorrect | Simple 3-level scale covers real-world feedback |
+
+---
+
 ## Key Design Decisions
 
 | Decision | Choice | Why |

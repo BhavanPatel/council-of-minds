@@ -1621,6 +1621,22 @@
     "defaultAction": "continue",
     "maxCheckpoints": 2
   },
+  "persistentMemory": {
+    "enabled": true,
+    "transcriptDir": "council-transcripts",
+    "autoSaveOnBudgetMode": true,
+    "autoSaveAlways": false,
+    "outcomeTracking": {
+      "enabled": true,
+      "minOutcomesForCalibration": 5,
+      "minSessionsPerAdvisor": 3
+    },
+    "calibration": {
+      "enabled": true,
+      "adjustWeightsAutomatically": false,
+      "reportThreshold": 5
+    }
+  },
   "sparseExamination": {
     "defaultEnabled": true,
     "engagementsPerAdvisor": {
@@ -1666,19 +1682,19 @@
         "feature": "persistent-memory",
         "description": "Cross-session transcript storage and pattern learning",
         "priority": "medium",
-        "status": "planned"
+        "status": "implemented"
       },
       {
         "feature": "human-in-the-loop",
         "description": "Allow user intervention during deliberation rounds, not just after verdict",
         "priority": "medium",
-        "status": "planned"
+        "status": "implemented"
       },
       {
         "feature": "confidence-calibration",
         "description": "Calibrate confidence scores against outcomes over time",
         "priority": "low",
-        "status": "planned"
+        "status": "implemented"
       }
     ]
   }
