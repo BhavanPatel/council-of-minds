@@ -224,6 +224,63 @@ flowchart TD
 
 ---
 
+## Interactive Mode (Human-in-the-Loop)
+
+Opt-in checkpoints that pause deliberation after Round 1 and Round 2, allowing user intervention mid-session.
+
+### Sequence Diagram
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant O as Orchestrator
+    participant P as Panel (4-6 advisors)
+
+    U->>O: "interactive council: [question]"
+    O->>P: Round 0: Framing + Panel Selection
+    O->>P: Round 1: Independent Analysis
+    P-->>O: Structured analyses
+    O-->>U: CHECKPOINT 1 (after Round 1)
+    Note over U,O: Options: continue / inject / remove / redirect / skip
+
+    alt User continues
+        U->>O: continue
+    else User injects context
+        U->>O: inject: [new info]
+        O->>O: Prepend context to next round
+    else User removes advisor
+        U->>O: remove: [advisor]
+        O->>O: Drop advisor from remaining rounds
+    else User redirects
+        U->>O: redirect: [new framing]
+        O->>O: Replace question for remaining rounds
+    else User skips
+        U->>O: skip to verdict
+        O->>O: Synthesize from current positions
+    end
+
+    O->>P: Round 2: Cross-Examination
+    P-->>O: Engagement responses
+    O-->>U: CHECKPOINT 2 (after Round 2)
+    Note over U,O: Same options as Checkpoint 1
+
+    U->>O: continue
+    O->>P: Round 3-5: Enforcement → Crystallization → Synthesis
+    O-->>U: Final Verdict
+```
+
+### Action Effects
+
+| Action | Effect | Scope |
+|--------|--------|-------|
+| `continue` | No change, proceed normally | Default — zero overhead |
+| `inject: {context}` | New info prepended to all remaining prompts | Affects all subsequent rounds |
+| `remove: {advisor}` | Advisor produces no further output; prior contributions remain | Panel size decreases by 1 |
+| `redirect: {question}` | Original question replaced for remaining rounds | Previous rounds still inform synthesis |
+| `skip to verdict` | Chairman synthesizes immediately | Verdict notes early exit |
+
+---
+
 ## Key Design Decisions
 
 | Decision | Choice | Why |
@@ -237,6 +294,7 @@ flowchart TD
 | Confidence weighting | high/med/low maps to 1.0/0.75/0.5 | Low-confidence votes count less — honest uncertainty in tally |
 | Crystallization round | 100-word final positions after cross-exam | Produces clean, unambiguous inputs for chairman |
 | Multi-model auto-assignment | Evidence-type → model mapping with auto-detect | Same-model panels produce correlated reasoning errors; diversity of backend creates genuine cognitive diversity |
+| Interactive mode opt-in | Checkpoints only when triggered, continue is default | Most users want fast verdicts; intervention is for high-stakes sessions where mid-course correction matters |
 
 ---
 

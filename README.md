@@ -330,6 +330,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 | **Profile Selection** | 18 profiles + auto-select | Manual | Fixed roles | Fixed | Manual crew config |
 | **Research-Backed Panel Size** | 4-6 (Google validated) | Variable | 5 fixed | 5 fixed | User-defined |
 | **Multi-Model Diversity** | Auto-detect + algorithmic assignment | No | No | No | Manual config |
+| **Human-in-the-Loop** | Opt-in checkpoints (inject/remove/redirect/skip) | No | No | No | No |
 
 ### What Makes Us Different
 
@@ -347,7 +348,7 @@ Council of Minds is the **only system** that combines:
 
 Backed by research: Google's 2025 study of 180 agent configurations, ACL 2026 findings on debate effectiveness, and convergent market evidence from 25+ independent implementations.
 
-### Why Ours Is Better — 11 Competitive Advantages
+### Why Ours Is Better — 12 Competitive Advantages
 
 We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns, Councilverse, WISE, ReConcile, Deb8flow, Council of Five, and academic papers from 2024-2026). Here's what sets Council of Minds apart:
 
@@ -373,6 +374,8 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 
 11. **Multi-Model Diversity.** Auto-detects available model backends and algorithmically assigns different models per evidence-type cluster. Falls back to reasoning-variation directives on single-model clients. Zero config required.
 
+12. **Human-in-the-Loop.** Opt-in interactive checkpoints after each round. Inject context, remove advisors, redirect the question, or skip to verdict mid-deliberation. Non-interactive by default — zero overhead unless triggered.
+
 > Research-backed panel size: Our 4-6 default is validated by Google's "Towards a Science of Scaling Agent Systems" (2025) which tested 180 configurations and found that more agents often hits a ceiling or degrades performance by 39-70% when misaligned with task structure.
 
 ---
@@ -383,9 +386,9 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 |:----:|---|
 | 0 | User triggers council — orchestrator parses question, scans workspace, selects profile, assigns model diversity |
 | 1 | **Problem Restate Gate** — each advisor restates in their lens (catches wrong questions) |
-| 2 | **Independent Analysis** — 4-6 advisors spawn in parallel, 300 words each, evidence-labeled |
+| 2 | **Independent Analysis** — 4-6 advisors spawn in parallel, 300 words each, evidence-labeled. *Interactive: checkpoint here* |
 | 3 | **Fact-Check** — claims scanned for verification; disputed/unverifiable flagged for Round 2 |
-| 4 | **Cross-Examination** — structured Disagree/Strengthen/Update with sparse engagement targeting |
+| 4 | **Cross-Examination** — structured Disagree/Strengthen/Update with sparse engagement targeting. *Interactive: checkpoint here* |
 | 5 | **Enforcement Scan** — verify dissent quota, novelty, evidence diversity, engagement quality |
 | 5b | **Early Termination Check** — if strong consensus + high confidence, skip crystallization |
 | 6 | **Crystallization** — 100-word final declarative positions with STANCE/CONFIDENCE/DEALBREAKER |

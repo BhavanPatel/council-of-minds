@@ -1609,6 +1609,18 @@
       }
     }
   },
+  "interactiveMode": {
+    "enabled": false,
+    "description": "When true, all council sessions include checkpoints. When false (default), only triggered by 'interactive council:' or 'council this with checkpoints:'",
+    "checkpoints": {
+      "afterRound1": true,
+      "afterRound2": true,
+      "afterCrystallization": false
+    },
+    "userActions": ["continue", "inject", "remove", "redirect", "skip-to-verdict"],
+    "defaultAction": "continue",
+    "maxCheckpoints": 2
+  },
   "sparseExamination": {
     "defaultEnabled": true,
     "engagementsPerAdvisor": {
