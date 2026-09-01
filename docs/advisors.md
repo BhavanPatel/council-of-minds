@@ -132,6 +132,23 @@ Full implementation details are in `advisors/technical.md`, `advisors/strategic.
 | **ergonomist** | Human-system fit | Analyze interactions, measure fit, design for human capability | Catching human-factors failures before deployment | Over-constraining design for average users |
 
 
+## Custom Advisors
+
+Beyond the 60 built-in advisors, you can define your own in `advisors/custom/<name>.md`
+from the cast-agnostic scaffold at `advisors/custom/_template.md`. See
+`advisors/custom/README.md` for the full authoring guide.
+
+- Scaffold + validate with the CLI: `council advisor create <name>`,
+  `council advisor validate <name>`, `council advisor list`.
+- A custom advisor must carry the same header fields (Cast, Reasoning Method, Polarity
+  Pairs, Evidence Type) and required sections as a built-in advisor, and name two existing
+  polarity partners.
+- Once valid, it joins the pool: eligible for auto-selection (via any `autoSelectKeywords`
+  you add) and any profile, under the same panel-size, dissent-quota, and
+  evidence-diversity guarantees.
+- The `Cast` field (`advisor` | `researcher`) keeps the scaffold reusable by the future
+  researcher chamber.
+
 ## Grounding Protocols (Summary)
 
 Every advisor has constraints that prevent drift into generic advice:

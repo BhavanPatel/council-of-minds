@@ -1529,6 +1529,51 @@
     "defaultCrossExam": "sparse",
     "earlyTermination": true
   },
+  "customAdvisors": {
+    "enabled": true,
+    "dir": "advisors/custom",
+    "template": "advisors/custom/_template.md",
+    "castTypes": ["advisor", "researcher"],
+    "defaultCast": "advisor",
+    "validEvidenceTypes": [
+      "empirical",
+      "mechanistic",
+      "strategic",
+      "heuristic",
+      "ethical",
+      "experiential",
+      "generative"
+    ],
+    "requiredFields": [
+      "Cast",
+      "Reasoning Method",
+      "Polarity Pairs",
+      "Evidence Type"
+    ],
+    "requiredSections": [
+      "Analytical Method",
+      "Grounding Protocol",
+      "What This Lens Sees That Others Miss",
+      "What This Lens Tends to Miss",
+      "When Deliberating",
+      "Output Format (Standalone)",
+      "Output Format (Council Round 2)"
+    ],
+    "validation": {
+      "filenameLowercaseHyphenated": true,
+      "headingMustMatchFilename": true,
+      "polarityPairsMustExist": true,
+      "noUnfilledPlaceholders": true
+    },
+    "integration": {
+      "eligibleForAutoSelect": true,
+      "eligibleForProfiles": true,
+      "obeyPanelSizeLimits": true,
+      "obeyEnforcementScan": true
+    },
+    "cli": "council advisor create|validate|list",
+    "description": "User-defined advisors. Discovered from dir, validated against requiredFields/requiredSections, then eligible for auto-select and profiles. Agent-agnostic, tool-neutral markdown. Cast-agnostic template is reused by the researcher cast (roadmap Phase 22)."
+  },
   "costBudget": {
     "tiers": {
       "minimal": {
@@ -1669,6 +1714,36 @@
       "adjustWeightsAutomatically": false,
       "reportThreshold": 5
     }
+  },
+  "metaGovernance": {
+    "enabled": true,
+    "advisoryOnly": true,
+    "triggers": [
+      "council meta:",
+      "council meta: should we change"
+    ],
+    "fixedPanel": [
+      "epistemologist",
+      "calibrator",
+      "questioner",
+      "architect",
+      "historian"
+    ],
+    "domainWeight": "epistemologist",
+    "supermajorityThreshold": 0.8,
+    "consensusThresholdOverride": 0.8,
+    "logFile": "governance-log.json",
+    "commands": [
+      "show governance history",
+      "revert rule change [id]"
+    ],
+    "rules": {
+      "autoApply": false,
+      "panelIsFixed": true,
+      "logImmutable": true,
+      "preserveDissent": true
+    },
+    "description": "Constitutional/evolutionary governance. The council deliberates on its own rules with a fixed epistemic panel and a >80% supermajority. Advisory-only: proposes and logs changes to governance-log.json; the user applies them manually. Reverts append a new log entry rather than deleting."
   },
   "sparseExamination": {
     "defaultEnabled": true,

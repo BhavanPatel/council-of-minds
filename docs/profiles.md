@@ -264,6 +264,15 @@ Or create persistent custom profiles by editing `council-of-minds.config.json`:
 
 ---
 
+## Meta-Governance Panel (not a profile)
+
+Meta-governance is a **mode**, not a profile. Triggered with `council meta: ...`, it does
+not auto-select or accept a profile — it always convenes a fixed panel:
+**epistemologist, calibrator, questioner, architect, historian** (domain-weight:
+epistemologist). It deliberates on the council's own rules, applies a **>80% supermajority**
+gate, and is **advisory-only** (logs proposals to `governance-log.json`; the user applies
+changes). See the Meta-Governance section of `council-of-minds.md`.
+
 ## Profile Selection Tips
 
 | If your question involves... | Use profile |

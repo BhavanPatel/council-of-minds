@@ -320,6 +320,34 @@ flowchart TD
 
 ---
 
+## Meta-Governance (Constitutional / Evolutionary)
+
+The council can deliberate on its own rules. Triggered explicitly with `council meta: ...`,
+it convenes a **fixed** panel — epistemologist, calibrator, questioner, architect,
+historian — rather than auto-selecting. Two properties distinguish it from a normal
+session:
+
+- **Supermajority gate.** A rule change is RECOMMENDED only at **>80%** confidence-weighted
+  agreement (vs the usual 66.7% consensus). Below that the current rule stands.
+- **Advisory-only.** It never edits config or rule files. It emits a verdict, appends an
+  entry to `governance-log.json`, and tells the user what to change. The user applies it.
+
+`show governance history` prints the log; `revert rule change [id]` appends a new inverse
+entry (log entries are immutable, never deleted). Dissent is preserved even on RECOMMENDED
+changes. This keeps the system tool-neutral — the council proposes, the human disposes.
+
+## Custom Advisors
+
+The 60-advisor pool is extensible. Users author `advisors/custom/<name>.md` from a
+cast-agnostic scaffold (`advisors/custom/_template.md`) and validate structure with
+`council advisor create|validate|list`. A custom advisor carries the same headers and
+sections as built-in members (Cast, Reasoning Method, Polarity Pairs, Evidence Type; plus
+Analytical Method, Grounding Protocol, both blind-spot sections, When Deliberating, and
+both output formats). Once valid it is eligible for auto-selection and any profile, and it
+obeys the same panel-size, dissent-quota, and evidence-diversity guarantees. The `Cast`
+field (`advisor` | `researcher`) makes the same scaffold reusable by the future researcher
+chamber. No runtime, no vendor dependency — advisors are plain markdown.
+
 ## Key Design Decisions
 
 | Decision | Choice | Why |

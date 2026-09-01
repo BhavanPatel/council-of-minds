@@ -737,6 +737,61 @@ in Q1. Their tech stack is incompatible with ours (Ruby vs our Go).
 
 ---
 
+### Meta-Governance Example
+
+```
+council meta: should we raise the dissent quota from 2 to 3?
+```
+
+Convenes the fixed governance panel (epistemologist, calibrator, questioner, architect,
+historian) — no profile, no auto-selection. Abbreviated verdict:
+
+```
+Council Verdict: Dissent quota 2 → 3
+
+Panel: epistemologist (weight), calibrator, questioner, architect, historian
+Supermajority: 78% (threshold 80%)
+
+Verdict: NOT RECOMMENDED — falls just short of the 80% supermajority.
+  historian: quota=2 was set deliberately after lazy-consensus incidents; no
+  evidence 3 improves outcomes. calibrator: expected benefit within noise.
+  questioner (dissent, preserved): 3 would force deeper engagement on 5-6 panels.
+
+Logged to governance-log.json (id gov-20260901-a1b2, applied: false).
+Current rule stands. To apply anyway: set enforcement.dissentQuota = 3 in
+settings/council-of-minds.config.json.
+```
+
+Follow-ups: `show governance history`, `revert rule change gov-20260901-a1b2`.
+
+### Custom Advisor Example
+
+```
+council advisor create risk-quant
+# edit advisors/custom/risk-quant.md — fill every {placeholder}
+council advisor validate risk-quant
+council advisor list
+```
+
+`validate` output on a good file:
+
+```
+Validating risk-quant.md...
+  ✓ member heading '## risk-quant' present
+  ✓ field 'Cast:' present
+  ✓ Cast is advisor or researcher
+  ✓ Evidence Type 'empirical' is valid
+  ✓ section '### Analytical Method' present
+  ... (all sections)
+  ✓ no unfilled placeholders
+
+✓ risk-quant.md is valid. Run 'council install' to load it.
+```
+
+Once loaded, `risk-quant` is selectable by name, via any profile that lists it, and by
+auto-selection if you add `autoSelectKeywords` for it — under the same panel-size, dissent,
+and evidence-diversity rules as built-in advisors.
+
 ## Follow-Up Commands (work after any verdict)
 
 ```

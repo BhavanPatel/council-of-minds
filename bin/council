@@ -29,6 +29,7 @@ usage() {
   echo "    disable          Temporarily disable (renames files, keeps them)"
   echo "    enable           Re-enable previously disabled council"
   echo "    uninstall        Remove council from all AI clients"
+  echo "    advisor <sub>    Manage custom advisors (create/validate/list)"
   echo "    version          Show version"
   echo "    help             Show this help"
   echo ""
@@ -43,6 +44,9 @@ usage() {
   echo "    council disable                  # Temporarily disable"
   echo "    council enable                   # Re-enable"
   echo "    council uninstall                # Remove from all clients"
+  echo "    council advisor create quant     # Scaffold a custom advisor"
+  echo "    council advisor validate quant   # Check a custom advisor's structure"
+  echo "    council advisor list             # List custom advisors"
   echo ""
 }
 
@@ -498,6 +502,201 @@ cmd_enable() {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Custom Advisor Builder
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Required section markers a custom advisor must contain to be valid.
+CUSTOM_DIR="${INSTALL_DIR}/advisors/custom"
+TEMPLATE_FILE="${INSTALL_DIR}/advisors/custom/_template.md"
+VALID_EVIDENCE="empirical mechanistic strategic heuristic ethical experiential generative"
+
+advisor_usage() {
+  echo ""
+  echo -e "  ${PURPLE}${BOLD}council advisor${NC} — manage custom advisors"
+  echo ""
+  echo "  Subcommands:"
+  echo "    create <name>     Scaffold advisors/custom/<name>.md from the template"
+  echo "    validate <name>   Check a custom advisor's structure"
+  echo "    list              List all custom advisors"
+  echo ""
+}
+
+# Resolve the source dir when running from a clone (dev) vs installed copy.
+advisor_src_dir() {
+  if [[ -d "${CUSTOM_DIR}" ]]; then
+    echo "${CUSTOM_DIR}"
+  elif [[ -d "$(dirname "$0")/../advisors/custom" ]]; then
+    ( cd "$(dirname "$0")/../advisors/custom" && pwd )
+  else
+    echo "${CUSTOM_DIR}"
+  fi
+}
+
+cmd_advisor_create() {
+  local name="$1"
+  if [[ -z "$name" ]]; then
+    echo -e "  ${RED}✗${NC} Usage: council advisor create <name>"
+    exit 1
+  fi
+  if [[ ! "$name" =~ ^[a-z][a-z0-9-]*$ ]]; then
+    echo -e "  ${RED}✗${NC} Name must be lowercase-hyphenated (e.g. risk-quant)."
+    exit 1
+  fi
+  if [[ "$name" == "_template" ]]; then
+    echo -e "  ${RED}✗${NC} '_template' is reserved."
+    exit 1
+  fi
+
+  local dir template target
+  dir="$(advisor_src_dir)"
+  template="${dir}/_template.md"
+  target="${dir}/${name}.md"
+
+  if [[ ! -f "$template" ]]; then
+    echo -e "  ${RED}✗${NC} Template not found at ${template}"
+    exit 1
+  fi
+  if [[ -f "$target" ]]; then
+    echo -e "  ${RED}✗${NC} ${name}.md already exists. Pick another name or edit it directly."
+    exit 1
+  fi
+
+  # Seed the scaffold with the chosen name in the member heading.
+  sed "s/## {member-name}/## ${name}/" "$template" > "$target"
+  echo -e "  ${GREEN}✓${NC} Created ${target}"
+  echo -e "    1. Edit it: replace every {placeholder}."
+  echo -e "    2. Validate: council advisor validate ${name}"
+  echo -e "    3. Reinstall: council install"
+}
+
+cmd_advisor_validate() {
+  local name="$1"
+  if [[ -z "$name" ]]; then
+    echo -e "  ${RED}✗${NC} Usage: council advisor validate <name>"
+    exit 1
+  fi
+  local dir file
+  dir="$(advisor_src_dir)"
+  file="${dir}/${name}.md"
+  if [[ ! -f "$file" ]]; then
+    echo -e "  ${RED}✗${NC} No such advisor: ${file}"
+    exit 1
+  fi
+
+  local errors=0
+  fail() { echo -e "    ${RED}✗${NC} $1"; errors=$((errors + 1)); }
+  pass() { echo -e "    ${GREEN}✓${NC} $1"; }
+
+  echo -e "  Validating ${name}.md..."
+
+  # Single member heading matching filename
+  if [[ "$(grep -cE "^## ${name}\$" "$file")" == "1" ]]; then
+    pass "member heading '## ${name}' present"
+  else
+    fail "expected exactly one '## ${name}' heading matching the filename"
+  fi
+
+  # Required field headers
+  for field in "Cast:" "Reasoning Method:" "Polarity Pairs:" "Evidence Type:"; do
+    if grep -qF "**${field}**" "$file"; then
+      pass "field '${field}' present"
+    else
+      fail "missing field '**${field}**'"
+    fi
+  done
+
+  # Cast value
+  if grep -qE '^\*\*Cast:\*\*[[:space:]]*(advisor|researcher)\b' "$file"; then
+    pass "Cast is advisor or researcher"
+  else
+    fail "Cast must be 'advisor' or 'researcher'"
+  fi
+
+  # Evidence type value
+  local ev
+  ev="$(grep -E '^\*\*Evidence Type:\*\*' "$file" | head -1 | sed -E 's/^\*\*Evidence Type:\*\*[[:space:]]*//' | tr -d ' ')"
+  if [[ " ${VALID_EVIDENCE} " == *" ${ev} "* ]]; then
+    pass "Evidence Type '${ev}' is valid"
+  else
+    fail "Evidence Type '${ev}' not in: ${VALID_EVIDENCE}"
+  fi
+
+  # Required sections
+  local sections=(
+    "### Analytical Method"
+    "### Grounding Protocol"
+    "### What This Lens Sees That Others Miss"
+    "### What This Lens Tends to Miss"
+    "### When Deliberating"
+    "### Output Format (Standalone)"
+    "### Output Format (Council Round 2)"
+  )
+  for s in "${sections[@]}"; do
+    if grep -qF "$s" "$file"; then
+      pass "section '${s}' present"
+    else
+      fail "missing section '${s}'"
+    fi
+  done
+
+  # No leftover placeholders (ignore the trailing HTML validation-checklist comment)
+  if grep -qE '\{[a-z0-9 ._-]+\}' "$file"; then
+    fail "unfilled {placeholders} remain — replace them all"
+  else
+    pass "no unfilled placeholders"
+  fi
+
+  echo ""
+  if [[ "$errors" -eq 0 ]]; then
+    echo -e "  ${GREEN}✓ ${name}.md is valid.${NC} Run 'council install' to load it."
+  else
+    echo -e "  ${RED}✗ ${errors} problem(s).${NC} Fix them and re-run validate."
+    exit 1
+  fi
+}
+
+cmd_advisor_list() {
+  local dir
+  dir="$(advisor_src_dir)"
+  echo ""
+  echo -e "  ${PURPLE}${BOLD}Custom Advisors${NC}"
+  echo ""
+  local found=0
+  if [[ -d "$dir" ]]; then
+    for f in "$dir"/*.md; do
+      [[ -e "$f" ]] || continue
+      local base
+      base="$(basename "$f" .md)"
+      [[ "$base" == "_template" || "$base" == "README" ]] && continue
+      local cast
+      cast="$(grep -E '^\*\*Cast:\*\*' "$f" | head -1 | sed -E 's/^\*\*Cast:\*\*[[:space:]]*//; s/[[:space:]]*<!--.*$//' | tr -d ' ')"
+      echo -e "    ${GREEN}•${NC} ${base}  ${CYAN}(${cast:-advisor})${NC}"
+      found=$((found + 1))
+    done
+  fi
+  if [[ "$found" -eq 0 ]]; then
+    echo -e "    · none yet — run 'council advisor create <name>'"
+  fi
+  echo ""
+}
+
+cmd_advisor() {
+  local sub="${1:-help}"
+  shift || true
+  case "$sub" in
+    create)   cmd_advisor_create "$@" ;;
+    validate) cmd_advisor_validate "$@" ;;
+    list)     cmd_advisor_list ;;
+    help|-h|--help) advisor_usage ;;
+    *)
+      echo -e "  ${RED}Unknown advisor subcommand: ${sub}${NC}"
+      advisor_usage
+      exit 1
+      ;;
+  esac
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -508,6 +707,7 @@ case "${1:-help}" in
   disable)    cmd_disable ;;
   enable)     cmd_enable ;;
   uninstall)  cmd_uninstall ;;
+  advisor)    shift; cmd_advisor "$@" ;;
   version|-v|--version) echo "council ${VERSION}" ;;
   help|-h|--help) usage ;;
   *)

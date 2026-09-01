@@ -445,6 +445,33 @@ Edit `council-of-minds.config.json` (installed in your client's settings directo
 - Enable/disable fact-checker, early termination, sparse cross-exam
 - Tune voting weights and consensus threshold
 
+### Custom Advisors
+
+Extend the 60-advisor pool with your own, using a cast-agnostic markdown scaffold:
+
+```bash
+council advisor create risk-quant     # scaffold advisors/custom/risk-quant.md
+council advisor validate risk-quant    # structural check
+council advisor list                   # list custom advisors
+```
+
+Fill in the template, validate, and reinstall. Valid custom advisors join auto-selection
+and any profile under the same panel-size, dissent-quota, and evidence-diversity rules as
+built-in advisors. Tool-neutral, no runtime. See `advisors/custom/README.md`.
+
+### Meta-Governance (the council governs itself)
+
+Ask the council to deliberate on its own rules:
+
+```
+council meta: should we lower the consensus threshold to 60%?
+```
+
+A fixed epistemic panel (epistemologist, calibrator, questioner, architect, historian)
+decides at a **>80% supermajority**. It is **advisory-only**: proposals are logged to
+`governance-log.json` and you apply changes manually. Use `show governance history` and
+`revert rule change [id]` to audit and undo.
+
 ---
 
 ## Inspiration & Research Foundation

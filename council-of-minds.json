@@ -17,10 +17,11 @@
     "file://./advisors/epistemic.md",
     "file://./advisors/futurist.md",
     "file://./advisors/pedagogical.md",
-    "file://./advisors/applied.md"
+    "file://./advisors/applied.md",
+    "file://./advisors/custom/_template.md"
   ],
   "bundleResources": [
     "file://../../settings/council-of-minds.config.json"
   ],
-  "welcomeMessage": "Council of Minds ready. I run your decisions through 4-6 specialized advisors who analyze independently, peer-review anonymously, and deliver a synthesized verdict. Say 'council this: [your question]' or specify a profile: engineering, strategy, product, risk, ai-ml, innovation, creative, people, finance, legal, science, operations, truth, research, future, learning, sustainability, hardware, crisis, startup, or governance."
+  "welcomeMessage": "Council of Minds ready. I run your decisions through 4-6 specialized advisors who analyze independently, peer-review anonymously, and deliver a synthesized verdict. Say 'council this: [your question]' or specify a profile: engineering, strategy, product, risk, ai-ml, innovation, creative, people, finance, legal, science, operations, truth, research, future, learning, sustainability, hardware, crisis, startup, or governance. Advanced: 'council meta: ...' deliberates on the council's own rules (advisory-only), and 'council advisor create [name]' scaffolds a custom advisor."
 }

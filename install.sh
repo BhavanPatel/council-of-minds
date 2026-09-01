@@ -235,6 +235,14 @@ copy_advisors() {
     [[ -f "$advisor_file" ]] || continue
     cp "$advisor_file" "$target_dir/"
   done
+  # Copy custom advisors (scaffold + any user-defined members), if present.
+  if [[ -d "${SRC_DIR}/advisors/custom" ]]; then
+    mkdir -p "${target_dir}/custom"
+    for custom_file in "${SRC_DIR}"/advisors/custom/*.md; do
+      [[ -f "$custom_file" ]] || continue
+      cp "$custom_file" "${target_dir}/custom/"
+    done
+  fi
 }
 
 install_kiro() {

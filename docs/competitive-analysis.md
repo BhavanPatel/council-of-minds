@@ -63,6 +63,8 @@ The multi-agent deliberation space in 2025-2026 spans three categories:
 12. **60 Cognitive Lenses** — Largest defined advisor registry with unique reasoning methods
 13. **Multi-mode** — Full / Quick / Duo / Budget tiers
 14. **Agent-agnostic** — Works across 10+ AI coding clients
+15. **Constitutional Meta-Governance** — The council deliberates on its own rules via a fixed epistemic panel with a >80% supermajority; advisory-only, logged to `governance-log.json` with immutable, revertible entries. No competitor lets the council govern itself.
+16. **Custom Advisor Builder** — Cast-agnostic markdown scaffold + CLI (`council advisor create/validate/list`) to extend the pool; validated custom advisors join auto-selection and profiles under the same enforcement guarantees. Tool-neutral, no runtime.
 
 ## Known Gaps (vs Best-in-Class)
 
