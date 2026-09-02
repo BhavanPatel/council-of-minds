@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/council-of-minds.png" alt="Council of Minds — a council of AI advisors and researchers" width="100%" />
+</p>
+
 <h1 align="center">Council of Minds — A Council of AI Advisors &amp; Researchers</h1>
 
 <p align="center">
