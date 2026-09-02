@@ -1,6 +1,6 @@
 {
   "$comment": "Council of Minds — researcher (research) configuration. Registers the researchers, their themes, retrieval capability contract, research profiles, and polarity pairs. Structural twin of settings/decision-council.config.json. Tool-neutral and agent-agnostic: no vendor, model, or specific search-provider is named. The host supplies retrieval via the Retrieval Capability Contract below.",
-  "version": "4.2.1",
+  "version": "5.0.0",
   "peerChamber": {
     "$comment": "The advisors are configured in settings/decision-council.config.json; the neutral routing map over both lives in settings/council-of-minds.config.json under 'chambers'. This is a peer reference, not a parent.",
     "config": "settings/decision-council.config.json",

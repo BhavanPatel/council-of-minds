@@ -1,5 +1,5 @@
 {
-  "version": "4.2.1",
+  "version": "5.0.0",
   "$comment": "Council of Minds routing / global configuration. This file holds ROUTER/GLOBAL configuration only: the neutral 'chambers' routing map, decision 'modes', and cross-cutting behaviour tables (costBudget, interactiveMode, enforcement). Each kind of Mind's cast lives in its own file: the advisors in settings/decision-council.config.json, the researchers in settings/research-council.config.json.",
   "chambers": {
     "$comment": "Neutral routing map. Advisors and researchers are peers; neither is subordinate. The orchestrator (council-of-minds.md, Routing) classifies each request to one of these.",
