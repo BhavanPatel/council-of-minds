@@ -1,4 +1,21 @@
 {
+  "version": "4.0.1",
+  "$comment": "Council of Minds is a ROUTER over two co-equal chambers. This file configures the DECISION chamber; the RESEARCH chamber is configured in settings/research-council.config.json. The 'chambers' block below is the neutral routing map over both.",
+  "chambers": {
+    "$comment": "Neutral routing map. Both chambers are peers; neither is subordinate. The orchestrator (council-of-minds.md, Routing / Chamber Selection) classifies each request to one of these.",
+    "decision": {
+      "modes": ["full", "quick", "duo"],
+      "config": "settings/council-of-minds.config.json",
+      "cast": "advisors",
+      "verdictContract": "Council Verdict (council-of-minds.md, Chairman Synthesis)"
+    },
+    "research": {
+      "modes": ["research"],
+      "config": "settings/research-council.config.json",
+      "cast": "researchers",
+      "verdictContract": "docs/research-verdict-contract.md"
+    }
+  },
   "modes": {
     "full": {
       "rounds": 5,
@@ -42,7 +59,7 @@
       ]
     },
     "research": {
-      "$comment": "Second chamber (v4.0). Full spec lives in settings/research-council.config.json and the Research Round Flow section of council-of-minds.md. Listed here so the decision-council config is aware of the research mode.",
+      "$comment": "Research chamber (v4.0), a co-equal peer routed via the top-level 'chambers' map. Full spec in settings/research-council.config.json and the Research Council section of council-of-minds.md. Referenced here only so the mode name resolves within this file.",
       "chamber": "research",
       "rounds": "R0-R6",
       "config": "settings/research-council.config.json",
@@ -1601,7 +1618,7 @@
         "advisors": 5,
         "crossExam": "sparse"
       },
-      "full": {
+      "high": {
         "maxTokens": 25000,
         "mode": "full",
         "advisors": 5,
@@ -1620,12 +1637,12 @@
         "crossExam": "all-pairs"
       }
     },
-    "defaultTier": "full",
+    "defaultTier": "high",
     "wordLimitScaling": {
       "minimal": 0.4,
       "lean": 0.6,
       "standard": 0.8,
-      "full": 1.0,
+      "high": 1.0,
       "deep": 1.0,
       "unlimited": 1.0
     }

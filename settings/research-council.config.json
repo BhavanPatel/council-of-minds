@@ -1,6 +1,11 @@
 {
   "$comment": "Council of Minds — Research Council (second chamber) configuration. v4.0-alpha (Phase 15) establishes the retrieval foundation; v4.0-beta (Phase 16) registers the 60 researchers. Tool-neutral and agent-agnostic: no vendor, model, or specific search-provider is named. The host supplies retrieval via the Retrieval Capability Contract below.",
-  "version": "4.0.0",
+  "version": "4.0.1",
+  "peerChamber": {
+    "$comment": "Research is one of two co-equal chambers. The decision chamber is configured in settings/council-of-minds.config.json; the neutral routing map over both lives there under 'chambers'. This is a peer reference, not a parent.",
+    "config": "settings/council-of-minds.config.json",
+    "cast": "advisors"
+  },
   "retrievalCapabilityContract": {
     "$comment": "Abstract retrieval interface the host must satisfy. Any client that can search the web and fetch a URL satisfies this; clients without it degrade to a labelled prior-knowledge briefing.",
     "capabilities": {
@@ -112,7 +117,7 @@
   "triggers": {
     "$comment": "Phase 19. Explicit triggers always route to research mode; auto-detect routes when the question asks what IS (a state of the world) with no options enumerated.",
     "explicit": ["research council:", "sourced council:", "council with research:", "cite this:"],
-    "budgetShortcuts": { "lean research council:": "low", "research council:": "standard", "deep research council:": "deep" },
+    "budgetShortcuts": { "lean research council:": "lean", "research council:": "standard", "deep research council:": "deep" },
     "autoDetect": {
       "recencyTerms": ["latest", "current", "as of", "this week", "this month", "this year", "newest", "up to date"],
       "phrasings": ["what is the current", "what is the latest", "is it true that", "what does the evidence say", "how many", "who currently"],
@@ -125,7 +130,7 @@
     "dimensions": ["panel", "queriesPerResearcher", "fetchesPerResearcher", "progressivePasses", "factCheckScope"],
     "tiers": {
       "minimal":   { "panel": 4, "queriesPerResearcher": 2, "fetchesPerResearcher": 3,  "progressivePasses": 0, "factCheckScope": "sample-30%" },
-      "low":       { "panel": 4, "queriesPerResearcher": 3, "fetchesPerResearcher": 5,  "progressivePasses": 0, "factCheckScope": "load-bearing-only" },
+      "lean":      { "panel": 4, "queriesPerResearcher": 3, "fetchesPerResearcher": 5,  "progressivePasses": 0, "factCheckScope": "load-bearing-only" },
       "standard":  { "panel": 5, "queriesPerResearcher": 4, "fetchesPerResearcher": 8,  "progressivePasses": 1, "factCheckScope": "all" },
       "high":      { "panel": 5, "queriesPerResearcher": 5, "fetchesPerResearcher": 12, "progressivePasses": 2, "factCheckScope": "all" },
       "deep":      { "panel": 6, "queriesPerResearcher": 6, "fetchesPerResearcher": 18, "progressivePasses": 3, "factCheckScope": "all+independence-trace" },

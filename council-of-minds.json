@@ -1,6 +1,6 @@
 {
   "name": "council-of-minds",
-  "description": "Run any question, idea, or decision through a council of AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict with confidence scoring and dissent preservation.",
+  "description": "A router over two co-equal chambers. The DECISION chamber runs a decision through 4-6 of 60 advisors who reason independently, peer-review each other, and synthesize a Decision Verdict with confidence scoring, kill criteria, and dissent preservation. The RESEARCH chamber runs a sourced question through 4-6 of 60 researchers who retrieve external evidence, audit each other's provenance and entailment, and return a cited Research Verdict with per-claim confidence, preserved dissent, and falsifiers.",
   "prompt": "file://./council-of-minds.md",
   "tools": [
     "read",
