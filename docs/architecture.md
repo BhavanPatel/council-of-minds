@@ -428,6 +428,33 @@ flowchart TD
 - **New:** Retrieval Capability Contract, per-researcher query generator + divergence check,
   Territory Matrix, Source Store, Verification Ledger, Citation Formatter + Coverage Auditor.
 
+### Chamber Chaining (v4.1)
+
+Compound questions — *what should I do, given the current state of the world* — chain the two
+chambers. The **Research chamber runs first** and its Research Verdict becomes the **evidence
+base** of the **Decision chamber**.
+
+```mermaid
+flowchart LR
+    Q[Compound question] --> Route{Router}
+    Route -->|do, but depends on current facts| RC[Research Chamber]
+    RC -->|Research Verdict rv-id<br/>Findings Cards + source ids| DC[Decision Chamber]
+    DC -->|INSUFFICIENT-EVIDENCE gap<br/>max 1 re-entry| RC
+    DC --> DV[Decision Verdict<br/>Sourced-From: rv-id<br/>+ evidence appendix]
+```
+
+- Findings are handed off with **source identity intact**; advisors cite by id and may contest.
+- `INSUFFICIENT-EVIDENCE` re-enters the Research chamber for **one** bounded pass.
+- **Both** minority reports (research + decision) are preserved.
+- One budget tier applies across both chambers. See [`chamber-chaining.md`](chamber-chaining.md).
+
+### Research Calibration (v4.1)
+
+Research outcomes are tracked **per finding** (`confirmed` / `refuted` / `unresolved`), feeding
+researcher performance scoring, source-class reliability, and a per-claim calibration report.
+Advisory only — never lifts the 0.4/0.5 confidence caps. See the *Research Calibration &
+Analytics* section of [`../council-of-minds.md`](../council-of-minds.md).
+
 See [`researchers.md`](researchers.md), [`research-profiles.md`](research-profiles.md),
 [`research-verdict-contract.md`](research-verdict-contract.md), and
 [`retrieval-layer.md`](retrieval-layer.md).

@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-4.0.4-a78bfa?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-4.1.1-a78bfa?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/advisors-60_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
   <img src="https://img.shields.io/badge/researchers-60_retrieval_lenses-06b6d4?style=flat-square" alt="Researchers" />
   <img src="https://img.shields.io/badge/profiles-21_+_15_research-f59e0b?style=flat-square" alt="Profiles" />
@@ -444,6 +444,14 @@ Full researcher details: [docs/researchers.md](docs/researchers.md) · profiles:
 [docs/research-profiles.md](docs/research-profiles.md) · verdict format:
 [docs/research-verdict-contract.md](docs/research-verdict-contract.md)
 
+**Chaining the chambers (v4.1):** a compound question — *what should I do, given the current
+landscape* — runs the Research chamber first, then feeds its cited Research Verdict into the
+Decision chamber as the evidence base. The decision verdict carries a `Sourced-From` reference,
+and dissent is preserved at **both** layers. Trigger with `chained council: ...`. See
+[docs/chamber-chaining.md](docs/chamber-chaining.md). Research findings are also tracked
+**per finding** over time (`researcher scores`, `source reliability`, `research calibration
+report`).
+
 ---
 
 ## vs Alternatives
@@ -570,6 +578,7 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 | <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [21 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
 | <a href="docs/research-profiles.md"><img src="https://img.shields.io/badge/Research_Profiles-06b6d4?style=flat-square&logo=slideshare&logoColor=white" alt="Research Profiles"></a> | [15 research profiles + Research Verdict output contract](docs/research-profiles.md) |
 | <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a> | [Full input/output examples from real council sessions](docs/examples.md) |
+| <a href="docs/chamber-chaining.md"><img src="https://img.shields.io/badge/Chamber_Chaining-06b6d4?style=flat-square&logo=git&logoColor=white" alt="Chamber Chaining"></a> | [Research → Decision chaining: hand-off, re-entry, dual dissent](docs/chamber-chaining.md) |
 
 ---
 

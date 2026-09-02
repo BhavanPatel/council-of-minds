@@ -16,6 +16,7 @@ Every researcher operates under the [Retrieval Capability Contract](./retrieval-
 > Full definitions: `researchers/*.md`. Config: `settings/research-council.config.json`.
 > Selector rule: every research panel MUST include **≥1 Synthesis** and **≥1 Adversarial** researcher.
 > Panels & round flow: [research profiles](research-profiles.md) · [Research Round Flow](../council-of-minds.md) · [Research Verdict contract](research-verdict-contract.md).
+> Calibration (v4.1): findings are scored **per finding** over time — `researcher scores`, `source reliability`, and `research calibration report` reveal which lenses and source classes hold up. See the *Research Calibration & Analytics* section of [`../council-of-minds.md`](../council-of-minds.md). Chaining a research verdict into a decision: [chamber chaining](chamber-chaining.md).
 
 ---
 

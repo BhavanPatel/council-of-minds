@@ -1,5 +1,5 @@
 {
-  "version": "4.0.4",
+  "version": "4.1.1",
   "$comment": "Council of Minds is a ROUTER over two co-equal chambers. This file holds ROUTER/GLOBAL configuration only: the neutral 'chambers' routing map, decision-chamber 'modes', and cross-chamber behaviour tables (costBudget, interactiveMode, enforcement). Each chamber's cast lives in its own file: the DECISION chamber in settings/decision-council.config.json, the RESEARCH chamber in settings/research-council.config.json.",
   "chambers": {
     "$comment": "Neutral routing map. Both chambers are peers; neither is subordinate. The orchestrator (council-of-minds.md, Routing / Chamber Selection) classifies each request to one of these.",
@@ -20,6 +20,46 @@
       "config": "settings/research-council.config.json",
       "cast": "researchers",
       "verdictContract": "docs/research-verdict-contract.md"
+    },
+    "chain": {
+      "$comment": "Phase 20 (v4.1). Compound questions ('what's the best X given the current landscape') run the Research chamber FIRST, then feed its Research Verdict into the Decision chamber as the evidence base. Dissent is preserved at BOTH layers. See council-of-minds.md '## Chamber Chaining' and docs/chamber-chaining.md.",
+      "order": [
+        "research",
+        "decision"
+      ],
+      "detect": [
+        "asks what to DO but the choice depends on a current/sourced state of the world",
+        "explicit trigger: 'chained council:', 'research then decide:'",
+        "a decision request that names recency terms or an unsettled factual premise"
+      ],
+      "handoff": {
+        "$comment": "The research verdict is handed to the decision panel with source identity intact so advisors can cite it and contest it.",
+        "payload": [
+          "Findings Cards (claim, evidence type, confidence, stance)",
+          "source canonical_ids (independence groups intact)",
+          "Contested Findings",
+          "research Minority Report",
+          "Open Questions"
+        ],
+        "rule": "advisors receive Findings Cards WITH source ids; they may cite a finding by id and may contest it, but must not silently discard a contested finding"
+      },
+      "crossReference": {
+        "decisionVerdict": "adds a 'Sourced-From' field naming the research verdict id",
+        "researchVerdict": "retained verbatim as the evidence appendix of the chained output"
+      },
+      "reEntry": {
+        "$comment": "Advisors may find the evidence base insufficient for a specific gap.",
+        "signal": "INSUFFICIENT-EVIDENCE",
+        "effect": "the named gap re-enters the Research chamber as a new sub-question",
+        "maxReEntries": 1,
+        "why": "bounded to 1 to prevent research<->decision ping-pong loops"
+      },
+      "dissent": "preserve BOTH the research Minority Report and the decision Minority Report in the final chained output; never collapse them",
+      "budget": {
+        "$comment": "One tier applies across BOTH chambers using the shared vocabulary (Minimal/Lean/Standard/High/Deep/Unlimited).",
+        "rule": "the selected tier configures the research chamber (retrieval dimensions) AND the decision chamber (panel/mode/word limits) in the same run",
+        "sharedVocabulary": true
+      }
     }
   },
   "modes": {

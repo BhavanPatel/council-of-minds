@@ -14,5 +14,7 @@ trigger, the Charter, the selected panel, and an abbreviated **Research Verdict*
 | [research-technical-dd.md](research-technical-dd.md) | technical-due-diligence | Does this software do what it claims |
 | [research-market.md](research-market.md) | market-research | Sizing, pricing, players |
 | [research-regulatory.md](research-regulatory.md) | regulatory-scan | Legal exposure |
+| [research-chained.md](research-chained.md) | chained (Research → Decision) | What to do, given the current landscape |
 
 Decision-council examples (the first chamber) live in [`../examples.md`](../examples.md).
+Chamber chaining is documented in [`../chamber-chaining.md`](../chamber-chaining.md).

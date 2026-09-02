@@ -1,6 +1,6 @@
 {
   "$comment": "Council of Minds — Research Council (second chamber) configuration. v4.0-alpha (Phase 15) establishes the retrieval foundation; v4.0-beta (Phase 16) registers the 60 researchers. Tool-neutral and agent-agnostic: no vendor, model, or specific search-provider is named. The host supplies retrieval via the Retrieval Capability Contract below.",
-  "version": "4.0.4",
+  "version": "4.1.1",
   "peerChamber": {
     "$comment": "Research is one of two co-equal chambers. The decision chamber is configured in settings/decision-council.config.json; the neutral routing map over both lives in settings/council-of-minds.config.json under 'chambers'. This is a peer reference, not a parent.",
     "config": "settings/decision-council.config.json",
@@ -307,6 +307,66 @@
     "algorithm": "group researchers by source-class cluster, map each cluster to a distinct model slot, enforce no single model > 50% of panel",
     "singleModelFallback": "retrieval-variation directives (breadth-first vs depth-first vs adversarial query framing)",
     "reuses": "Phase 8 multi-model assignment"
+  },
+  "analytics": {
+    "$comment": "Phase 21 (v4.1). Calibration is PER FINDING, never per verdict (a Research Verdict has no single confidence). Mirrors the decision chamber's Persistent Memory analytics. Advisory only — never auto-excludes a lens or lifts a confidence cap. Full spec in council-of-minds.md '## Research Calibration & Analytics'.",
+    "perFindingOutcome": {
+      "trigger": "council feedback: {rv-id} — F{n} was [confirmed|refuted|unresolved]",
+      "store": "council-transcripts/research/research-outcomes.json",
+      "outcomeMapping": {
+        "confirmed": "held",
+        "refuted": "wrong",
+        "unresolved": "open (coverage only, excluded from accuracy)"
+      },
+      "record": [
+        "verdict_id",
+        "finding_id",
+        "claim",
+        "predicted_confidence",
+        "outcome",
+        "feedback_date",
+        "researchers",
+        "source_classes",
+        "independence_groups"
+      ]
+    },
+    "researcherScoring": {
+      "$comment": "Which retrieval lenses produce findings that hold up.",
+      "metric": "hold_rate = confirmed / (confirmed + refuted)",
+      "minFindings": 3,
+      "command": "researcher scores",
+      "advisoryOnly": true
+    },
+    "sourceClassReliability": {
+      "$comment": "Which source classes back findings that hold up; feeds confidence weighting within existing caps.",
+      "metric": "hold_rate per source class",
+      "command": "source reliability",
+      "feedsConfidenceWeighting": true,
+      "neverLiftsCaps": "adjusts within the 0.4 (unverified) / 0.5 (single independence group) caps only"
+    },
+    "retrievalAnalytics": {
+      "perSession": [
+        "queriesIssued",
+        "fetchUniqueRatio",
+        "independenceGroups",
+        "novelClaimYieldPerResearcher",
+        "territoryComplianceRate"
+      ],
+      "store": "council-transcripts/research/research-analytics-aggregate.json"
+    },
+    "calibration": {
+      "command": "research calibration report",
+      "granularity": "per-claim confidence bucket vs actual outcome",
+      "minFindings": 5,
+      "feedsWeighting": "source-class reliability adjusts confidence weighting on future runs"
+    },
+    "rules": [
+      "per-finding, never per-verdict",
+      "advisory only — never auto-excludes a lens or overrides panel selection",
+      "confidence caps still bind (0.4 / 0.5)",
+      "unresolved counts toward coverage only",
+      "local-only under council-transcripts/research/"
+    ]
   },
   "researchers": {
     "$comment": "60 researchers across 10 themes, 6 each. Named by RETRIEVAL function. Each owns a source class + query intent (see docs/researchers.md Territory Matrix). polarity_pairs drive the sparse O(N) evidence cross-examination in Phase 17.",

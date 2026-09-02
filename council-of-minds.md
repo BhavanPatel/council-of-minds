@@ -13,6 +13,7 @@ Before dispatching any panel, classify the request:
 
 - **Decision chamber** when the user asks what to **DO** — a choice, tradeoff, or judgement between options (explicit triggers like "council this", "should I X or Y"). Go to `## Modes` (Decision chamber) and the Full Deliberation Process.
 - **Research chamber** when the user asks what **IS** — the state of the world, a claim to verify, or current/sourced facts (explicit triggers like "research council:", "cite this:"; or auto-detect on recency terms, "what is the current/latest", "is it true that", no options enumerated). Go to `## Research Council (Second Chamber)`.
+- **Chained (Research → Decision)** when the user asks what to **DO** but the right choice **depends on a current or unsettled state of the world** — a compound question like "what's the best X given the current landscape" (explicit triggers "chained council:", "research then decide:"; or a decision request that carries recency terms or an unverified factual premise). Run the Research chamber first, then feed its Research Verdict into the Decision chamber. Go to `## Chamber Chaining`.
 
 **onAmbiguous:** if it is unclear whether the user wants a decision or a research answer, **ask once** before dispatching a panel. Do not guess.
 
@@ -231,6 +232,9 @@ Produce the verdict using this EXACT structure:
 
 ### Unresolved Questions
 {What the council could NOT answer — inputs needed from user to strengthen the verdict.}
+
+### Sourced-From
+{Chained runs only. Names the Research Verdict id that supplied this decision's evidence base (e.g. `rv-2026-09-02-a3f2`). Omit this field entirely for non-chained decision sessions.}
 
 ---
 Session: {mode} | Panel: {N} | Rounds: {N} | Domain-weight: {name} (1.5x) | Evidence mix: {breakdown} | Model diversity: {multi-model | single-model-varied} | Interactive: {yes (N checkpoints used) | no}
@@ -1098,7 +1102,10 @@ compliance).
 - **"challenge {id} with {new source/info}"** → re-open that claim into a mini Progressive Retrieve
 - **"deepen {sub-question}"** → targeted progressive retrieval on one sub-question
 - **"save research transcript"** → write to `council-transcripts/research/research-transcript-{YYYY-MM-DD}-{short-id}.md` (Phase 22)
-- **"council feedback: {rv-id} — F{n} was [confirmed|refuted|unresolved]"** → per-finding outcome log (Phase 21)
+- **"council feedback: {rv-id} — F{n} was [confirmed|refuted|unresolved]"** → per-finding outcome log (see Research Calibration & Analytics)
+- **"researcher scores"** → which retrieval lenses produce findings that hold up
+- **"source reliability"** → which source classes back findings that hold up
+- **"research calibration report"** → predicted per-claim confidence vs actual outcomes
 
 ---
 
@@ -1141,3 +1148,224 @@ decision council ("lean research council:" → Lean, "deep research council:" �
 - **Sparse cross-examination only.** Never all-pairs; polarity-paired.
 - **Rounds capped.** Never add rounds to spend budget; add fetches/queries instead.
 - **Preserve dissent + falsifiers.** Every Research Verdict records what would change its mind.
+
+
+---
+
+## Chamber Chaining (Research → Decision)
+
+> Routed here from `## Routing / Chamber Selection` when the request asks what to **DO**
+> but the right choice **depends on a current or unsettled state of the world**. The
+> Research chamber runs first and produces the evidence base; the Decision chamber then
+> deliberates over that evidence. Dissent is preserved at **both** layers.
+
+### When to chain
+
+- **Explicit:** "chained council: ...", "research then decide: ...".
+- **Auto-detect:** a decision question whose options cannot be judged without current facts —
+  e.g. "which vector DB should we adopt given the current landscape", "should we migrate to X
+  now that Y shipped". Recency terms or an unverified factual premise inside a *do*-question are
+  the signal.
+- **onAmbiguous:** if unsure whether the user wants plain research, a plain decision, or a
+  chained run, **ask once** at the top before dispatching.
+
+### Flow
+
+1. **Research chamber runs first** (Charter → Crystallize & Vote) at the selected budget tier
+   and produces a **Research Verdict** (`rv-{YYYY-MM-DD}-{short-id}`).
+2. **Hand-off:** the Decision panel receives the research output as its evidence base —
+   Findings Cards (claim, evidence type, confidence, stance) **with their source
+   `canonical_id`s and independence groups intact**, plus Contested Findings, the research
+   Minority Report, and Open Questions. Advisors may **cite a finding by id** and may
+   **contest** it, but must not silently discard a contested finding.
+3. **Decision chamber runs** (Full/Quick/Duo per tier) over that evidence. Anti-conformity,
+   dissent quota, and evidence-diversity rules apply unchanged; a finding cited from the
+   research verdict counts as `empirical` evidence only at the confidence the research chamber
+   assigned it (never upgraded).
+4. **Decision Verdict** adds a **`Sourced-From`** field naming the research verdict id. The
+   full Research Verdict is retained verbatim as an **evidence appendix** beneath the decision
+   verdict.
+
+### Insufficient-evidence re-entry
+
+An advisor may raise **`INSUFFICIENT-EVIDENCE: {specific gap}`** during Round 1 or Cross-Exam
+when a load-bearing claim needed for the decision is missing or only weakly sourced.
+
+- The named gap re-enters the **Research chamber as a new sub-question** (a targeted
+  Progressive-Retrieve pass, not a full re-run).
+- **Bounded to a maximum of 1 re-entry** per chained run, to prevent a research↔decision
+  ping-pong loop. If the gap is still unmet after one re-entry, it is carried into the decision
+  verdict's **Unresolved Questions** and the affected claim's confidence is capped, not invented.
+
+### Dissent preservation (both layers)
+
+The chained output carries **two** minority reports, never collapsed:
+
+- the **research Minority Report** (with "what would change my mind" + held sources), and
+- the **decision Minority Report** (the strongest dissenting position + any DEALBREAKER flags).
+
+### Chained budget
+
+**One tier applies across both chambers**, using the shared vocabulary
+(Minimal / Lean / Standard / High / Deep / Unlimited). E.g. "deep" = deep-tier retrieval in the
+Research chamber **and** deep-tier deliberation in the Decision chamber. "chained council:" with
+no tier defaults to **Standard**.
+
+### Chained triggers
+
+- "chained council: ..." → Research → Decision at Standard
+- "research then decide: ..." → same
+- add "lean"/"deep" as elsewhere ("deep chained council:" → Deep across both chambers)
+
+See `docs/chamber-chaining.md` for the full contract and `docs/examples/research-chained.md`
+for a worked example.
+
+
+---
+
+## Research Calibration & Analytics (Research chamber)
+
+> Phase 21 (v4.1). The research analogue of `## Persistent Memory & Confidence Calibration`.
+> Calibration is tracked **per finding**, not per verdict — a Research Verdict has no single
+> confidence number, so neither does its feedback.
+
+### Per-Finding Outcome Feedback
+
+Users report how individual findings held up after the fact:
+
+**Trigger:** `"council feedback: {rv-id} — F{n} was [confirmed|refuted|unresolved]"`
+(repeatable — one line per finding).
+
+**Logged to `council-transcripts/research/research-outcomes.json`:**
+```json
+{
+  "outcomes": [
+    {
+      "verdict_id": "rv-2026-09-02-a3f2",
+      "finding_id": "F2",
+      "claim": "Vendor X shipped feature Y in Aug 2026",
+      "predicted_confidence": 0.7,
+      "outcome": "confirmed",
+      "feedback_date": "2026-09-20",
+      "researchers": ["recency-sweeper", "primary-source-hunter"],
+      "source_classes": ["official-docs", "news-reporting"],
+      "independence_groups": 2
+    }
+  ]
+}
+```
+
+**Outcome mapping:** `confirmed` → held; `refuted` → wrong; `unresolved` → still open (excluded
+from accuracy, counted only in coverage).
+
+### Researcher Performance Scoring
+
+Which retrieval **lenses** produce claims that hold up.
+
+**`researcher scores`** →
+```
+╔═══════════════════════════════════════════════════════════╗
+║           RESEARCHER PERFORMANCE SCORES                   ║
+╠═══════════════════════════════════════════════════════════╣
+
+  Top lenses (finding-hold rate):
+  1. primary-source-hunter — 91% (findings: 11)
+  2. triangulator          — 88% (findings: 8)
+  3. meta-analyst          — 84% (findings: 6)
+  4. recency-sweeper       — 79% (findings: 14)
+  5. counter-evidence-scout— 76% (findings: 9)
+
+  Needs more data (< 3 findings):
+  — translation-scout, embargo-watcher, policy-tracer
+
+  — Scores reflect how often a lens's findings were later CONFIRMED
+  — Minimum 3 scored findings required; advisory only, never auto-excludes a lens
+
+╚═══════════════════════════════════════════════════════════╝
+```
+
+### Source-Class Reliability
+
+Track which **source classes** back findings that hold up over time.
+
+**`source reliability`** →
+```
+  peer-reviewed      — 89% held (n=19)
+  primary-document   — 85% held (n=12)
+  official-docs      — 82% held (n=15)
+  filing-financial   — 80% held (n=7)
+  news-reporting     — 61% held (n=22)
+  community-forum    — 48% held (n=13)
+  vendor-material    — 44% held (n=9)
+```
+Source-class reliability feeds the confidence weighting: a claim resting only on a
+low-reliability class is capped lower during the Crystallize & Vote stage (advisory, applied
+by the panel — never an automatic silent downgrade below the existing 0.4/0.5 caps).
+
+### Retrieval Analytics (Per Session)
+
+Recorded per research session in `council-transcripts/research/research-analytics-aggregate.json`:
+
+- **queries issued** per researcher and total
+- **fetch / unique ratio** (collisions → diversity pushes)
+- **independence groups** discovered
+- **novel-claim yield** per researcher (drives the diminishing-returns stop)
+- **territory compliance rate** (did each researcher stay in its owned source class?)
+
+```json
+{
+  "total_research_sessions": 12,
+  "total_findings_logged": 47,
+  "researcher_scores": {
+    "primary-source-hunter": { "findings": 11, "confirmed": 10, "refuted": 1, "unresolved": 0, "hold_rate": 0.91 },
+    "recency-sweeper": { "findings": 14, "confirmed": 11, "refuted": 2, "unresolved": 1, "hold_rate": 0.79 }
+  },
+  "source_class_reliability": {
+    "peer-reviewed": { "n": 19, "held": 17, "hold_rate": 0.89 },
+    "news-reporting": { "n": 22, "held": 13, "hold_rate": 0.61 }
+  },
+  "retrieval": {
+    "avg_queries_per_session": 21,
+    "avg_fetch_unique_ratio": 0.73,
+    "avg_independence_groups": 6,
+    "avg_territory_compliance": 0.94
+  },
+  "calibration": {
+    "0.8-1.0": { "total": 14, "confirmed": 12, "refuted": 2 },
+    "0.5-0.8": { "total": 21, "confirmed": 14, "refuted": 7 },
+    "0.0-0.5": { "total": 12, "confirmed": 5, "refuted": 7 }
+  },
+  "last_updated": "2026-09-20"
+}
+```
+
+### Research Calibration Report
+
+**`research calibration report`** — predicted per-claim confidence vs actual outcomes:
+```
+╔═══════════════════════════════════════════════════════════╗
+║        RESEARCH CONFIDENCE CALIBRATION (PER CLAIM)        ║
+╠═══════════════════════════════════════════════════════════╣
+
+  Predicted 0.8-1.0 → Confirmed 86% | Refuted 14%  (n=14)
+  Predicted 0.5-0.8 → Confirmed 67% | Refuted 33%  (n=21)
+  Predicted 0.0-0.5 → Confirmed 42% | Refuted 58%  (n=12)
+
+  Calibration score: 0.81 (1.0 = perfect)
+  Minimum findings required: 5 (met ✓)
+
+╚═══════════════════════════════════════════════════════════╝
+```
+
+### Rules
+
+1. **Per-finding, not per-verdict.** Research feedback always names a finding id.
+2. **Minimum thresholds.** Research calibration report requires ≥ 5 scored findings; researcher
+   and source-class scores require ≥ 3 findings each.
+3. **Advisory only.** Researcher scores and source-class reliability inform confidence weighting
+   but never auto-exclude a lens or override panel selection.
+4. **Confidence caps still bind.** Reliability weighting adjusts *within* the existing 0.4
+   (unverified) / 0.5 (single independence group) caps — it never lifts them.
+5. **`unresolved` findings** count toward coverage only, never toward accuracy.
+6. **Local-only.** Research transcripts and outcomes live under `council-transcripts/research/`;
+   no external transmission.
