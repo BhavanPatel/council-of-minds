@@ -1,6 +1,6 @@
 {
   "name": "council-of-minds",
-  "description": "Run any question, idea, or decision through a council of AI advisors who independently analyze it, peer-review each other anonymously, and synthesize a final verdict with confidence scoring and dissent preservation.",
+  "description": "A council of Minds. A Mind is one markdown file with a distinct perspective. ADVISORS reason over a topic from many angles, peer-review each other, and synthesize a Decision Verdict with confidence scoring, kill criteria, and dissent preservation. RESEARCHERS retrieve external evidence, audit each other's provenance and entailment, and return a cited Research Verdict with per-claim confidence, preserved dissent, and falsifiers. Minds work solo or chained (research first, then advise on the findings).",
   "prompt": "file://./council-of-minds.md",
   "tools": [
     "read",
@@ -17,10 +17,28 @@
     "file://./advisors/epistemic.md",
     "file://./advisors/futurist.md",
     "file://./advisors/pedagogical.md",
-    "file://./advisors/applied.md"
+    "file://./advisors/applied.md",
+    "file://./advisors/custom/_template.md",
+    "file://./researchers/custom/_template.md",
+    "file://./researchers/evidence.md",
+    "file://./researchers/provenance.md",
+    "file://./researchers/adversarial.md",
+    "file://./researchers/quantitative.md",
+    "file://./researchers/temporal.md",
+    "file://./researchers/technical.md",
+    "file://./researchers/market.md",
+    "file://./researchers/regulatory.md",
+    "file://./researchers/human.md",
+    "file://./researchers/synthesis.md",
+    "file://./docs/concepts.md",
+    "file://./docs/advisors.md",
+    "file://./docs/researchers.md",
+    "file://./docs/chaining.md"
   ],
   "bundleResources": [
-    "file://../../settings/council-of-minds.config.json"
+    "file://../../settings/council-of-minds.config.json",
+    "file://../../settings/decision-council.config.json",
+    "file://../../settings/research-council.config.json"
   ],
-  "welcomeMessage": "Council of Minds ready. I run your decisions through 4-6 specialized advisors who analyze independently, peer-review anonymously, and deliver a synthesized verdict. Say 'council this: [your question]' or specify a profile: engineering, strategy, product, risk, ai-ml, innovation, creative, people, finance, legal, science, operations, truth, research, future, learning, sustainability, hardware, crisis, startup, or governance."
+  "welcomeMessage": "Council of Minds ready. A Mind is one markdown file with a distinct perspective, in two kinds: ADVISORS reason a decision to a verdict; RESEARCHERS retrieve evidence and return a cited Research Verdict. Say 'council this: [decision]' or 'research council: [sourced question]', or 'chained council: [what to do, given the current landscape]' to run research then decide. Decision profiles: engineering, strategy, product, risk, ai-ml, innovation, creative, people, finance, legal, science, operations, truth, research, future, learning, sustainability, hardware, crisis, startup, governance. Research profiles: landscape-scan, claim-verification, literature-review, technical-due-diligence, market-research, competitive-intel, regulatory-scan, provenance-audit, incident-forensics, trend-forecast, quantitative-scan, vendor-evaluation, academic-survey, red-team-research, feasibility-study. Advanced: 'council meta: ...' deliberates on the council's own rules (advisory-only), and 'council advisor create [name]' scaffolds a custom advisor, 'council researcher create [name]' scaffolds a custom researcher, and 'interactive research council: ...' adds opt-in checkpoints."
 }

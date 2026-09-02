@@ -1,10 +1,28 @@
 # Architecture
 
-Council of Minds uses an **Orchestrator + Parallel Subagents** pattern with a 5-round deliberation protocol, structured cross-examination, enforcement scanning, and confidence-weighted voting.
+Council of Minds is an **orchestrator** that routes each question to one of two kinds of Mind —
+**advisors** (reason from prior knowledge to a judgement) and **researchers** (retrieve external
+evidence to a sourced answer) — and can **chain** them. Both kinds share the Orchestrator +
+Parallel Subagents pattern: a multi-round deliberation protocol, structured cross-examination,
+enforcement scanning, and confidence-weighted voting.
+
+```mermaid
+graph TD
+    U["Your Question"] --> R{Router}
+    R -->|"what to DO"| DC["Advisors → Decision Verdict"]
+    R -->|"what IS true"| RC["Researchers → Research Verdict"]
+    R -->|"DO, given current facts"| CH["Chained<br/>Research → Decision"]
+    CH --> RC
+    RC -.->|Research Verdict as evidence| DC
+```
+
+The router classifies on the decision↔research distinction (ask once if ambiguous). The advisors
+are detailed first below; the [researchers](#researchers) and [chaining](#chaining) follow as
+sibling sections. See [concepts.md](concepts.md) for the Mind model.
 
 ---
 
-## How It Works
+## Advisors — How It Works
 
 ```mermaid
 graph LR
@@ -320,6 +338,34 @@ flowchart TD
 
 ---
 
+## Meta-Governance (Constitutional / Evolutionary)
+
+The council can deliberate on its own rules. Triggered explicitly with `council meta: ...`,
+it convenes a **fixed** panel — epistemologist, calibrator, questioner, architect,
+historian — rather than auto-selecting. Two properties distinguish it from a normal
+session:
+
+- **Supermajority gate.** A rule change is RECOMMENDED only at **>80%** confidence-weighted
+  agreement (vs the usual 66.7% consensus). Below that the current rule stands.
+- **Advisory-only.** It never edits config or rule files. It emits a verdict, appends an
+  entry to `governance-log.json`, and tells the user what to change. The user applies it.
+
+`show governance history` prints the log; `revert rule change [id]` appends a new inverse
+entry (log entries are immutable, never deleted). Dissent is preserved even on RECOMMENDED
+changes. This keeps the system tool-neutral — the council proposes, the human disposes.
+
+## Custom Advisors
+
+The advisor pool is extensible. Users author `advisors/custom/<name>.md` from a
+cast-agnostic scaffold (`advisors/custom/_template.md`) and validate structure with
+`council advisor create|validate|list`. A custom advisor carries the same headers and
+sections as built-in members (Cast, Reasoning Method, Polarity Pairs, Evidence Type; plus
+Analytical Method, Grounding Protocol, both blind-spot sections, When Deliberating, and
+both output formats). Once valid it is eligible for auto-selection and any profile, and it
+obeys the same panel-size, dissent-quota, and evidence-diversity guarantees. The `Cast`
+field (`advisor` | `researcher`) makes the same scaffold reusable by the researcher Minds.
+No runtime, no vendor dependency — advisors are plain markdown.
+
 ## Key Design Decisions
 
 | Decision | Choice | Why |
@@ -350,3 +396,81 @@ flowchart TD
 | 6: Vote tally | All crystallized stances | Weighted option scores + consensus/split determination |
 | 7: Synthesis | Everything above | Structured verdict (13 sections) |
 | 8: Follow-up | User command + verdict | Expanded analysis / re-synthesis / transcript |
+
+
+---
+
+## Researchers
+
+The **advisors** (8 steps above) reason from prior knowledge and return a **Decision Verdict**.
+The **researchers** retrieve external evidence and return a **Research Verdict** with per-claim
+confidence, preserved dissent, and falsifiers.
+
+> This is **adversarial evidence auditing**, not "debate makes research more accurate."
+> Researchers audit each other's *evidence* — provenance, entailment, coverage.
+
+```mermaid
+flowchart TD
+    Q[Sourced question] --> Gate{Retrieval capability?}
+    Gate -->|none| Brief[PRIOR-KNOWLEDGE BRIEFING<br/>no citations, low confidence]
+    Gate -->|full / snippet| Charter[Charter Gate<br/>restate + 3-7 sub-questions + scope]
+    Charter --> Lens[Lens & Query<br/>divergence check + territory assignment]
+    Lens --> Retrieve[Retrieve<br/>parallel, context-isolated, Findings Cards]
+    Retrieve --> FactCheck[Fact-Check<br/>5 checks, retrieves, no debate/vote]
+    FactCheck --> CrossExam[Evidence Cross-Exam<br/>SOURCE / INFERENCE / COVERAGE]
+    CrossExam --> Progressive[Progressive Retrieve<br/>contested claims only]
+    Progressive --> Enforce[Enforcement Scan<br/>+5 research gates]
+    Enforce --> Vote[Per-Claim Vote<br/>brief-writer assembles verdict]
+    Vote --> V[Research Verdict]
+```
+
+### Round Flow
+
+| Round | Purpose |
+|-------|---------|
+| Charter | classify, restate, decompose into 3–7 sub-questions, declare recency/scope |
+| Lens & Query | each researcher drafts queries from its lens; divergence check; territory assignment |
+| Retrieve | parallel, context-isolated retrieval → Source Store + Findings Cards |
+| Fact-Check | 5 checks (existence, quote fidelity, date, entailment, independence); retrieves, never debates/votes |
+| Cross-Exam | sparse O(N), polarity-paired; SOURCE / INFERENCE / COVERAGE challenges; concession needs a source id |
+| Progressive Retrieve | contested claims only; resolver ≠ claim author |
+| Enforcement Scan | decision gates + citation coverage, source independence, recency, territory, unsupported-assertion |
+| Crystallize & Vote | per-claim confidence vote; brief-writer assembles the Research Verdict |
+
+### Reused vs New
+
+- **Reused:** panel sizing 4–6, sparse polarity-paired cross-exam, anti-conformity, dissent
+  quota, evidence-diversity gate, confidence-weighted arithmetic, chairman/brief-writer
+  synthesis, cost-budget framework, transcript storage, calibration tracking.
+- **New:** Retrieval Capability Contract, per-researcher query generator + divergence check,
+  Territory Matrix, Source Store, Verification Ledger, Citation Formatter + Coverage Auditor.
+
+### Chaining
+
+Compound questions — *what should I do, given the current state of the world* — chain the two
+kinds of Mind. The **researchers run first** and their Research Verdict becomes the **evidence
+base** for an **advisor panel**.
+
+```mermaid
+flowchart LR
+    Q[Compound question] --> Route{Router}
+    Route -->|do, but depends on current facts| RC[Researchers]
+    RC -->|Research Verdict rv-id<br/>Findings Cards + source ids| DC[Advisors]
+    DC -->|INSUFFICIENT-EVIDENCE gap<br/>max 1 re-entry| RC
+    DC --> DV[Decision Verdict<br/>Sourced-From: rv-id<br/>+ evidence appendix]
+```
+
+- Findings are handed off with **source identity intact**; advisors cite by id and may contest.
+- `INSUFFICIENT-EVIDENCE` re-enters the researchers for **one** bounded pass.
+- **Both** minority reports (research + decision) are preserved.
+- One budget tier applies across both kinds. See [`chaining.md`](chaining.md).
+
+### Research Calibration
+
+Research outcomes are tracked **per finding** (`confirmed` / `refuted` / `unresolved`), feeding
+researcher performance scoring, source-class reliability, and a per-claim calibration report.
+Advisory only — never lifts the 0.4/0.5 confidence caps. See the *Research Calibration &
+Analytics* section of [`../council-of-minds.md`](../council-of-minds.md).
+
+See [`researchers.md`](researchers.md) for the researcher roster, research profiles, retrieval
+layer, and Research Verdict contract.
