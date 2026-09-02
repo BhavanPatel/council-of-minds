@@ -1,8 +1,8 @@
 {
-  "version": "4.2.0",
-  "$comment": "Council of Minds is a ROUTER over two co-equal chambers. This file holds ROUTER/GLOBAL configuration only: the neutral 'chambers' routing map, decision-chamber 'modes', and cross-chamber behaviour tables (costBudget, interactiveMode, enforcement). Each chamber's cast lives in its own file: the DECISION chamber in settings/decision-council.config.json, the RESEARCH chamber in settings/research-council.config.json.",
+  "version": "4.2.1",
+  "$comment": "Council of Minds routing / global configuration. This file holds ROUTER/GLOBAL configuration only: the neutral 'chambers' routing map, decision 'modes', and cross-cutting behaviour tables (costBudget, interactiveMode, enforcement). Each kind of Mind's cast lives in its own file: the advisors in settings/decision-council.config.json, the researchers in settings/research-council.config.json.",
   "chambers": {
-    "$comment": "Neutral routing map. Both chambers are peers; neither is subordinate. The orchestrator (council-of-minds.md, Routing / Chamber Selection) classifies each request to one of these.",
+    "$comment": "Neutral routing map. Advisors and researchers are peers; neither is subordinate. The orchestrator (council-of-minds.md, Routing) classifies each request to one of these.",
     "decision": {
       "modes": [
         "full",
@@ -19,10 +19,10 @@
       ],
       "config": "settings/research-council.config.json",
       "cast": "researchers",
-      "verdictContract": "docs/research-verdict-contract.md"
+      "verdictContract": "docs/researchers.md#what-a-researcher-returns"
     },
     "chain": {
-      "$comment": "Phase 20 (v4.1). Compound questions ('what's the best X given the current landscape') run the Research chamber FIRST, then feed its Research Verdict into the Decision chamber as the evidence base. Dissent is preserved at BOTH layers. See council-of-minds.md '## Chamber Chaining' and docs/chamber-chaining.md.",
+      "$comment": "Compound questions ('what's the best X given the current landscape') run the researchers FIRST, then feed the Research Verdict into an advisor panel as the evidence base. Dissent is preserved at BOTH layers. See council-of-minds.md '## Chaining' and docs/chaining.md.",
       "order": [
         "research",
         "decision"
@@ -50,14 +50,14 @@
       "reEntry": {
         "$comment": "Advisors may find the evidence base insufficient for a specific gap.",
         "signal": "INSUFFICIENT-EVIDENCE",
-        "effect": "the named gap re-enters the Research chamber as a new sub-question",
+        "effect": "the named gap re-enters the researchers as a new sub-question",
         "maxReEntries": 1,
         "why": "bounded to 1 to prevent research<->decision ping-pong loops"
       },
       "dissent": "preserve BOTH the research Minority Report and the decision Minority Report in the final chained output; never collapse them",
       "budget": {
-        "$comment": "One tier applies across BOTH chambers using the shared vocabulary (Minimal/Lean/Standard/High/Deep/Unlimited).",
-        "rule": "the selected tier configures the research chamber (retrieval dimensions) AND the decision chamber (panel/mode/word limits) in the same run",
+        "$comment": "One tier applies across BOTH kinds using the shared vocabulary (Minimal/Lean/Standard/High/Deep/Unlimited).",
+        "rule": "the selected tier configures the researchers (retrieval dimensions) AND the advisors (panel/mode/word limits) in the same run",
         "sharedVocabulary": true
       }
     }
@@ -105,11 +105,11 @@
       ]
     },
     "research": {
-      "$comment": "Research chamber (v4.0), a co-equal peer routed via the top-level 'chambers' map. Full spec in settings/research-council.config.json and the Research Council section of council-of-minds.md. Referenced here only so the mode name resolves within this file.",
+      "$comment": "Researchers — a co-equal peer routed via the top-level 'chambers' map. Full spec in settings/research-council.config.json and the Researchers section of council-of-minds.md. Referenced here only so the mode name resolves within this file.",
       "chamber": "research",
       "rounds": "charter → crystallize-vote",
       "config": "settings/research-council.config.json",
-      "verdictContract": "docs/research-verdict-contract.md"
+      "verdictContract": "docs/researchers.md#what-a-researcher-returns"
     }
   },
   "enforcement": {

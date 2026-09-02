@@ -1,6 +1,6 @@
 # Custom Advisors
 
-Define your own advisors and drop them into the pool alongside the 60 built-in
+Define your own advisors and drop them into the pool alongside the built-in
 members. Custom advisors are discovered automatically and become available to
 auto-selection and to any profile that lists them — no code changes required.
 
@@ -30,12 +30,11 @@ Then reference it in a session or add it to a profile in
 
 ## Cast field
 
-The template carries a `Cast:` field so the same scaffold can define either cast:
+The template carries a `Cast:` field so the same scaffold can define either kind of Mind:
 
-- `Cast: advisor` — a reasoning member of the decision chamber (available now).
-- `Cast: researcher` — a retrieval member of the research chamber. The researcher
-  cast is not built yet (roadmap Phase 15+); a `Cast: researcher` file validates
-  structurally but will only participate once that chamber ships.
+- `Cast: advisor` — a reasoning Mind. Fill in and drop into `advisors/custom/`.
+- `Cast: researcher` — a retrieval Mind. Fill in and drop into `researchers/custom/`
+  (see `researchers/custom/README.md`). Both casts are live.
 
 ## Required sections
 

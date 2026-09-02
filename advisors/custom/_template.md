@@ -1,13 +1,13 @@
 # Custom {Cast} Template
 
-> Copy this file to `advisors/custom/<name>.md` (or `researchers/custom/<name>.md`
-> once the researcher cast exists) and fill in every `{placeholder}`.
-> Run `council advisor validate <name>` before use — a member missing any
-> required section is rejected by the loader.
+> Copy this file to `advisors/custom/<name>.md` or `researchers/custom/<name>.md`
+> and fill in every `{placeholder}`.
+> Run `council advisor validate <name>` (or `council researcher validate <name>`)
+> before use — a Mind missing any required section is rejected by the loader.
 >
 > This template is **cast-agnostic**. Set the `Cast:` field to `advisor` for a
-> reasoning member (decision chamber) or `researcher` for a retrieval member
-> (research chamber, when available). All other sections apply to both casts.
+> reasoning Mind or `researcher` for a retrieval Mind. Both casts are live; all
+> other sections apply to both.
 
 ---
 

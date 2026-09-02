@@ -2,7 +2,7 @@
 
 Six researchers focused on **qualitative and social evidence** — what practitioners report, what experts say, how sentiment skews, how workflows actually run, where credible dissent lives, and what the non-English record holds. Human researchers retrieve the lived and social record that quantitative sources miss.
 
-Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/retrieval-layer.md).
+Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/researchers.md#how-researchers-retrieve).
 
 ---
 

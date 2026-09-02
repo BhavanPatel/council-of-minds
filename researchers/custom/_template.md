@@ -12,7 +12,7 @@
 > researcher already owns.
 >
 > Tool-neutral and agent-agnostic: no vendor, model, or search-provider is named.
-> The host supplies retrieval via the [Retrieval Capability Contract](../../docs/retrieval-layer.md).
+> The host supplies retrieval via the [Retrieval Capability Contract](../../docs/researchers.md#how-researchers-retrieve).
 
 ---
 

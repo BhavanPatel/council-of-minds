@@ -3,18 +3,18 @@
 **Trigger:** `chained council: which vector database should we adopt, given the current landscape?`
 
 A compound question: it asks what to **DO** (adopt one) but the answer depends on **current
-facts** (pricing, adoption, maturity). The orchestrator routes it to **Chamber Chaining** — the
-Research chamber runs first, then the Decision chamber deliberates over the sourced evidence.
+facts** (pricing, adoption, maturity). The orchestrator routes it to **chaining** — the
+researchers run first, then an advisor panel deliberates over the sourced evidence.
 Tier: **Standard** (default for `chained council:`).
 
 ---
 
-## Stage 1 — Research chamber
+## Stage 1 — Researchers
 
 Profile: **market-research** + **technical-due-diligence** blend; mandatory Adversarial +
 Synthesis seats added by the selector.
 
-**Panel (6):** competitor-mapper, pricing-scout, adoption-reader, reproducer,
+**Panel:** competitor-mapper, pricing-scout, adoption-reader, reproducer,
 counter-evidence-scout (Adversarial), triangulator (Synthesis).
 
 ### Abbreviated Research Verdict
@@ -50,14 +50,14 @@ Citation coverage 100% · independence groups: 6 · recency compliance 90%.
 
 ---
 
-## Stage 2 — Decision chamber (over the Research Verdict)
+## Stage 2 — Advisors (over the Research Verdict)
 
 The advisor panel receives the Findings Cards **with source ids intact** and deliberates.
 Profile: **engineering**. Panel: architect, shipper, realist, scientist, strategist.
 
 - **scientist** cites F3 to discount the "10x faster" marketing.
 - **shipper** raises `INSUFFICIENT-EVIDENCE: no operational cost at our scale` → one bounded
-  re-entry to the Research chamber (a targeted Progressive-Retrieve pass on cost-modeler).
+  re-entry to the researchers (a targeted Progressive-Retrieve pass on cost-modeler).
   Re-entry returns a partial answer; residual uncertainty carried to Unresolved Questions.
 
 ### Abbreviated Decision Verdict
@@ -77,7 +77,7 @@ incomplete (see re-entry). DEALBREAKER if projected monthly cost exceeds budget 
 If an independent benchmark refutes F3 in Option A's favour within 60 days, revisit the speed axis.
 
 ### Unresolved Questions
-Operational cost at our specific scale (Research re-entry returned only list pricing, not our tier).
+Operational cost at our specific scale (research re-entry returned only list pricing, not our tier).
 
 ### Sourced-From
 rv-2026-09-02-vdb7
@@ -100,3 +100,5 @@ reader can audit every cited finding.
   the residual gap became an Unresolved Question rather than an invented number.
 - **`Sourced-From`** — the decision verdict cites the research verdict id, making the evidence
   chain traceable.
+
+See [chaining.md](../chaining.md) for the full chaining contract.

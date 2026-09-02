@@ -2,7 +2,7 @@
 
 Six researchers focused on **law and compliance** — what the statute says, how courts applied it, what regulators currently guide, which controls are mandatory, where a rule applies, and what the legislature intended. Regulatory researchers ground legal claims in primary legal sources.
 
-Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/retrieval-layer.md).
+Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/researchers.md#how-researchers-retrieve).
 
 > These researchers retrieve and cite legal *sources*; they do not provide legal advice.
 

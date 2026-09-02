@@ -7,7 +7,7 @@ set -euo pipefail
 # Mirrors context-sect install pattern: git-aware, per-agent, proper path resolution.
 # ─────────────────────────────────────────────────────────────────────────────
 
-VERSION="4.2.0"
+VERSION="4.2.1"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="${HOME}/.council-of-minds"
 
@@ -28,10 +28,10 @@ BOLD='\033[1m'
 print_header() {
   echo ""
   echo -e "${PURPLE}${BOLD}  Council of Minds${NC} ${CYAN}v${VERSION}${NC}"
-  echo -e "  ${CYAN}Multi-advisor deliberation for AI agents${NC}"
+  echo -e "  ${CYAN}A council of Minds — Advisors judge, Researchers investigate; for AI agents${NC}"
   echo ""
-  echo -e "  60 cognitive lenses · 18 profiles · 3 modes (Full/Quick/Duo)"
-  echo -e "  5-round deliberation · weighted voting · kill criteria · evidence labels"
+  echo -e "  Advisors (reason to a verdict) + Researchers (retrieve a sourced answer), solo or chained"
+  echo -e "  Decision: weighted voting · Research: cited verdicts with per-claim confidence"
   echo ""
   echo -e "  ─────────────────────────────────────────────────────────────"
   echo ""
@@ -261,7 +261,7 @@ sync_researchers() {
   done
 }
 
-# Copy all researcher files (Research Council, second chamber) from source to target.
+# Copy all researcher files (retrieval Minds) from source to target.
 # No-op when the researchers/ directory is absent, so older installs stay valid.
 copy_researchers() {
   local target_dir="$1"
@@ -271,7 +271,7 @@ copy_researchers() {
     [[ -f "$researcher_file" ]] || continue
     cp "$researcher_file" "$target_dir/"
   done
-  # Copy custom researchers, if present (Phase 22 — forward-compatible).
+  # Copy custom researchers, if present (forward-compatible).
   if [[ -d "${SRC_DIR}/researchers/custom" ]]; then
     mkdir -p "${target_dir}/custom"
     for custom_file in "${SRC_DIR}"/researchers/custom/*.md; do
@@ -297,8 +297,8 @@ install_kiro() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/settings/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/settings/"
-    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
-      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/settings/"
+  [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/settings/"
 
   # Remove advisors/researchers that no longer exist in source
   sync_advisors "${target}/agents/council-of-minds/advisors"
@@ -318,8 +318,8 @@ install_claude() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
-    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
-      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
+  [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/advisors"
@@ -351,8 +351,8 @@ install_cursor() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/council-advisors/"
-    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
-      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/council-advisors/"
+  [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
@@ -372,8 +372,8 @@ install_windsurf() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/council-advisors/"
-    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
-      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/council-advisors/"
+  [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
@@ -409,8 +409,8 @@ install_aider() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
-    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
-      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
+  [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
 
   local aider_conf="${HOME}/.aider.conf.yml"
   if [ -f "$aider_conf" ]; then
@@ -450,8 +450,8 @@ install_opencode() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
-    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
-      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
+  [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
 
   log_ok "OpenCode: ${target}/"
 }
@@ -529,7 +529,8 @@ print_summary() {
   echo -e "    ${CYAN}council this: should I use a monorepo or polyrepo?${NC}"
   echo ""
   echo -e "  ${BOLD}Modes:${NC} full (5-round) · quick (3-round) · duo (polarity pair)"
-  echo -e "  ${BOLD}Profiles:${NC} engineering · strategy · product · risk · ai-ml · innovation"
+  echo -e "  ${BOLD}Profiles:${NC} engineering · strategy · product · risk · ai-ml · … (full list in docs/advisors.md)"
+  echo -e "  ${BOLD}Research:${NC} research council: [claim] · chained council: [do, given current facts]"
   echo -e "  ${BOLD}Follow-up:${NC} expand on [advisor] · challenge · reweight · re-run · save"
   echo -e "  ${BOLD}Customize:${NC} Edit council-of-minds.config.json (global) or decision-council.config.json (advisors/profiles) in your client's config dir"
   echo ""

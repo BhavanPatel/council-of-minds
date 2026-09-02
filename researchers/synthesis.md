@@ -4,7 +4,7 @@ Six researchers that **operate on the Source Store, not the web**. Where the oth
 
 Every research panel MUST include at least one Synthesis researcher; without it nothing audits the collected set. Each carries an **attack specialisation** for evidence cross-examination.
 
-See the [Retrieval Capability Contract](../docs/retrieval-layer.md) and the Source Store spec.
+See the [Retrieval Capability Contract](../docs/researchers.md#how-researchers-retrieve) and the Source Store spec.
 
 ---
 
@@ -198,7 +198,7 @@ Operates on the aggregate metrics. Polarity partner of gap-mapper (holes) and cl
 2. **Attach per-claim confidence** (never a single report-level number).
 3. **Preserve Contested Findings and the Minority Report.**
 4. **Record Open Questions and Falsifiers.**
-5. **Emit the Research Verdict** per the output contract (Phase 18).
+5. **Emit the Research Verdict** per the output contract (see *What a Researcher Returns*).
 
 ### Example Operations
 
@@ -216,4 +216,6 @@ Operates on verdict assembly. Has no polarity partner — it synthesises rather 
 - Confidence is per-claim, never a single number.
 - Never discard dissent to make the verdict look cleaner.
 
-> The full Research Verdict output contract is specified in Phase 18 (`docs/research-verdict-contract.md`, not yet written). brief-writer's structure here is a placeholder aligned to that contract.
+> The full Research Verdict output contract is specified in the *What a Researcher Returns*
+> section of [`../docs/researchers.md`](../docs/researchers.md#what-a-researcher-returns).
+> brief-writer's structure here aligns to that contract.

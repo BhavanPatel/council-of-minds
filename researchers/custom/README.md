@@ -1,6 +1,6 @@
 # Custom Researchers
 
-Define your own retrieval lenses and drop them into the pool alongside the 60
+Define your own retrieval lenses and drop them into the pool alongside the
 built-in researchers. Custom researchers are discovered automatically and become
 available to research auto-selection and to any research profile that lists them —
 no code changes required.
@@ -8,9 +8,9 @@ no code changes required.
 The builder is **agent-agnostic and tool-neutral**: a researcher is just a markdown
 file that follows the template. There is no runtime, no vendor lock, and no model
 or search-provider dependency — the host supplies retrieval via the
-[Retrieval Capability Contract](../../docs/retrieval-layer.md).
+[Retrieval Capability Contract](../../docs/researchers.md#how-researchers-retrieve).
 
-This is the **research-chamber twin** of `advisors/custom/`. Where an advisor is a
+This is the retrieval-Mind counterpart of `advisors/custom/`. Where an advisor is a
 way of *thinking*, a researcher is a way of *looking* — it owns a source class and a
 query intent, and it must occupy territory no built-in researcher already owns.
 

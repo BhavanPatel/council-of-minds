@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# council — CLI for Council of Minds multi-advisor deliberation framework
+# council — CLI for Council of Minds: install and manage the advisor + researcher Minds
 # Installed to: /usr/local/bin/council (or ~/.local/bin/council)
 set -eo pipefail
 
 INSTALL_DIR="${HOME}/.council-of-minds"
-VERSION="4.2.0"
+VERSION="4.2.1"
 
 # Colors
 RED='\033[0;31m'
@@ -255,6 +255,7 @@ cmd_uninstall() {
     rm -rf "${HOME}/.kiro/agents/council-of-minds"
     rm -f "${HOME}/.kiro/settings/council-of-minds.config.json"
     rm -f "${HOME}/.kiro/settings/decision-council.config.json"
+    rm -f "${HOME}/.kiro/settings/research-council.config.json"
     echo -e "  ${GREEN}✓${NC} Removed from Kiro"
   fi
 
@@ -272,6 +273,7 @@ cmd_uninstall() {
   if [[ -f "${HOME}/.cursor/rules/council-of-minds.md" ]]; then
     rm -f "${HOME}/.cursor/rules/council-of-minds.md"
     rm -rf "${HOME}/.cursor/rules/council-advisors"
+    rm -rf "${HOME}/.cursor/rules/council-researchers"
     echo -e "  ${GREEN}✓${NC} Removed from Cursor"
   fi
 
@@ -279,6 +281,7 @@ cmd_uninstall() {
   if [[ -f "${HOME}/.windsurf/rules/council-of-minds.md" ]]; then
     rm -f "${HOME}/.windsurf/rules/council-of-minds.md"
     rm -rf "${HOME}/.windsurf/rules/council-advisors"
+    rm -rf "${HOME}/.windsurf/rules/council-researchers"
     echo -e "  ${GREEN}✓${NC} Removed from Windsurf"
   fi
 
@@ -286,6 +289,7 @@ cmd_uninstall() {
   if [[ -f "${HOME}/.cline/rules/council-of-minds.md" ]]; then
     rm -f "${HOME}/.cline/rules/council-of-minds.md"
     rm -rf "${HOME}/.cline/rules/council-advisors"
+    rm -rf "${HOME}/.cline/rules/council-researchers"
     echo -e "  ${GREEN}✓${NC} Removed from Cline"
   fi
 
@@ -303,6 +307,7 @@ cmd_uninstall() {
   if [[ -f "${HOME}/.roo/rules/council-of-minds.md" ]]; then
     rm -f "${HOME}/.roo/rules/council-of-minds.md"
     rm -rf "${HOME}/.roo/rules/council-advisors"
+    rm -rf "${HOME}/.roo/rules/council-researchers"
     echo -e "  ${GREEN}✓${NC} Removed from RooCode"
   fi
 
@@ -370,6 +375,7 @@ cmd_disable() {
   if [[ -f "${HOME}/.cursor/rules/council-of-minds.md" ]]; then
     mv "${HOME}/.cursor/rules/council-of-minds.md" "${HOME}/.cursor/rules/council-of-minds.md.disabled"
     [[ -d "${HOME}/.cursor/rules/council-advisors" ]] && mv "${HOME}/.cursor/rules/council-advisors" "${HOME}/.cursor/rules/council-advisors.disabled"
+    [[ -d "${HOME}/.cursor/rules/council-researchers" ]] && mv "${HOME}/.cursor/rules/council-researchers" "${HOME}/.cursor/rules/council-researchers.disabled"
     echo -e "  ${GREEN}✓${NC} Cursor — disabled"
   fi
 
@@ -377,6 +383,7 @@ cmd_disable() {
   if [[ -f "${HOME}/.windsurf/rules/council-of-minds.md" ]]; then
     mv "${HOME}/.windsurf/rules/council-of-minds.md" "${HOME}/.windsurf/rules/council-of-minds.md.disabled"
     [[ -d "${HOME}/.windsurf/rules/council-advisors" ]] && mv "${HOME}/.windsurf/rules/council-advisors" "${HOME}/.windsurf/rules/council-advisors.disabled"
+    [[ -d "${HOME}/.windsurf/rules/council-researchers" ]] && mv "${HOME}/.windsurf/rules/council-researchers" "${HOME}/.windsurf/rules/council-researchers.disabled"
     echo -e "  ${GREEN}✓${NC} Windsurf — disabled"
   fi
 
@@ -384,6 +391,7 @@ cmd_disable() {
   if [[ -f "${HOME}/.cline/rules/council-of-minds.md" ]]; then
     mv "${HOME}/.cline/rules/council-of-minds.md" "${HOME}/.cline/rules/council-of-minds.md.disabled"
     [[ -d "${HOME}/.cline/rules/council-advisors" ]] && mv "${HOME}/.cline/rules/council-advisors" "${HOME}/.cline/rules/council-advisors.disabled"
+    [[ -d "${HOME}/.cline/rules/council-researchers" ]] && mv "${HOME}/.cline/rules/council-researchers" "${HOME}/.cline/rules/council-researchers.disabled"
     echo -e "  ${GREEN}✓${NC} Cline — disabled"
   fi
 
@@ -397,6 +405,7 @@ cmd_disable() {
   if [[ -f "${HOME}/.roo/rules/council-of-minds.md" ]]; then
     mv "${HOME}/.roo/rules/council-of-minds.md" "${HOME}/.roo/rules/council-of-minds.md.disabled"
     [[ -d "${HOME}/.roo/rules/council-advisors" ]] && mv "${HOME}/.roo/rules/council-advisors" "${HOME}/.roo/rules/council-advisors.disabled"
+    [[ -d "${HOME}/.roo/rules/council-researchers" ]] && mv "${HOME}/.roo/rules/council-researchers" "${HOME}/.roo/rules/council-researchers.disabled"
     echo -e "  ${GREEN}✓${NC} RooCode — disabled"
   fi
 
@@ -450,6 +459,7 @@ cmd_enable() {
   if [[ -f "${HOME}/.cursor/rules/council-of-minds.md.disabled" ]]; then
     mv "${HOME}/.cursor/rules/council-of-minds.md.disabled" "${HOME}/.cursor/rules/council-of-minds.md"
     [[ -d "${HOME}/.cursor/rules/council-advisors.disabled" ]] && mv "${HOME}/.cursor/rules/council-advisors.disabled" "${HOME}/.cursor/rules/council-advisors"
+    [[ -d "${HOME}/.cursor/rules/council-researchers.disabled" ]] && mv "${HOME}/.cursor/rules/council-researchers.disabled" "${HOME}/.cursor/rules/council-researchers"
     echo -e "  ${GREEN}✓${NC} Cursor — enabled"
   fi
 
@@ -457,6 +467,7 @@ cmd_enable() {
   if [[ -f "${HOME}/.windsurf/rules/council-of-minds.md.disabled" ]]; then
     mv "${HOME}/.windsurf/rules/council-of-minds.md.disabled" "${HOME}/.windsurf/rules/council-of-minds.md"
     [[ -d "${HOME}/.windsurf/rules/council-advisors.disabled" ]] && mv "${HOME}/.windsurf/rules/council-advisors.disabled" "${HOME}/.windsurf/rules/council-advisors"
+    [[ -d "${HOME}/.windsurf/rules/council-researchers.disabled" ]] && mv "${HOME}/.windsurf/rules/council-researchers.disabled" "${HOME}/.windsurf/rules/council-researchers"
     echo -e "  ${GREEN}✓${NC} Windsurf — enabled"
   fi
 
@@ -464,6 +475,7 @@ cmd_enable() {
   if [[ -f "${HOME}/.cline/rules/council-of-minds.md.disabled" ]]; then
     mv "${HOME}/.cline/rules/council-of-minds.md.disabled" "${HOME}/.cline/rules/council-of-minds.md"
     [[ -d "${HOME}/.cline/rules/council-advisors.disabled" ]] && mv "${HOME}/.cline/rules/council-advisors.disabled" "${HOME}/.cline/rules/council-advisors"
+    [[ -d "${HOME}/.cline/rules/council-researchers.disabled" ]] && mv "${HOME}/.cline/rules/council-researchers.disabled" "${HOME}/.cline/rules/council-researchers"
     echo -e "  ${GREEN}✓${NC} Cline — enabled"
   fi
 
@@ -477,6 +489,7 @@ cmd_enable() {
   if [[ -f "${HOME}/.roo/rules/council-of-minds.md.disabled" ]]; then
     mv "${HOME}/.roo/rules/council-of-minds.md.disabled" "${HOME}/.roo/rules/council-of-minds.md"
     [[ -d "${HOME}/.roo/rules/council-advisors.disabled" ]] && mv "${HOME}/.roo/rules/council-advisors.disabled" "${HOME}/.roo/rules/council-advisors"
+    [[ -d "${HOME}/.roo/rules/council-researchers.disabled" ]] && mv "${HOME}/.roo/rules/council-researchers.disabled" "${HOME}/.roo/rules/council-researchers"
     echo -e "  ${GREEN}✓${NC} RooCode — enabled"
   fi
 
@@ -700,7 +713,7 @@ cmd_advisor() {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Custom researchers (research chamber) — twin of the advisor builder above.
+# Custom researchers (retrieval Minds) — twin of the advisor builder above.
 # ─────────────────────────────────────────────────────────────────────────────
 RESEARCHER_CUSTOM_DIR="${INSTALL_DIR}/researchers/custom"
 VALID_THEMES="evidence provenance adversarial quantitative temporal technical market regulatory human synthesis"

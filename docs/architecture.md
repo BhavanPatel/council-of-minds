@@ -1,10 +1,28 @@
 # Architecture
 
-Council of Minds uses an **Orchestrator + Parallel Subagents** pattern with a 5-round deliberation protocol, structured cross-examination, enforcement scanning, and confidence-weighted voting.
+Council of Minds is an **orchestrator** that routes each question to one of two kinds of Mind —
+**advisors** (reason from prior knowledge to a judgement) and **researchers** (retrieve external
+evidence to a sourced answer) — and can **chain** them. Both kinds share the Orchestrator +
+Parallel Subagents pattern: a multi-round deliberation protocol, structured cross-examination,
+enforcement scanning, and confidence-weighted voting.
+
+```mermaid
+graph TD
+    U["Your Question"] --> R{Router}
+    R -->|"what to DO"| DC["Advisors → Decision Verdict"]
+    R -->|"what IS true"| RC["Researchers → Research Verdict"]
+    R -->|"DO, given current facts"| CH["Chained<br/>Research → Decision"]
+    CH --> RC
+    RC -.->|Research Verdict as evidence| DC
+```
+
+The router classifies on the decision↔research distinction (ask once if ambiguous). The advisors
+are detailed first below; the [researchers](#researchers) and [chaining](#chaining) follow as
+sibling sections. See [concepts.md](concepts.md) for the Mind model.
 
 ---
 
-## How It Works
+## Advisors — How It Works
 
 ```mermaid
 graph LR
@@ -338,15 +356,15 @@ changes. This keeps the system tool-neutral — the council proposes, the human 
 
 ## Custom Advisors
 
-The 60-advisor pool is extensible. Users author `advisors/custom/<name>.md` from a
+The advisor pool is extensible. Users author `advisors/custom/<name>.md` from a
 cast-agnostic scaffold (`advisors/custom/_template.md`) and validate structure with
 `council advisor create|validate|list`. A custom advisor carries the same headers and
 sections as built-in members (Cast, Reasoning Method, Polarity Pairs, Evidence Type; plus
 Analytical Method, Grounding Protocol, both blind-spot sections, When Deliberating, and
 both output formats). Once valid it is eligible for auto-selection and any profile, and it
 obeys the same panel-size, dissent-quota, and evidence-diversity guarantees. The `Cast`
-field (`advisor` | `researcher`) makes the same scaffold reusable by the future researcher
-chamber. No runtime, no vendor dependency — advisors are plain markdown.
+field (`advisor` | `researcher`) makes the same scaffold reusable by the researcher Minds.
+No runtime, no vendor dependency — advisors are plain markdown.
 
 ## Key Design Decisions
 
@@ -382,11 +400,10 @@ chamber. No runtime, no vendor dependency — advisors are plain markdown.
 
 ---
 
-## Second Chamber — Research Council (v4.0)
+## Researchers
 
-Council of Minds has two chambers. The **decision council** (8 steps above) reasons from
-prior knowledge and returns a **Decision Verdict**. The **research council** retrieves
-external evidence through 60 researchers and returns a **Research Verdict** with per-claim
+The **advisors** (8 steps above) reason from prior knowledge and return a **Decision Verdict**.
+The **researchers** retrieve external evidence and return a **Research Verdict** with per-claim
 confidence, preserved dissent, and falsifiers.
 
 > This is **adversarial evidence auditing**, not "debate makes research more accurate."
@@ -428,33 +445,32 @@ flowchart TD
 - **New:** Retrieval Capability Contract, per-researcher query generator + divergence check,
   Territory Matrix, Source Store, Verification Ledger, Citation Formatter + Coverage Auditor.
 
-### Chamber Chaining (v4.1)
+### Chaining
 
 Compound questions — *what should I do, given the current state of the world* — chain the two
-chambers. The **Research chamber runs first** and its Research Verdict becomes the **evidence
-base** of the **Decision chamber**.
+kinds of Mind. The **researchers run first** and their Research Verdict becomes the **evidence
+base** for an **advisor panel**.
 
 ```mermaid
 flowchart LR
     Q[Compound question] --> Route{Router}
-    Route -->|do, but depends on current facts| RC[Research Chamber]
-    RC -->|Research Verdict rv-id<br/>Findings Cards + source ids| DC[Decision Chamber]
+    Route -->|do, but depends on current facts| RC[Researchers]
+    RC -->|Research Verdict rv-id<br/>Findings Cards + source ids| DC[Advisors]
     DC -->|INSUFFICIENT-EVIDENCE gap<br/>max 1 re-entry| RC
     DC --> DV[Decision Verdict<br/>Sourced-From: rv-id<br/>+ evidence appendix]
 ```
 
 - Findings are handed off with **source identity intact**; advisors cite by id and may contest.
-- `INSUFFICIENT-EVIDENCE` re-enters the Research chamber for **one** bounded pass.
+- `INSUFFICIENT-EVIDENCE` re-enters the researchers for **one** bounded pass.
 - **Both** minority reports (research + decision) are preserved.
-- One budget tier applies across both chambers. See [`chamber-chaining.md`](chamber-chaining.md).
+- One budget tier applies across both kinds. See [`chaining.md`](chaining.md).
 
-### Research Calibration (v4.1)
+### Research Calibration
 
 Research outcomes are tracked **per finding** (`confirmed` / `refuted` / `unresolved`), feeding
 researcher performance scoring, source-class reliability, and a per-claim calibration report.
 Advisory only — never lifts the 0.4/0.5 confidence caps. See the *Research Calibration &
 Analytics* section of [`../council-of-minds.md`](../council-of-minds.md).
 
-See [`researchers.md`](researchers.md), [`research-profiles.md`](research-profiles.md),
-[`research-verdict-contract.md`](research-verdict-contract.md), and
-[`retrieval-layer.md`](retrieval-layer.md).
+See [`researchers.md`](researchers.md) for the researcher roster, research profiles, retrieval
+layer, and Research Verdict contract.

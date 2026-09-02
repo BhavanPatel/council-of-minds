@@ -1,13 +1,13 @@
-# Chamber Chaining (Research → Decision)
+# Chaining (Research → Decision)
 
-> v4.1 (Phase 20). Council of Minds routes every request to one of two co-equal chambers —
-> **Decision** (advisors reason to a verdict) or **Research** (researchers retrieve evidence to
-> a sourced verdict). Some questions need both: *what should I do, given the current state of the
-> world?* Chaining runs the **Research chamber first**, then feeds its Research Verdict into the
-> **Decision chamber** as the evidence base. Dissent is preserved at **both** layers.
+> Council of Minds routes every request to one of two kinds of Mind — **advisors** (reason to a
+> verdict) or **researchers** (retrieve evidence to a sourced verdict). Some questions need both:
+> *what should I do, given the current state of the world?* Chaining runs the **researchers
+> first**, then feeds their Research Verdict into an **advisor panel** as the evidence base.
+> Dissent is preserved at **both** layers.
 
-No competitor found (as of the Sept 2026 landscape scan) chains a retrieval chamber into a
-deliberation chamber while preserving calibrated dissent on both sides.
+Chaining a retrieval pass into a deliberation pass while preserving calibrated dissent on both
+sides is what distinguishes a chained run from either kind on its own.
 
 ## When a request chains
 
@@ -31,13 +31,13 @@ User (compound question)
         │
         ▼
 ┌─────────────────────┐     Research Verdict (rv-id)
-│  RESEARCH CHAMBER   │────  Findings Cards + source ids
+│     RESEARCHERS     │────  Findings Cards + source ids
 │  Charter→Crystallize │      Contested Findings
 └─────────────────────┘      research Minority Report
         │                    Open Questions
         ▼  (hand-off, source identity intact)
 ┌─────────────────────┐
-│  DECISION CHAMBER   │  advisors cite / contest findings by id
+│      ADVISORS       │  advisors cite / contest findings by id
 │  Full/Quick/Duo      │  may raise INSUFFICIENT-EVIDENCE (≤1 re-entry)
 └─────────────────────┘
         │
@@ -49,7 +49,7 @@ Decision Verdict  ──  Sourced-From: rv-id
 
 ### Hand-off payload
 
-The Decision panel receives, with **source identity intact**:
+The advisor panel receives, with **source identity intact**:
 
 - **Findings Cards** — claim, evidence type, per-claim confidence, stance (supports/contradicts).
 - **Source `canonical_id`s** — independence groups preserved (N sources from one origin still
@@ -58,14 +58,14 @@ The Decision panel receives, with **source identity intact**:
 
 Advisors may **cite a finding by id** and may **contest** it, but must not silently discard a
 contested finding. A finding cited into a decision counts as `empirical` evidence only at the
-confidence the research chamber assigned it — **never upgraded**.
+confidence the researchers assigned it — **never upgraded**.
 
 ### Insufficient-evidence re-entry
 
 An advisor raises `INSUFFICIENT-EVIDENCE: {specific gap}` when a load-bearing claim needed for the
 decision is missing or weakly sourced.
 
-- The named gap re-enters the Research chamber as a **new sub-question** (a targeted
+- The named gap re-enters the researchers as a **new sub-question** (a targeted
   Progressive-Retrieve pass, not a full re-run).
 - **Bounded to 1 re-entry** per chained run, to prevent a research↔decision ping-pong loop.
 - If still unmet after one re-entry, the gap goes to the decision verdict's **Unresolved
@@ -78,11 +78,11 @@ The final chained output carries **two** minority reports, never collapsed:
 - the **research Minority Report** ("what would change my mind" + held sources), and
 - the **decision Minority Report** (strongest dissent + any DEALBREAKER flag).
 
-### One budget across both chambers
+### One budget across both kinds
 
-A single tier (Minimal / Lean / Standard / High / Deep / Unlimited) configures **both** chambers
-in the same run: research retrieval dimensions *and* decision panel/mode/word-limits. `"chained
-council:"` with no tier defaults to **Standard**; add "lean"/"deep" as elsewhere.
+A single tier (Minimal / Lean / Standard / High / Deep / Unlimited) configures **both** the
+research retrieval dimensions *and* the decision panel/mode/word-limits in the same run.
+`"chained council:"` with no tier defaults to **Standard**; add "lean"/"deep" as elsewhere.
 
 ## Triggers
 
@@ -90,8 +90,8 @@ council:"` with no tier defaults to **Standard**; add "lean"/"deep" as elsewhere
 |---------|--------|
 | `chained council: ...` | Research → Decision at Standard |
 | `research then decide: ...` | same |
-| `deep chained council: ...` | Deep tier across both chambers |
-| `lean chained council: ...` | Lean tier across both chambers |
+| `deep chained council: ...` | Deep tier across both kinds |
+| `lean chained council: ...` | Lean tier across both kinds |
 
 ## Output shape
 
@@ -101,6 +101,7 @@ A chained run produces, in order:
    naming the research verdict id.
 2. **Evidence appendix** — the full Research Verdict verbatim.
 
-See `docs/examples/research-chained.md` for a worked example, `docs/research-verdict-contract.md`
-for the Research Verdict template, and the `## Chamber Chaining` section of `council-of-minds.md`
-for the orchestrator wiring.
+See [`examples/chained.md`](examples/chained.md) for a worked example, the *What a Researcher
+Returns* section of [`researchers.md`](researchers.md) for the Research Verdict template, and the
+`## Chaining` section of [`../council-of-minds.md`](../council-of-minds.md) for the
+orchestrator wiring.

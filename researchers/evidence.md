@@ -4,7 +4,7 @@ Six researchers focused on **core epistemic retrieval** — finding the mechanis
 
 Researchers are named by *retrieval function*, not cognitive function. Each **owns a source class** and a **query intent**, and carries an **attack specialisation** it uses during evidence cross-examination. Territory exclusivity is the mechanism that produces evidence diversity: without it, all researchers fetch the same top-3 results.
 
-Every researcher operates under the [Retrieval Capability Contract](../docs/retrieval-layer.md) and registers what it finds in the shared **Source Store** by `canonical_id`.
+Every researcher operates under the [Retrieval Capability Contract](../docs/researchers.md#how-researchers-retrieve) and registers what it finds in the shared **Source Store** by `canonical_id`.
 
 ---
 

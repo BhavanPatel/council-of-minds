@@ -1,8 +1,8 @@
 {
-  "$comment": "Council of Minds — Research Council (second chamber) configuration. v4.0-alpha (Phase 15) establishes the retrieval foundation; v4.0-beta (Phase 16) registers the 60 researchers. Tool-neutral and agent-agnostic: no vendor, model, or specific search-provider is named. The host supplies retrieval via the Retrieval Capability Contract below.",
-  "version": "4.2.0",
+  "$comment": "Council of Minds — researcher (research) configuration. Registers the researchers, their themes, retrieval capability contract, research profiles, and polarity pairs. Structural twin of settings/decision-council.config.json. Tool-neutral and agent-agnostic: no vendor, model, or specific search-provider is named. The host supplies retrieval via the Retrieval Capability Contract below.",
+  "version": "4.2.1",
   "peerChamber": {
-    "$comment": "Research is one of two co-equal chambers. The decision chamber is configured in settings/decision-council.config.json; the neutral routing map over both lives in settings/council-of-minds.config.json under 'chambers'. This is a peer reference, not a parent.",
+    "$comment": "The advisors are configured in settings/decision-council.config.json; the neutral routing map over both lives in settings/council-of-minds.config.json under 'chambers'. This is a peer reference, not a parent.",
     "config": "settings/decision-council.config.json",
     "cast": "advisors"
   },
@@ -51,7 +51,7 @@
       }
     },
     "onCapabilityMissing": {
-      "$comment": "The one unrecoverable failure mode is silently fabricating citations. If retrieval is unavailable, the chamber MUST NOT emit a Research Verdict.",
+      "$comment": "The one unrecoverable failure mode is silently fabricating citations. If retrieval is unavailable, the council MUST NOT emit a Research Verdict.",
       "mode": "degrade-to-briefing",
       "rule": "MUST refuse to emit a Research Verdict without retrieval. Instead emit a clearly labelled PRIOR-KNOWLEDGE BRIEFING that (a) states retrieval was unavailable, (b) carries NO citations, (c) caps every claim confidence at 'low', and (d) lists the queries that WOULD have been run so the user can retrieve manually.",
       "forbidden": "Never present prior-knowledge claims as if they were retrieved and sourced."
@@ -67,7 +67,7 @@
       "fetched_at": "ISO-8601 timestamp of retrieval",
       "publish_date": "ISO-8601 publish date if known, else null",
       "class": "source class (see sourceClasses)",
-      "verification": "unverified | verified | demoted (set by the Verification Ledger in Phase 17)",
+      "verification": "unverified | verified | demoted (set by the Verification Ledger)",
       "url": "resolved URL or DOI",
       "title": "source title"
     },
@@ -129,7 +129,7 @@
     "floor": "always allow at least the tier-minimum fetches before this rule can trigger"
   },
   "researchModes": {
-    "$comment": "Round flow (Charter → Crystallize & Vote) wired into the orchestrator (council-of-minds.md, Research Round Flow section) in Phase 17.",
+    "$comment": "Round flow (Charter → Crystallize & Vote) wired into the orchestrator (council-of-minds.md, Research Round Flow section).",
     "research": {
       "rounds": [
         "charter",
@@ -174,12 +174,12 @@
         "singleIndependenceGroup": 0.5,
         "unverifiedOrDemoted": 0.4
       },
-      "verdictContract": "docs/research-verdict-contract.md",
+      "verdictContract": "docs/researchers.md#what-a-researcher-returns",
       "status": "active"
     }
   },
   "triggers": {
-    "$comment": "Phase 19. Explicit triggers always route to research mode; auto-detect routes when the question asks what IS (a state of the world) with no options enumerated.",
+    "$comment": "Explicit triggers always route to research mode; auto-detect routes when the question asks what IS (a state of the world) with no options enumerated.",
     "explicit": [
       "research council:",
       "sourced council:",
@@ -218,7 +218,7 @@
     "onAmbiguous": "ask once at the Charter stage whether the user wants a decision or a research answer; never guess"
   },
   "budgetTiers": {
-    "$comment": "Phase 19. Budget applies across RETRIEVAL dimensions, not word limits. Degradation order is critical: fact-check is sacrificed LAST because independent grounding is the proven unlock (arXiv 2606.02866). Rounds are NEVER a throttle (2607.09099, 2502.19559).",
+    "$comment": "Budget applies across RETRIEVAL dimensions, not word limits. Degradation order is critical: fact-check is sacrificed LAST because independent grounding is the proven unlock (arXiv 2606.02866). Rounds are NEVER a throttle (2607.09099, 2502.19559).",
     "dimensions": [
       "panel",
       "queriesPerResearcher",
@@ -281,7 +281,7 @@
     "default": "standard"
   },
   "selectorConstraint": {
-    "$comment": "Phase 19. Every research panel must be able to audit and to disconfirm.",
+    "$comment": "Every research panel must be able to audit and to disconfirm.",
     "mustInclude": [
       {
         "theme": "synthesis",
@@ -303,13 +303,13 @@
     "polarityPair": "include at least one researchPolarityPairs pair (cross-theme most valuable)"
   },
   "modelDiversity": {
-    "$comment": "Phase 19. Reuses the decision-council model-assignment algorithm (Phase 8), clustering by source class instead of evidence type. Tool-neutral: named model slots are abstract (model-a/b/c), resolved by the host.",
+    "$comment": "Reuses the decision-council model-assignment algorithm, clustering by source class instead of evidence type. Tool-neutral: named model slots are abstract (model-a/b/c), resolved by the host.",
     "algorithm": "group researchers by source-class cluster, map each cluster to a distinct model slot, enforce no single model > 50% of panel",
     "singleModelFallback": "retrieval-variation directives (breadth-first vs depth-first vs adversarial query framing)",
-    "reuses": "Phase 8 multi-model assignment"
+    "reuses": "multi-model assignment"
   },
   "analytics": {
-    "$comment": "Phase 21 (v4.1). Calibration is PER FINDING, never per verdict (a Research Verdict has no single confidence). Mirrors the decision chamber's Persistent Memory analytics. Advisory only — never auto-excludes a lens or lifts a confidence cap. Full spec in council-of-minds.md '## Research Calibration & Analytics'.",
+    "$comment": "Calibration is PER FINDING, never per verdict (a Research Verdict has no single confidence). Mirrors the advisors's Persistent Memory analytics. Advisory only — never auto-excludes a lens or lifts a confidence cap. Full spec in council-of-minds.md '## Research Calibration & Analytics'.",
     "perFindingOutcome": {
       "trigger": "council feedback: {rv-id} — F{n} was [confirmed|refuted|unresolved]",
       "store": "council-transcripts/research/research-outcomes.json",
@@ -369,7 +369,7 @@
     ]
   },
   "interactiveMode": {
-    "$comment": "Phase 22 (v4.2). Opt-in checkpoints for the research chamber; reuses the decision chamber's Phase-9 checkpoint machinery. Checkpoints land after Retrieve and after Cross-Exam (never mid-fact-check).",
+    "$comment": "Opt-in checkpoints for the researchers; reuses the advisors's checkpoint machinery. Checkpoints land after Retrieve and after Cross-Exam (never mid-fact-check).",
     "enabled": false,
     "triggers": [
       "interactive research council:",
@@ -390,10 +390,10 @@
     ],
     "defaultAction": "continue",
     "maxCheckpoints": 2,
-    "reuses": "Phase 9 interactive checkpoint mechanism"
+    "reuses": "interactive checkpoint mechanism"
   },
   "transcriptStorage": {
-    "$comment": "Phase 22 (v4.2). Research transcripts stored separately from decision transcripts.",
+    "$comment": "Research transcripts stored separately from decision transcripts.",
     "dir": "council-transcripts/research/",
     "trigger": "save research transcript",
     "filename": "research-transcript-{YYYY-MM-DD}-{short-id}.md",
@@ -401,7 +401,7 @@
     "privacy": "local-only, no external transmission"
   },
   "sourceStorePersistence": {
-    "$comment": "Phase 22 (v4.2). The Source Store may persist across sessions as a cache so repeated questions do not re-fetch unchanged sources. Staleness policy prevents serving outdated evidence.",
+    "$comment": "The Source Store may persist across sessions as a cache so repeated questions do not re-fetch unchanged sources. Staleness policy prevents serving outdated evidence.",
     "enabled": false,
     "store": "council-transcripts/research/source-store.json",
     "keyedBy": "canonical_id",
@@ -419,7 +419,7 @@
     "independenceGroupsPreserved": true
   },
   "multimodalLens": {
-    "$comment": "Phase 22 (v4.2). Optional retrieval of charts/diagrams/figures when the host exposes an image-capable fetch. Tool-neutral: no vendor named. Degrades gracefully to text-only when unavailable (cf. MMDR-Bench 2601.12346).",
+    "$comment": "Optional retrieval of charts/diagrams/figures when the host exposes an image-capable fetch. Tool-neutral: no vendor named. Degrades gracefully to text-only when unavailable (cf. MMDR-Bench 2601.12346).",
     "enabled": false,
     "capability": "image-capable fetch (host-provided)",
     "targets": [
@@ -431,7 +431,7 @@
     "rule": "an extracted figure claim is still a Findings Card with a source id; never invent values a figure does not legibly show"
   },
   "selfBenchmark": {
-    "$comment": "Phase 22 (v4.2). Optional self-evaluation against the DeepResearch Bench task format so a run's coverage/citation metrics can be scored the same way the frontier is measured.",
+    "$comment": "Optional self-evaluation against the DeepResearch Bench task format so a run's coverage/citation metrics can be scored the same way the frontier is measured.",
     "enabled": false,
     "trigger": "benchmark this research",
     "format": "DeepResearch Bench task format (open-ended cited report)",
@@ -445,7 +445,7 @@
     "note": "advisory self-scoring only; not a leaderboard submission"
   },
   "customResearchers": {
-    "$comment": "Phase 22 (v4.2). Reuses the Phase-13 cast-agnostic template system, parameterised for the researcher cast. Scaffolds live in researchers/custom/; the CLI is `council researcher create|validate|list`.",
+    "$comment": "Reuses the cast-agnostic template system, parameterised for the researcher cast. Scaffolds live in researchers/custom/; the CLI is `council researcher create|validate|list`.",
     "dir": "researchers/custom/",
     "template": "researchers/custom/_template.md",
     "cli": "council researcher create|validate|list",
@@ -469,10 +469,10 @@
       "Output Format (Cross-Exam)"
     ],
     "integration": "eligible for auto-selection and profiles; obeys ≥1 Synthesis + ≥1 Adversarial and 4-6 (up to 8 deep) panel limits",
-    "reuses": "Phase 13 custom-member template system (cast-agnostic)"
+    "reuses": "custom-member template system (cast-agnostic)"
   },
   "researchers": {
-    "$comment": "60 researchers across 10 themes, 6 each. Named by RETRIEVAL function. Each owns a source class + query intent (see docs/researchers.md Territory Matrix). polarity_pairs drive the sparse O(N) evidence cross-examination in Phase 17.",
+    "$comment": "60 researchers across 10 themes, 6 each. Named by RETRIEVAL function. Each owns a source class + query intent (see docs/researchers.md Territory Matrix). polarity_pairs drive the sparse O(N) evidence cross-examination.",
     "literature-scout": {
       "theme": "evidence",
       "query_intent": "mechanism, prior work",
@@ -1246,7 +1246,7 @@
     ]
   ],
   "profiles": {
-    "$comment": "Phase 19. 15 research profiles, 5 researchers each. Every profile satisfies the selector constraint: >=1 Synthesis + >=1 Adversarial.",
+    "$comment": "15 research profiles, 5 researchers each. Every profile satisfies the selector constraint: >=1 Synthesis + >=1 Adversarial.",
     "landscape-scan": {
       "researchers": [
         "competitor-mapper",

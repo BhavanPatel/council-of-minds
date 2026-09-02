@@ -2,7 +2,7 @@
 
 Six researchers focused on **commercial reality** — who else does this, what it costs, who actually uses it, what the filings say, what analysts claim, and what customers report. Market researchers ground business claims in evidence rather than pitch decks.
 
-Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/retrieval-layer.md).
+Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/researchers.md#how-researchers-retrieve).
 
 ---
 

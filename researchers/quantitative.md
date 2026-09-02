@@ -2,7 +2,7 @@
 
 Six researchers focused on **getting the numbers right** — denominators, effect sizes, benchmarks, trends, costs, and uncertainty. Quantitative researchers turn vague magnitudes into sourced figures with units and error bars.
 
-Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/retrieval-layer.md).
+Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/researchers.md#how-researchers-retrieve).
 
 ---
 

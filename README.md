@@ -1,73 +1,70 @@
 <p align="center">
   <strong>Council of Minds</strong><br/>
-  <em>Multi-advisor deliberation for AI agents. One council, every coding client.</em>
+  <em>A council of Minds — Researchers investigate, Advisors judge; solo or chained; installable across every AI agent.</em>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-4.2.0-a78bfa?style=flat-square" alt="Version" />
-  <img src="https://img.shields.io/badge/advisors-60_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
-  <img src="https://img.shields.io/badge/researchers-60_retrieval_lenses-06b6d4?style=flat-square" alt="Researchers" />
-  <img src="https://img.shields.io/badge/profiles-21_+_15_research-f59e0b?style=flat-square" alt="Profiles" />
-  <img src="https://img.shields.io/badge/agents-kiro_·_cursor_·_claude_·_windsurf_·_+6_more-3b82f6?style=flat-square" alt="Agents" />
+  <img src="https://img.shields.io/badge/minds-advisors_+_researchers-10b981?style=flat-square" alt="Minds" />
+  <img src="https://img.shields.io/badge/modes-solo_·_chained-06b6d4?style=flat-square" alt="Modes" />
+  <img src="https://img.shields.io/badge/agents-kiro_·_cursor_·_claude_·_windsurf_·_+more-3b82f6?style=flat-square" alt="Agents" />
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" alt="License" />
 </p>
 
 <p align="center">
+  <a href="#what-it-is"><strong>What It Is</strong></a> ·
   <a href="#install"><strong>Install</strong></a> ·
   <a href="#how-it-works"><strong>How It Works</strong></a> ·
-  <a href="#the-60-advisors"><strong>Advisors</strong></a> ·
-  <a href="#the-60-researchers"><strong>Researchers</strong></a> ·
-  <a href="#vs-alternatives"><strong>vs Alternatives</strong></a> ·
-  <a href="#inspiration--research-foundation"><strong>Research</strong></a>
+  <a href="#the-advisors"><strong>Advisors</strong></a> ·
+  <a href="#the-researchers"><strong>Researchers</strong></a> ·
+  <a href="#vs-alternatives"><strong>vs Alternatives</strong></a>
 </p>
 
 <p align="center">
-  <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a>
+  <a href="docs/concepts.md"><img src="https://img.shields.io/badge/Concepts-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Concepts"></a>
   <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a>
-  <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a>
+  <a href="docs/researchers.md"><img src="https://img.shields.io/badge/Researchers-06b6d4?style=flat-square&logo=dependabot&logoColor=white" alt="Researchers"></a>
+  <a href="docs/chaining.md"><img src="https://img.shields.io/badge/Chaining-06b6d4?style=flat-square&logo=git&logoColor=white" alt="Chaining"></a>
   <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a>
 </p>
 
 ---
 
-## Why Council of Minds?
+## What It Is
 
 > [!IMPORTANT]
-> You ask one AI a question, you get one answer. That answer might be great. It might be mid. You have no way to tell because you saw **one perspective**. The council fixes this.
+> You ask one AI a question, you get one answer from one angle — and no way to tell whether it is right or just confident. A council of Minds fixes this.
 
-Decisions with genuine uncertainty — architecture choices, product pivots, technology bets, strategic moves — deserve more than a single-shot response from one model. Council of Minds runs your question through **4-6 independent advisors**, each thinking from a fundamentally different angle, then has them **peer-review each other**, and synthesizes everything into a **verdict with confidence scoring**.
+**Council of Minds is a council of Minds.** A **Mind** is a single markdown file with one distinct
+perspective. There are two kinds:
 
-| Problem | What happens without a council |
-|:--------|:------|
-| **Single-perspective blindness** | Your AI optimizes for one angle, misses 4 others |
-| **Confidence theater** | Every response sounds equally confident regardless of actual certainty |
-| **No dissent preservation** | The best counterargument never gets surfaced |
-| **No peer pressure** | Without review, weak reasoning goes unchallenged |
-| **Generic advice** | Without grounding protocols, responses default to corporate platitudes |
+| Kind of Mind | You ask… | It does | It returns |
+|--------------|----------|---------|------------|
+| **Advisor** | what should I **do**? — a choice, tradeoff, judgement | reasons over the topic from its angle, validates it, argues with the others | a **recommendation** with dissent preserved |
+| **Researcher** | what **is** true? — the state of the world, a claim, current facts | retrieves external evidence — the internet, sources, data | a **well-sourced answer** with per-claim confidence and falsifiers |
 
----
+Advisors **think**; Researchers **look**. They work three ways:
 
-## The Solution
+- **Advisors alone** — reason to a recommendation.
+- **Researchers alone** — retrieve a sourced answer.
+- **Chained** — researchers first, then advisors reason over the findings, for *"what should we do,
+  given the current landscape?"* The recommendation cites the evidence it rests on, and dissent is
+  preserved at both layers.
 
-Council of Minds convenes 4-6 specialized advisors from a pool of 60, runs them through a structured deliberation process with fact-checking and adaptive optimization, and delivers a verdict that tells you where advisors agree, where they clash, and what you should actually do.
+An orchestrator picks a small panel of Minds for each question, runs them through a structured
+process — independent analysis, peer cross-examination, then a synthesized verdict — and tells you
+where they agree, where they clash, and what the strongest dissent is. **The disagreement is the
+product.**
 
 ```mermaid
 graph LR
-    Q["Your Question"] --> Frame["Frame + Select Panel"]
-    Frame --> Analyze["4-6 Advisors<br/>Analyze Independently"]
-    Analyze --> Cross["Cross-Examine<br/>Disagree · Strengthen"]
-    Cross --> Crystal["Crystallize<br/>Final Positions"]
-    Crystal --> Vote["Weighted Vote<br/>+ Chairman Verdict"]
-    Vote --> V["Kill Criteria · Recommendation · Next Step"]
+    Q["Your Question"] --> Route["Route: advise · research · chain"]
+    Route --> Panel["Select a small panel of Minds"]
+    Panel --> Work["Analyze independently"]
+    Work --> Cross["Cross-examine · challenge · strengthen"]
+    Cross --> Verdict["Synthesized verdict<br/>agreement · dissent · next step"]
 ```
 
-### Three Modes
-
-| Mode | Rounds | Best For |
-|------|--------|----------|
-| **Full** | 5 (Restate → Analyze → Cross-Examine → Crystallize → Synthesize) | Complex decisions |
-| **Quick** | 3 (Analyze → Cross-Examine → Synthesize) | Time-sensitive |
-| **Duo** | 3 (Position → Rebuttal → Synthesize) | Binary choices |
+New here? Start with [docs/concepts.md](docs/concepts.md).
 
 ---
 
@@ -82,6 +79,8 @@ council install
 ```
 
 Auto-detects your AI clients (Kiro, Claude, Cursor, Windsurf, Cline, Aider, RooCode, OpenCode, GitHub Copilot, Codex), lets you choose which to install for, and copies everything in native format.
+
+> Client install differs by design: config-bearing clients (Kiro, Claude, Cursor, Windsurf, Aider, OpenCode) get the advisors, researchers, and all three config files; Cline and RooCode are rules-only (no config files); GitHub Copilot and Codex inline only the self-contained orchestrator (`council-of-minds.md`). This is intentional, not a partial install.
 
 ```bash
 # If already installed, use the CLI directly
@@ -180,6 +179,11 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 
 ## Council Profiles
 
+A **profile** is a named panel of advisors tuned for a domain. The table below is an abbreviated
+map; the canonical rosters, the "why these advisors" rationale, and auto-selection live in
+[docs/advisors.md](docs/advisors.md) and
+[`settings/decision-council.config.json`](settings/decision-council.config.json).
+
 | Profile | Advisors | Best For |
 |---------|----------|----------|
 | **engineering** | architect · deriver · shipper · systems-mapper · inverter | Architecture, code design, infra |
@@ -206,9 +210,13 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 
 ---
 
-## The 60 Advisors
+## The Advisors
 
-### Technical (6) — Engineering, systems, computation
+Advisors are grouped into **themes**; each theme is one markdown file. A **profile** is a curated
+panel of advisors for a domain — name one, or let auto-selection pick. Full roster, profiles, and
+selection logic: [docs/advisors.md](docs/advisors.md).
+
+### Technical — Engineering, systems, computation
 | Advisor | Lens |
 |---------|------|
 | **architect** | Formal structure, abstraction boundaries, what can/cannot be mechanized |
@@ -218,7 +226,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **frontier-scout** | Scaling dynamics, phase transitions, capability-safety boundary |
 | **systems-mapper** | Feedback loops, leverage points, unintended consequences |
 
-### Strategic (6) — Competition, incentives, timing, risk
+### Strategic — Competition, incentives, timing, risk
 | Advisor | Lens |
 |---------|------|
 | **strategist** | Terrain reading, adversarial dynamics, information asymmetry |
@@ -228,7 +236,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **tail-watcher** | Tail risk, fragility audit, antifragile design |
 | **taxonomist** | Classification, category errors, precise definitions |
 
-### Wisdom (6) — Assumptions, bias, ethics, framing
+### Wisdom — Assumptions, bias, ethics, framing
 | Advisor | Lens |
 |---------|------|
 | **questioner** | Assumption destruction, dialectic, hidden questions |
@@ -238,7 +246,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **bias-hunter** | Cognitive bias detection, pre-mortems, de-biasing |
 | **user-advocate** | User experience, cognitive load, design honesty |
 
-### Creative (6) — Ideation, synthesis, narrative, aesthetics
+### Creative — Ideation, synthesis, narrative, aesthetics
 | Advisor | Lens |
 |---------|------|
 | **ideator** | Divergent idea generation, possibility space exploration |
@@ -248,7 +256,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **aesthete** | Form-function harmony, elegance, design coherence |
 | **analogist** | Structural analogy, cross-domain transfer, mapping |
 
-### Human (6) — Empathy, culture, negotiation, motivation
+### Human — Empathy, culture, negotiation, motivation
 | Advisor | Lens |
 |---------|------|
 | **empath** | Emotional landscape mapping, unspoken needs, safety |
@@ -258,7 +266,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **devil's-advocate** | Systematic opposition, steel-man, pre-mortem |
 | **historian** | Historical precedent, pattern recognition, base rates |
 
-### Domain (6) — Finance, law, science, operations, data
+### Domain — Finance, law, science, operations, data
 | Advisor | Lens |
 |---------|------|
 | **financier** | Quantitative modeling, cash flows, optionality, NPV |
@@ -268,7 +276,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **diplomat** | Stakeholder alignment, coalitions, communication sequence |
 | **data-analyst** | Statistical inference, signal vs noise, uncertainty |
 
-### Epistemic (6) — Truth, evidence, meta-cognition
+### Epistemic — Truth, evidence, meta-cognition
 | Advisor | Lens |
 |---------|------|
 | **epistemologist** | Knowledge boundaries, category errors, epistemic access |
@@ -278,7 +286,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **calibrator** | Confidence scoring, reference classes, planning fallacy |
 | **integrator** | Multi-source synthesis, contradiction resolution, evidence weighting |
 
-### Futurist (6) — Trends, scenarios, emergence, adaptation
+### Futurist — Trends, scenarios, emergence, adaptation
 | Advisor | Lens |
 |---------|------|
 | **futurist** | Trend trajectory analysis, inflection points, timing assessment |
@@ -288,7 +296,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **resilience-architect** | Antifragile design, optionality, stress-testing protocols |
 | **horizon-scanner** | Peripheral vision, adjacent domains, wild cards, reframe risk |
 
-### Pedagogical (6) — Teaching, explaining, accessibility
+### Pedagogical — Teaching, explaining, accessibility
 | Advisor | Lens |
 |---------|------|
 | **teacher** | Instructional design, learning objectives, knowledge transfer |
@@ -298,7 +306,7 @@ See [docs/examples.md](docs/examples.md) for complete input/output examples.
 | **coach** | Guided discovery, practice design, growth facilitation |
 | **translator** | Audience adaptation, technical-to-lay translation, context bridging |
 
-### Applied (6) — Physical reality, manufacturing, sustainability
+### Applied — Physical reality, manufacturing, sustainability
 | Advisor | Lens |
 |---------|------|
 | **product-designer** | User-centered physical design, form factor, manufacturing constraints |
@@ -312,11 +320,11 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 
 ---
 
-## The 60 Researchers
+## The Researchers
 
-The **second chamber** (v4.0). Where advisors reason from prior knowledge, researchers
-**retrieve external evidence** and return a cited **Research Verdict** with per-claim
-confidence, preserved dissent, and falsifiers. 10 themes × 6 = 60, each owning a source
+The other kind of Mind. Where advisors reason from prior knowledge, researchers
+**retrieve external evidence** and return a cited answer with per-claim
+confidence, preserved dissent, and falsifiers. Each researcher owns a source
 class + query intent + attack specialisation. Trigger with `research council: ...`,
 `sourced council: ...`, or `cite this: ...`.
 
@@ -434,21 +442,20 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **coverage-auditor** | compliance metrics | "citation coverage below threshold" |
 | **brief-writer** | final synthesis | n/a (chairman-equivalent) |
 
-**15 research profiles** (landscape-scan, claim-verification, literature-review,
-technical-due-diligence, market-research, competitive-intel, regulatory-scan,
+Research profiles are curated panels for common evidence tasks (landscape-scan, claim-verification,
+literature-review, technical-due-diligence, market-research, competitive-intel, regulatory-scan,
 provenance-audit, incident-forensics, trend-forecast, quantitative-scan, vendor-evaluation,
 academic-survey, red-team-research, feasibility-study). Every panel MUST seat ≥1 Synthesis
 and ≥1 Adversarial.
 
-Full researcher details: [docs/researchers.md](docs/researchers.md) · profiles:
-[docs/research-profiles.md](docs/research-profiles.md) · verdict format:
-[docs/research-verdict-contract.md](docs/research-verdict-contract.md)
+Full researcher details, research profiles, the retrieval layer, and the Research Verdict format:
+[docs/researchers.md](docs/researchers.md).
 
-**Chaining the chambers (v4.1):** a compound question — *what should I do, given the current
-landscape* — runs the Research chamber first, then feeds its cited Research Verdict into the
-Decision chamber as the evidence base. The decision verdict carries a `Sourced-From` reference,
-and dissent is preserved at **both** layers. Trigger with `chained council: ...`. See
-[docs/chamber-chaining.md](docs/chamber-chaining.md). Research findings are also tracked
+**Chaining:** a compound question — *what should I do, given the current
+landscape* — runs the researchers first, then feeds their cited Research Verdict into an advisor
+panel as the evidence base. The decision verdict carries a `Sourced-From` reference, and dissent is
+preserved at **both** layers. Trigger with `chained council: ...`. See
+[docs/chaining.md](docs/chaining.md). Research findings are also tracked
 **per finding** over time (`researcher scores`, `source reliability`, `research calibration
 report`).
 
@@ -456,30 +463,30 @@ report`).
 
 ## vs Alternatives
 
-| Feature | Council of Minds | Councilverse | Deb8flow | Council of Five | CrewAI/AutoGen |
-|---------|:---:|:---:|:---:|:---:|:---:|
-| **Advisors** | 60 cognitive lenses | 15 methodologies | 5 (Pro/Con/Mod/Fact/Judge) | 5 governance agents | N (role-based) |
-| **Modes** | Full · Quick · Duo · Budget tiers | Single | Single | Single | Task pipelines |
-| **Enforcement Scan** | Dissent + novelty + diversity + engagement | No | No | No | No |
-| **Anti-Conformity** | Must name flaw to update | No | No | No | No |
-| **Fact-Checker** | Between rounds, flags disputed claims | No | Dedicated agent | No | No |
-| **Sparse Cross-Exam** | O(N) polarity-pair targeted | No | N/A (2 debaters) | No | N/A |
-| **Early Termination** | Skip crystallization on consensus | No | No | No | N/A |
-| **Cost Budget Mode** | 6 tiers, auto-configures | No | No | No | No |
-| **Kill Criteria** | Required on every verdict | No | No | No | No |
-| **DEALBREAKER Flag** | Structured veto, chairman must address | No | No | No | No |
-| **Evidence Labeling** | 5 types required per claim | No | No | No | No |
-| **Domain-Weight Seat** | 1.5x for most-relevant advisor | No | No | No | No |
-| **Debate Analytics** | Position shifts, influence maps, token tracking | No | No | No | Built-in observability |
-| **Confidence-Weighted Vote** | With 2/3 threshold | Three-valued | Judge verdict | Majority | N/A |
-| **Problem Restate Gate** | Catches wrong questions | No | No | No | No |
-| **Agent-Agnostic** | 10+ AI clients | Claude only | Standalone app | Docker | Python SDK |
-| **Profile Selection** | 21 profiles + auto-select | Manual | Fixed roles | Fixed | Manual crew config |
-| **Research-Backed Panel Size** | 4-6 (Google validated) | Variable | 5 fixed | 5 fixed | User-defined |
-| **Multi-Model Diversity** | Auto-detect + algorithmic assignment | No | No | No | Manual config |
-| **Human-in-the-Loop** | Opt-in checkpoints (inject/remove/redirect/skip) | No | No | No | No |
-| **Confidence Calibration** | Outcome tracking + advisor scoring + calibration report | No | No | No | No |
-| **Research Chamber** | 60 researchers, cited Research Verdict, evidence-gated anti-conformity | No | Fact agent only | No | Tool calls, no verdict |
+| Feature | Council of Minds | Deb8flow | Council of Five | CrewAI/AutoGen |
+|---------|:---:|:---:|:---:|:---:|
+| **Advisors** | cognitive lenses, one file each | 5 (Pro/Con/Mod/Fact/Judge) | 5 governance agents | N (role-based) |
+| **Modes** | Full · Quick · Duo · Budget tiers | Single | Single | Task pipelines |
+| **Enforcement Scan** | Dissent + novelty + diversity + engagement | No | No | No |
+| **Anti-Conformity** | Must name flaw to update | No | No | No |
+| **Fact-Checker** | Between rounds, flags disputed claims | Dedicated agent | No | No |
+| **Sparse Cross-Exam** | O(N) polarity-pair targeted | N/A (2 debaters) | No | N/A |
+| **Early Termination** | Skip crystallization on consensus | No | No | N/A |
+| **Cost Budget Mode** | Tiers, auto-configures | No | No | No |
+| **Kill Criteria** | Required on every verdict | No | No | No |
+| **DEALBREAKER Flag** | Structured veto, chairman must address | No | No | No |
+| **Evidence Labeling** | Types required per claim | No | No | No |
+| **Domain-Weight Seat** | 1.5x for most-relevant advisor | No | No | No |
+| **Debate Analytics** | Position shifts, influence maps, token tracking | No | No | Built-in observability |
+| **Confidence-Weighted Vote** | With 2/3 threshold | Judge verdict | Majority | N/A |
+| **Problem Restate Gate** | Catches wrong questions | No | No | No |
+| **Agent-Agnostic** | Many AI clients | Standalone app | Docker | Python SDK |
+| **Profile Selection** | Decision + research profiles + auto-select | Fixed roles | Fixed | Manual crew config |
+| **Research-Backed Panel Size** | 4-6 (Google validated) | 5 fixed | 5 fixed | User-defined |
+| **Multi-Model Diversity** | Auto-detect + algorithmic assignment | No | No | Manual config |
+| **Human-in-the-Loop** | Opt-in checkpoints (inject/remove/redirect/skip) | No | No | No |
+| **Confidence Calibration** | Outcome tracking + advisor scoring + calibration report | No | No | No |
+| **Researcher Minds** | Retrieval lenses, cited Research Verdict, evidence-gated anti-conformity | Fact agent only | No | Tool calls, no verdict |
 
 ### What Makes Us Different
 
@@ -497,9 +504,9 @@ Council of Minds is the **only system** that combines:
 
 Backed by research: Google's 2025 study of 180 agent configurations, ACL 2026 findings on debate effectiveness, and convergent market evidence from 25+ independent implementations.
 
-### Why Ours Is Better — 13 Competitive Advantages
+### Why Ours Is Better — Competitive Advantages
 
-We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns, Councilverse, WISE, ReConcile, Deb8flow, Council of Five, and academic papers from 2024-2026). Here's what sets Council of Minds apart:
+We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns, WISE, ReConcile, Deb8flow, Council of Five, and academic papers from 2024-2026). Here's what sets Council of Minds apart:
 
 1. **Enforcement Scan (unique).** We're the ONLY project that programmatically validates: dissent quota, novelty gate, evidence diversity, and engagement quality. Every other system allows lazy consensus.
 
@@ -511,7 +518,7 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 
 5. **Adaptive Early Termination.** Skips crystallization when consensus is strong — saves 30-40% tokens without losing verdict quality. Budget-aware.
 
-6. **Cost Budget Mode (6 tiers).** From ~3K tokens (Duo) to unlimited (Full + all-pairs). Auto-configures panel size, mode, and cross-exam style within budget.
+6. **Cost Budget Mode.** Tiers from a lightweight Duo run to unlimited (Full + all-pairs). Auto-configures panel size, mode, and cross-exam style within budget.
 
 7. **Domain-Weight Seat + DEALBREAKER flag.** Most-relevant advisor gets 1.5x weight. Any advisor can flag a fatal flaw that the chairman MUST address. No competitor has structured veto mechanisms.
 
@@ -533,6 +540,10 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 
 ## How It Works
 
+The table below is the **advisor** deliberation flow (a decision run). Researchers follow a parallel
+retrieve → fact-check → cross-exam → per-claim-vote flow (see [docs/researchers.md](docs/researchers.md)),
+and a chained run does research first, then this: see [docs/chaining.md](docs/chaining.md).
+
 | Step | What happens |
 |:----:|---|
 | 0 | User triggers council — orchestrator parses question, scans workspace, selects profile, assigns model diversity |
@@ -551,7 +562,7 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 
 ## When to Use
 
-**Good council questions:**
+**Ask the advisors ("what should I do?") for:**
 - Architecture decisions with multiple valid approaches
 - Product pivots or major feature bets
 - Hire vs build vs buy decisions
@@ -560,11 +571,20 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 - Technology selection with long-term consequences
 - "Should I X or Y?" with genuine stakes
 
+**Ask the researchers ("what is true?") for:**
+- Verifying a claim against independent sources ("is it true that…?")
+- Mapping what exists in a space right now (landscape / competitive scan)
+- Current pricing, adoption, or regulatory state
+- Due diligence on whether software does what it claims
+- Any question whose answer depends on current, contested, or citable facts
+
+**Chain them ("what should I do, given the current landscape?")** when the decision depends on facts
+you need retrieved first.
+
 **Do NOT council:**
-- Factual lookups ("what version of Node supports X?")
+- Simple factual lookups with one right answer (ask directly, or a single researcher)
 - Simple yes/no without tradeoffs
 - Creation tasks ("write me a function")
-- Questions with one right answer
 
 ---
 
@@ -572,30 +592,30 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 
 | | |
 |:--|:--|
-| <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a> | [System design, mermaid diagrams, phase flow, anonymization, design decisions](docs/architecture.md) |
-| <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [All 60 advisors — function, method, grounding protocol, blind spots](docs/advisors.md) |
-| <a href="docs/researchers.md"><img src="https://img.shields.io/badge/Researchers-06b6d4?style=flat-square&logo=dependabot&logoColor=white" alt="Researchers"></a> | [All 60 researchers — source class, query intent, attack, Territory Matrix](docs/researchers.md) |
-| <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [21 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
-| <a href="docs/research-profiles.md"><img src="https://img.shields.io/badge/Research_Profiles-06b6d4?style=flat-square&logo=slideshare&logoColor=white" alt="Research Profiles"></a> | [15 research profiles + Research Verdict output contract](docs/research-profiles.md) |
-| <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a> | [Full input/output examples from real council sessions](docs/examples.md) |
-| <a href="docs/chamber-chaining.md"><img src="https://img.shields.io/badge/Chamber_Chaining-06b6d4?style=flat-square&logo=git&logoColor=white" alt="Chamber Chaining"></a> | [Research → Decision chaining: hand-off, re-entry, dual dissent](docs/chamber-chaining.md) |
+| <a href="docs/concepts.md"><img src="https://img.shields.io/badge/Concepts-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Concepts"></a> | [What a Mind is, the two kinds, solo vs chained, the install model](docs/concepts.md) |
+| <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [The advisors — function, method, grounding protocol, blind spots, profiles](docs/advisors.md) |
+| <a href="docs/researchers.md"><img src="https://img.shields.io/badge/Researchers-06b6d4?style=flat-square&logo=dependabot&logoColor=white" alt="Researchers"></a> | [The researchers — source class, query intent, attack, retrieval layer, verdict, Territory Matrix](docs/researchers.md) |
+| <a href="docs/chaining.md"><img src="https://img.shields.io/badge/Chaining-06b6d4?style=flat-square&logo=git&logoColor=white" alt="Chaining"></a> | [Research → Decision chaining: hand-off, re-entry, dual dissent](docs/chaining.md) |
+| <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a> | [System design, mermaid diagrams, round flow, design decisions](docs/architecture.md) |
+| <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a> | [Decision, research, and chained worked examples](docs/examples.md) |
+| <a href="docs/comparison.md"><img src="https://img.shields.io/badge/Comparison-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Comparison"></a> | [Council of Minds vs the multi-agent / deep-research landscape](docs/comparison.md) |
 
 ---
 
 ## Customization
 
-Edit `council-of-minds.config.json` (installed in your client's settings directory) to:
+Edit `decision-council.config.json` (installed in your client's settings directory) to:
 - Add custom profiles with your own advisor combinations
 - Adjust keyword mappings for auto-selection
-- Change advisor count limits (default: 4-6)
-- Set default mode (full/quick/duo)
-- Configure cost budget tiers
-- Enable/disable fact-checker, early termination, sparse cross-exam
-- Tune voting weights and consensus threshold
+- Tune the advisor roster and polarity pairs
+
+Router and cross-cutting behaviour (modes, cost budget tiers, fact-checker, early termination,
+sparse cross-exam, voting weights, consensus threshold) live in `council-of-minds.config.json`;
+the researcher roster and research profiles live in `research-council.config.json`.
 
 ### Custom Advisors
 
-Extend the 60-advisor pool with your own, using a cast-agnostic markdown scaffold:
+Extend the advisor pool with your own, using a cast-agnostic markdown scaffold:
 
 ```bash
 council advisor create risk-quant     # scaffold advisors/custom/risk-quant.md
@@ -609,7 +629,7 @@ built-in advisors. Tool-neutral, no runtime. See `advisors/custom/README.md`.
 
 ### Custom Researchers
 
-Extend the 60-researcher pool the same way, using the researcher-cast scaffold:
+Extend the researcher pool the same way, using the researcher-cast scaffold:
 
 ```bash
 council researcher create billing-telemetry     # scaffold researchers/custom/billing-telemetry.md
@@ -619,7 +639,7 @@ council researcher list                          # list custom researchers
 
 A custom researcher owns a source class + query intent (territory exclusivity) and obeys the
 same ≥1 Synthesis + ≥1 Adversarial seat rule and 4–6 (up to 8 deep) panel limits. Tool-neutral,
-no runtime. See `researchers/custom/README.md`. Other v4.2 research features: opt-in interactive
+no runtime. See `researchers/custom/README.md`. Other research features: opt-in interactive
 checkpoints (`interactive research council: ...`), research transcript + Source Store persistence,
 a multimodal retrieval lens, and self-benchmark against the DeepResearch Bench format.
 
@@ -646,7 +666,7 @@ This project synthesizes three original approaches plus extensive 2025-2026 rese
 
 **0xNyk's Council of High Intelligence** — 18 deeply characterized intellectual figures with grounding protocols, polarity pairs for natural tension, and "Where I May Be Wrong" sections forcing epistemic humility. [0xNyk/council-of-high-intelligence](https://github.com/0xNyk/council-of-high-intelligence).
 
-**2025-2026 Multi-Agent Debate Research** — Our v2.0 features are informed by:
+**2025-2026 Multi-Agent Debate Research** — Our design is informed by:
 - Google's "Towards a Science of Scaling Agent Systems" (180 configurations, optimal panel sizing)
 - ReConcile: confidence-weighted consensus among diverse LLMs
 - WISE (MERL): Weighted Iterative Society-of-Experts with Solver/Reflector partitioning
@@ -655,18 +675,18 @@ This project synthesizes three original approaches plus extensive 2025-2026 rese
 - Sparse communication topology research (arxiv 2406.11776)
 
 **Original contributions:**
-- Profile-based dynamic advisor selection (never run all 60)
+- Profile-based dynamic advisor selection (never run the whole pool)
 - Enforcement scan with programmatic quality validation (unique — no competitor has this)
 - Adaptive early termination and sparse cross-examination for cost efficiency
-- Cost budget mode with 6 auto-configuring tiers
+- Cost budget mode with auto-configuring tiers
 - Fact-checker mechanism for claim verification between rounds
 - Debate analytics for continuous improvement
 - DEALBREAKER veto mechanism with chairman accountability
 - Evidence type labeling creating a meta-reasoning audit layer
-- Agent-agnostic design working across 10+ AI coding clients
-- Renaming advisors by cognitive function rather than persona to prevent roleplay drift
+- Agent-agnostic design working across many AI coding clients
+- Naming advisors by cognitive function rather than persona to prevent roleplay drift
 
-See [docs/competitive-analysis.md](docs/competitive-analysis.md) for the full competitive landscape analysis.
+See [docs/comparison.md](docs/comparison.md) for the full competitive landscape analysis.
 
 ---
 

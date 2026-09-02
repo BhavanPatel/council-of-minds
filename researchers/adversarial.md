@@ -2,7 +2,7 @@
 
 Six researchers focused on **disconfirmation** — actively hunting for the evidence that would break a claim. Every research panel MUST include at least one Adversarial researcher; without it the panel only confirms.
 
-Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/retrieval-layer.md).
+Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/researchers.md#how-researchers-retrieve).
 
 ---
 

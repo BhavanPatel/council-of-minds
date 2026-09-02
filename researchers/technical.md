@@ -2,7 +2,7 @@
 
 Six researchers focused on **implementation reality** — what the code does, what the spec mandates, what the docs promise, what the issue tracker admits, what the architecture allows, and whether it actually runs. Technical researchers close the gap between what is claimed and what is built.
 
-Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/retrieval-layer.md).
+Each **owns a source class** and a **query intent**, carries an **attack specialisation** for evidence cross-examination, and registers findings in the shared **Source Store** by `canonical_id`. See the [Retrieval Capability Contract](../docs/researchers.md#how-researchers-retrieve).
 
 ---
 
