@@ -4,9 +4,10 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-3.0.0-a78bfa?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-4.0.0-a78bfa?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/advisors-60_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
-  <img src="https://img.shields.io/badge/profiles-21_domains-f59e0b?style=flat-square" alt="Profiles" />
+  <img src="https://img.shields.io/badge/researchers-60_retrieval_lenses-06b6d4?style=flat-square" alt="Researchers" />
+  <img src="https://img.shields.io/badge/profiles-21_+_15_research-f59e0b?style=flat-square" alt="Profiles" />
   <img src="https://img.shields.io/badge/agents-kiro_·_cursor_·_claude_·_windsurf_·_+6_more-3b82f6?style=flat-square" alt="Agents" />
   <img src="https://img.shields.io/badge/license-MIT-yellow?style=flat-square" alt="License" />
 </p>
@@ -15,6 +16,7 @@
   <a href="#install"><strong>Install</strong></a> ·
   <a href="#how-it-works"><strong>How It Works</strong></a> ·
   <a href="#the-60-advisors"><strong>Advisors</strong></a> ·
+  <a href="#the-60-researchers"><strong>Researchers</strong></a> ·
   <a href="#vs-alternatives"><strong>vs Alternatives</strong></a> ·
   <a href="#inspiration--research-foundation"><strong>Research</strong></a>
 </p>
@@ -310,6 +312,140 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 
 ---
 
+## The 60 Researchers
+
+The **second chamber** (v4.0). Where advisors reason from prior knowledge, researchers
+**retrieve external evidence** and return a cited **Research Verdict** with per-claim
+confidence, preserved dissent, and falsifiers. 10 themes × 6 = 60, each owning a source
+class + query intent + attack specialisation. Trigger with `research council: ...`,
+`sourced council: ...`, or `cite this: ...`.
+
+> **Adversarial evidence auditing** — researchers audit each other's *evidence* (provenance,
+> entailment, coverage), not each other's opinions. No retrieval → a labelled prior-knowledge
+> briefing, never a faked citation.
+
+### Evidence (R1) — Core epistemic retrieval
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **literature-scout** | mechanism, prior work | "unaware of prior art" |
+| **primary-source-hunter** | original wording | "you cited coverage, not the source" |
+| **dataset-digger** | magnitudes from raw data | "no underlying data exists" |
+| **replication-checker** | does it reproduce | "single-study claim" |
+| **meta-analyst** | aggregate consensus | "cherry-picked from a larger body" |
+| **citation-tracer** | provenance genealogy | "circular citation loop" |
+
+### Provenance (R2) — Who says it, why
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **source-auditor** | publisher credibility | "low-credibility outlet" |
+| **funding-tracer** | conflicts of interest | "funded by an interested party" |
+| **author-profiler** | track record | "author has retraction history" |
+| **syndication-unmasker** | independence | "same origin — N sources is really 1" |
+| **retraction-watch** | validity status | "source has been corrected" |
+| **archive-diver** | what changed | "claim was silently edited" |
+
+### Adversarial (R3) — Disconfirmation
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **counter-evidence-scout** | the opposite case | "you never searched for disconfirmation" |
+| **null-result-finder** | non-findings | "publication bias" |
+| **critic-collector** | published rebuttals | "this was formally rebutted" |
+| **failure-case-hunter** | real-world breakdowns | "works in paper, fails in field" |
+| **steelman-builder** | strongest opposition | "you attacked the weak version" |
+| **fraud-sniffer** | too-good-to-be-true | "data pattern is implausible" |
+
+### Quantitative (R4) — The numbers
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **base-rate-finder** | denominators, priors | "no base rate given" |
+| **effect-size-reader** | magnitude vs significance | "significant but trivial" |
+| **benchmark-reader** | measured performance | "benchmark contaminated or gamed" |
+| **trend-fitter** | rates, inflections | "extrapolated past the data" |
+| **cost-modeler** | unit economics | "cost claim unsourced" |
+| **uncertainty-quantifier** | error bars, n | "point estimate hides a huge CI" |
+
+### Temporal (R5) — Time, recency, staleness
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **recency-sweeper** | last-N-days frontier | "superseded last month" |
+| **timeline-builder** | chronology of the claim | "causality reversed by dates" |
+| **precedent-digger** | prior cycles | "this happened before" |
+| **version-tracker** | which version | "claim is about an old version" |
+| **obsolescence-checker** | what is now stale | "source is dead or stale" |
+| **embargo-watcher** | announced-not-shipped | "vaporware treated as shipped" |
+
+### Technical (R6) — Implementation reality
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **code-reader** | implementation reality | "code does not do what docs claim" |
+| **spec-reader** | normative definition | "the spec says otherwise" |
+| **api-doc-reader** | official limits | "undocumented assumption" |
+| **issue-tracker-miner** | known limitations | "known open bug contradicts this" |
+| **architecture-mapper** | system shape | "architecture makes this impossible" |
+| **reproducer** | does it actually run | "could not reproduce" |
+
+### Market (R7) — Commercial reality
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **competitor-mapper** | who else does this | "novelty claim false — N others exist" |
+| **pricing-scout** | published cost | "price is wrong or stale" |
+| **adoption-reader** | actual usage | "no evidence of real adoption" |
+| **filing-reader** | audited numbers | "contradicted by their own filing" |
+| **analyst-reader** | market sizing | "vendor-sponsored analysis" |
+| **customer-voice** | lived experience | "users report the opposite" |
+
+### Regulatory (R8) — Law and compliance
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **statute-reader** | what the law says | "misstates the statute" |
+| **caselaw-reader** | how it was applied | "precedent contradicts this" |
+| **regulator-watcher** | current guidance | "guidance changed" |
+| **compliance-mapper** | required controls | "fails a mandatory control" |
+| **jurisdiction-comparer** | where it applies | "true in one jurisdiction only" |
+| **policy-tracer** | legislative intent | "intent differs from text" |
+
+### Human (R9) — Qualitative / social
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **practitioner-listener** | real usage reports | "practitioners disagree" |
+| **expert-canvasser** | expert commentary | "domain experts say otherwise" |
+| **sentiment-reader** | aggregate opinion + skew | "sample is self-selected" |
+| **ethnographer** | workflow context | "ignores the actual workflow" |
+| **dissent-locator** | heterodox positions | "a credible minority view exists" |
+| **translation-scout** | non-English record | "anglophone blind spot" |
+
+### Synthesis (R10) — Operate on the Source Store
+
+| Researcher | Query intent | Attack |
+|------------|-------------|--------|
+| **gap-mapper** | what is missing | "no evidence gathered on X" |
+| **contradiction-mapper** | what conflicts | "F2 and F7 cannot both hold" |
+| **triangulator** | independent confirmation | "not independently confirmed" |
+| **claim-normalizer** | dedupe/merge claims | "same claim counted twice" |
+| **coverage-auditor** | compliance metrics | "citation coverage below threshold" |
+| **brief-writer** | final synthesis | n/a (chairman-equivalent) |
+
+**15 research profiles** (landscape-scan, claim-verification, literature-review,
+technical-due-diligence, market-research, competitive-intel, regulatory-scan,
+provenance-audit, incident-forensics, trend-forecast, quantitative-scan, vendor-evaluation,
+academic-survey, red-team-research, feasibility-study). Every panel MUST seat ≥1 Synthesis
+(R10) and ≥1 Adversarial (R3).
+
+Full researcher details: [docs/researchers.md](docs/researchers.md) · profiles:
+[docs/research-profiles.md](docs/research-profiles.md) · verdict format:
+[docs/research-verdict-contract.md](docs/research-verdict-contract.md)
+
+---
+
 ## vs Alternatives
 
 | Feature | Council of Minds | Councilverse | Deb8flow | Council of Five | CrewAI/AutoGen |
@@ -335,6 +471,7 @@ Full advisor details: [docs/advisors.md](docs/advisors.md)
 | **Multi-Model Diversity** | Auto-detect + algorithmic assignment | No | No | No | Manual config |
 | **Human-in-the-Loop** | Opt-in checkpoints (inject/remove/redirect/skip) | No | No | No | No |
 | **Confidence Calibration** | Outcome tracking + advisor scoring + calibration report | No | No | No | No |
+| **Research Chamber** | 60 researchers, cited Research Verdict, evidence-gated anti-conformity | No | Fact agent only | No | Tool calls, no verdict |
 
 ### What Makes Us Different
 
@@ -429,7 +566,9 @@ We researched 25+ competing projects (AutoGen, CrewAI, LangGraph debate patterns
 |:--|:--|
 | <a href="docs/architecture.md"><img src="https://img.shields.io/badge/Architecture-a78bfa?style=flat-square&logo=buffer&logoColor=white" alt="Architecture"></a> | [System design, mermaid diagrams, phase flow, anonymization, design decisions](docs/architecture.md) |
 | <a href="docs/advisors.md"><img src="https://img.shields.io/badge/Advisors-a78bfa?style=flat-square&logo=dependabot&logoColor=white" alt="Advisors"></a> | [All 60 advisors — function, method, grounding protocol, blind spots](docs/advisors.md) |
+| <a href="docs/researchers.md"><img src="https://img.shields.io/badge/Researchers-06b6d4?style=flat-square&logo=dependabot&logoColor=white" alt="Researchers"></a> | [All 60 researchers — source class, query intent, attack, Territory Matrix](docs/researchers.md) |
 | <a href="docs/profiles.md"><img src="https://img.shields.io/badge/Profiles-a78bfa?style=flat-square&logo=slideshare&logoColor=white" alt="Profiles"></a> | [21 profiles, auto-selection logic, custom profiles, tips](docs/profiles.md) |
+| <a href="docs/research-profiles.md"><img src="https://img.shields.io/badge/Research_Profiles-06b6d4?style=flat-square&logo=slideshare&logoColor=white" alt="Research Profiles"></a> | [15 research profiles + Research Verdict output contract](docs/research-profiles.md) |
 | <a href="docs/examples.md"><img src="https://img.shields.io/badge/Examples-10b981?style=flat-square&logo=readthedocs&logoColor=white" alt="Examples"></a> | [Full input/output examples from real council sessions](docs/examples.md) |
 
 ---

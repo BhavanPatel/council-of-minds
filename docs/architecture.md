@@ -378,3 +378,56 @@ chamber. No runtime, no vendor dependency — advisors are plain markdown.
 | 6: Vote tally | All crystallized stances | Weighted option scores + consensus/split determination |
 | 7: Synthesis | Everything above | Structured verdict (13 sections) |
 | 8: Follow-up | User command + verdict | Expanded analysis / re-synthesis / transcript |
+
+
+---
+
+## Second Chamber — Research Council (v4.0)
+
+Council of Minds has two chambers. The **decision council** (8 steps above) reasons from
+prior knowledge and returns a **Decision Verdict**. The **research council** retrieves
+external evidence through 60 researchers and returns a **Research Verdict** with per-claim
+confidence, preserved dissent, and falsifiers.
+
+> This is **adversarial evidence auditing**, not "debate makes research more accurate."
+> Researchers audit each other's *evidence* — provenance, entailment, coverage.
+
+```mermaid
+flowchart TD
+    Q[Sourced question] --> Gate{Retrieval capability?}
+    Gate -->|none| Brief[PRIOR-KNOWLEDGE BRIEFING<br/>no citations, low confidence]
+    Gate -->|full / snippet| R0[R0 Charter Gate<br/>restate + 3-7 sub-questions + scope]
+    R0 --> R1[R1 Lens + Query Portfolio<br/>divergence check + territory assignment]
+    R1 --> R2[R2 Retrieve + Analyze<br/>parallel, context-isolated, Findings Cards]
+    R2 --> R3[R3 Fact-Check<br/>5 checks, retrieves, no debate/vote]
+    R3 --> R4[R4 Evidence Cross-Exam<br/>SOURCE / INFERENCE / COVERAGE]
+    R4 --> R4b[R4b Progressive Retrieval<br/>contested claims only]
+    R4b --> R5[R5 Enforcement Scan<br/>+5 research gates]
+    R5 --> R6[R6 Per-Claim Vote<br/>brief-writer assembles verdict]
+    R6 --> V[Research Verdict]
+```
+
+### Round Flow
+
+| Round | Purpose |
+|-------|---------|
+| R0 Charter Gate | classify, restate, decompose into 3–7 sub-questions, declare recency/scope |
+| R1 Lens + Query | each researcher drafts queries from its lens; divergence check; territory assignment |
+| R2 Retrieve + Analyze | parallel, context-isolated retrieval → Source Store + Findings Cards |
+| R3 Fact-Check | 5 checks (existence, quote fidelity, date, entailment, independence); retrieves, never debates/votes |
+| R4 Cross-Exam | sparse O(N), polarity-paired; SOURCE / INFERENCE / COVERAGE challenges; concession needs a source id |
+| R4b Progressive Retrieval | contested claims only; resolver ≠ claim author |
+| R5 Enforcement Scan | decision gates + citation coverage, source independence, recency, territory, unsupported-assertion |
+| R6 Vote + Verdict | per-claim confidence vote; brief-writer assembles the Research Verdict |
+
+### Reused vs New
+
+- **Reused:** panel sizing 4–6, sparse polarity-paired cross-exam, anti-conformity, dissent
+  quota, evidence-diversity gate, confidence-weighted arithmetic, chairman/brief-writer
+  synthesis, cost-budget framework, transcript storage, calibration tracking.
+- **New:** Retrieval Capability Contract, per-researcher query generator + divergence check,
+  Territory Matrix, Source Store, Verification Ledger, Citation Formatter + Coverage Auditor.
+
+See [`researchers.md`](researchers.md), [`research-profiles.md`](research-profiles.md),
+[`research-verdict-contract.md`](research-verdict-contract.md), and
+[`retrieval-layer.md`](retrieval-layer.md).

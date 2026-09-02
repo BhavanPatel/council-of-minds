@@ -40,6 +40,13 @@
         "rebuttal",
         "synthesize"
       ]
+    },
+    "research": {
+      "$comment": "Second chamber (v4.0). Full spec lives in settings/research-council.config.json and the Research Round Flow section of council-of-minds.md. Listed here so the decision-council config is aware of the research mode.",
+      "chamber": "research",
+      "rounds": "R0-R6",
+      "config": "settings/research-council.config.json",
+      "verdictContract": "docs/research-verdict-contract.md"
     }
   },
   "profiles": {

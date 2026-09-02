@@ -893,3 +893,231 @@ Cross-session patterns stored in `council-transcripts/council-analytics-aggregat
 4. **Weight adjustment is manual.** `adjustWeightsAutomatically: false` by default. Users can enable auto-adjustment, which adds a small weight bonus (+0.1x) to top-performing advisors
 5. **Privacy.** Transcripts are local-only, stored in the project directory. No external transmission.
 6. **No retroactive scoring.** Only sessions with saved transcripts AND subsequent outcome feedback count toward calibration
+
+
+---
+
+## Research Council (Second Chamber) — Mode `research`
+
+The **Research Council** is a parallel chamber to the decision council. Where the 60
+advisors *reason from prior knowledge* and return a **Decision Verdict**, the 60
+researchers *retrieve external evidence* and return a **Research Verdict**. Researchers
+own retrieval territories (a source class + a query intent + an attack specialisation);
+they audit each other's **evidence**, not each other's opinions.
+
+> Framing: this is **adversarial evidence auditing**, NOT "debate makes research more
+> accurate." Deliberation here challenges provenance, entailment, and coverage — it does
+> not claim to amplify accuracy.
+
+### Trigger Phrases (Research mode)
+
+**Explicit:** "research council:", "sourced council:", "council with research:", "cite this:"
+
+**Auto-detect** (route to research mode when the question, and no explicit decision framing, matches):
+- recency terms ("latest", "current", "as of", "this week/month/year", "newest")
+- "what is the current/latest ..." / "is it true that ..." / "what does the evidence say"
+- the question asks what **IS** (a state of the world) rather than what to **DO**
+- no options are enumerated to choose between
+
+**onAmbiguous:** if it is unclear whether the user wants a decision or a research answer,
+ask **once** at the Charter Gate (R0) before dispatching researchers. Do not guess.
+
+### Retrieval Capability Gate (runs before R0)
+
+Run the capability probe from `settings/research-council.config.json`
+(`retrievalCapabilityContract.capabilityProbe`) once at session start:
+- **full** (search + fetch): proceed; a Research Verdict may be emitted.
+- **searchOnly** (snippets, no full text): proceed, but every finding is flagged
+  `[snippet-only, unverified full text]`.
+- **none**: apply `onCapabilityMissing: degrade-to-briefing` — **MUST NOT** emit a
+  Research Verdict. Instead emit a clearly labelled **PRIOR-KNOWLEDGE BRIEFING** that
+  (a) states retrieval was unavailable, (b) carries NO citations, (c) caps every claim
+  confidence at `low`, and (d) lists the queries that WOULD have been run. Never present
+  prior-knowledge claims as if retrieved and sourced.
+
+### Panel Selection (Research)
+
+1. **Select a research profile** (see `docs/research-profiles.md`) or auto-select from the
+   researcher registry in `research-council.config.json`.
+2. **Panel size 4-6** (default 5; up to 8 at the Deep/Unlimited budget tier — more
+   researchers help; more ROUNDS do not).
+3. **Mandatory seats (selector constraint):** every panel MUST include **≥1 Synthesis (R10)**
+   researcher (nothing audits the collected set without it) and **≥1 Adversarial (R3)**
+   researcher (without it the panel only confirms).
+4. **Polarity pairs:** include at least one `researchPolarityPairs` pair for productive
+   evidence tension (cross-theme pairs are the most valuable).
+5. **Model diversity:** reuse the decision-council model-assignment algorithm (STEP 0),
+   grouping researchers by source-class cluster instead of evidence-type cluster. Single-model
+   fallback uses retrieval-variation directives (breadth-first vs depth-first vs adversarial query framing).
+
+---
+
+## Research Round Flow (R0–R6)
+
+Rounds are **capped** — extra rounds cause over-deliberation drift and are never used as a
+budget throttle. Cross-examination stays **sparse and O(N)**, polarity-paired, never all-pairs.
+
+### R0 — Charter Gate
+
+Extends the decision council's Problem Restate Gate. Before any retrieval:
+
+1. **Classify:** research question vs decision question (route decisions to the decision
+   council; compound questions chain — Research first, then Decision, per Phase 20).
+2. **Restate** the question in one neutral sentence.
+3. **Decompose** into **3–7 sub-questions** (the retrieval targets).
+4. **Declare scope:** the recency window (e.g. "prefer sources ≤ 18 months"), the
+   jurisdiction/domain if relevant, and an explicit **out-of-scope** list.
+
+The Charter is re-anchored at the top of every subsequent round to prevent problem drift.
+
+### R1 — Lens Assignment + Query Portfolio
+
+1. Each selected researcher, **from its own lens**, drafts **2–5 queries** (budget-capped)
+   targeting the Charter sub-questions.
+2. **Query Divergence Check:** compare drafted queries pairwise. If any pair exceeds
+   `maxTokenOverlap = 0.4` OR shares the same intent bucket, force a rewrite so each
+   researcher explores a distinct region. Distinct **intent buckets** must be represented
+   (mechanism / magnitude / disconfirmation / provenance / recency / etc.).
+3. **Assign retrieval territories** from the Territory Matrix so no two researchers fetch
+   the same source class with the same intent.
+
+### R2 — Independent Retrieval + Analysis (Parallel, Context-Isolated)
+
+1. Researchers run **in parallel** and are **context-isolated**: no researcher sees another's
+   fetches until R4. This prevents anchoring before cross-examination.
+2. Each fetch is registered in the **Source Store** (canonical_id, independence_group,
+   publish_date, class, fetched_by). Fetch-time dedupe refunds a colliding fetch and pushes
+   the next fetch toward a different independence group.
+3. Retrieval halts on the **diminishing-returns stop** (last 3 fetches < 20% novel claims),
+   never before the tier-minimum fetches.
+4. Each researcher emits **Findings Cards**:
+
+```
+FINDING {id}
+  lens:        {researcher-name}
+  claim:       {one-sentence claim}
+  evidence:    empirical | mechanistic | strategic | ethical | heuristic
+  sources:     [{canonical_id}, ...]   (independence groups noted)
+  date-range:  {oldest–newest source date}
+  stance:      supports | contradicts | mixed
+  confidence:  high | medium | low   (per-claim)
+  basis:       {why this confidence — independence, recency, sample}
+```
+
+### R3 — Fact-Check + Source Adjudication
+
+A **fact-checker** runs between R2 and R4. It **retrieves** (to verify), but it does **NOT
+debate** and does **NOT vote** — separation with independent grounding is what makes it work.
+
+Five checks per load-bearing claim → **Verification Ledger**:
+1. **Existence** — does the cited source actually exist and contain the claim?
+2. **Quote fidelity** — is a quoted/paraphrased passage faithful to the source?
+3. **Date currency** — is the source within the Charter's recency window?
+4. **Entailment** — does the source actually *entail* the claim (not merely mention it)?
+5. **Independence** — are the "N sources" genuinely independent groups, or one origin?
+
+- A **failed entailment** auto-raises an **INFERENCE CHALLENGE** into R4.
+- **Unverified claims are DEMOTED** to Open Questions, never deleted.
+- The fact-checker has no stance and no vote.
+
+### R4 — Evidence Cross-Examination (Sparse, O(N), Polarity-Paired)
+
+Each researcher receives **2–3 targets** (polarity pair + one different source-class lens),
+never all-pairs. Three permitted **legal moves**:
+
+- **SOURCE CHALLENGE** — attack provenance: credibility, funding, syndication, staleness.
+- **INFERENCE CHALLENGE** — grant the source, attack the leap from source to claim.
+- **COVERAGE CHALLENGE** — attack what was *not* searched (disconfirmation, base rate, gap).
+
+**Evidence-gated anti-conformity:** a researcher concedes ONLY when the challenger names a
+**specific flaw AND cites a source id** that establishes it. Volume of disagreement, or
+consensus forming, is never sufficient. If no source id is cited, the position holds.
+
+### R4b — Progressive Retrieval
+
+For **contested claims only** (those still in dispute after R4):
+1. Issue targeted follow-up retrieval to resolve the specific contention.
+2. The **resolver MUST NOT be the claim's original author** (independent grounding).
+3. Budget-capped by tier (0 passes at Minimal/Lean, up to 5 at Unlimited).
+4. Resolved claims update their Findings Card; unresolved claims go to Contested Findings.
+
+### R5 — Enforcement Scan
+
+The decision council's gates (dissent quota, novelty, evidence diversity, engagement) PLUS
+five research-specific gates:
+- [ ] **Citation coverage** — every load-bearing Bottom-Line claim has ≥1 source (or is
+      explicitly marked `[panel inference, unsourced]`).
+- [ ] **Source independence** — load-bearing claims rest on >1 independence group where the
+      tier requires it; single-group claims are confidence-capped at 0.5.
+- [ ] **Recency compliance** — sources fall within the declared window, or the staleness is
+      flagged.
+- [ ] **Territory compliance** — each researcher stayed within its assigned source class /
+      intent (no lane collisions).
+- [ ] **Unsupported-assertion count** — count of Bottom-Line assertions with no source is
+      within tolerance (0 at Deep/Unlimited).
+
+Any failure → the responsible researcher revises, or the claim is demoted, before R6.
+
+### R6 — Crystallization + Per-Claim Confidence Vote → Research Verdict
+
+- The vote is **per-claim**, NOT per-position: each surviving finding gets a
+  confidence-weighted verification score, not a single report-level number.
+- **Confidence caps:** a claim on a single independence group caps at **0.5**; an unverified
+  (demoted) claim caps at **0.4**.
+- **brief-writer** (R10) assembles the **Research Verdict** per the output contract in
+  `docs/research-verdict-contract.md`, preserving Contested Findings, the Minority Report
+  (with "what would change my mind" + held sources), Open Questions, and Falsifiers.
+
+See `docs/research-verdict-contract.md` for the exact output template and the Coverage
+Auditor metrics (citation coverage %, citation accuracy, independence-group count, recency
+compliance).
+
+### Research Follow-Up Protocol
+
+- **"expand finding {id}"** → full retrieval trail + sources for that finding
+- **"challenge {id} with {new source/info}"** → re-open that claim into a mini R4b
+- **"deepen {sub-question}"** → targeted progressive retrieval on one sub-question
+- **"save research transcript"** → write to `council-transcripts/research/research-transcript-{YYYY-MM-DD}-{short-id}.md` (Phase 22)
+- **"council feedback: {rv-id} — F{n} was [confirmed|refuted|unresolved]"** → per-finding outcome log (Phase 21)
+
+---
+
+## Research Cost Budget Tiers
+
+Budget applies across **retrieval dimensions**, not word limits. Format:
+`panel / queries-per-researcher / fetches-per-researcher / progressive-passes / fact-check-scope`.
+
+| Tier | Panel | Queries | Fetches | Progressive | Fact-check |
+|------|-------|---------|---------|-------------|-----------|
+| **Minimal** | 4 | 2 | 3 | 0 | sample 30% |
+| **Low** | 4 | 3 | 5 | 0 | load-bearing only |
+| **Standard** | 5 | 4 | 8 | 1 | all |
+| **High** | 5 | 5 | 12 | 2 | all |
+| **Deep** | 6 | 6 | 18 | 3 | all + independence trace |
+| **Unlimited** | 8 | ∞ | ∞ | 5 | all + independence trace |
+
+**Degradation ORDER (critical):** when a budget is tight, sacrifice in this order —
+1. progressive passes → 2. fetches → 3. queries → 4. panel size → 5. **fact-check scope (LAST)**.
+Fact-check is sacrificed last (independent grounding is the proven unlock). **Rounds are NOT
+a throttle** — extra rounds hurt, so R0–R6 always run in full within whatever retrieval
+budget remains.
+
+**Research budget triggers:** "research council:" → Standard; add "lean"/"deep" as with the
+decision council ("lean research council:" → Low, "deep research council:" → Deep).
+
+---
+
+## Research Rules
+
+- **Retrieval required for a verdict.** No retrieval → PRIOR-KNOWLEDGE BRIEFING, never a
+  faked citation. Silently fabricating a citation is the one unrecoverable failure mode.
+- **Context isolation until R4.** Researchers do not see each other's fetches before
+  cross-examination.
+- **Concession needs a source id.** Evidence-gated anti-conformity is mandatory.
+- **Fact-checker retrieves, never debates, never votes.**
+- **Confidence is per-claim.** Never collapse to one report-level number.
+- **Independence groups, not raw counts.** N sources from one origin count as one.
+- **≥1 Synthesis + ≥1 Adversarial seat** on every panel.
+- **Sparse cross-examination only.** Never all-pairs; polarity-paired.
+- **Rounds capped.** Never add rounds to spend budget; add fetches/queries instead.
+- **Preserve dissent + falsifiers.** Every Research Verdict records what would change its mind.

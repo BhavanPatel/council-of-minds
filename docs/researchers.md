@@ -15,6 +15,7 @@ Every researcher operates under the [Retrieval Capability Contract](./retrieval-
 
 > Full definitions: `researchers/*.md`. Config: `settings/research-council.config.json`.
 > Selector rule: every research panel MUST include **≥1 Synthesis (R10)** and **≥1 Adversarial (R3)** researcher.
+> Panels & round flow: [research profiles](research-profiles.md) · [Research Round Flow (R0–R6)](../council-of-minds.md) · [Research Verdict contract](research-verdict-contract.md).
 
 ---
 

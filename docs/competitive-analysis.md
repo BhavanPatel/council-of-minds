@@ -107,3 +107,44 @@ The multi-agent deliberation space in 2025-2026 spans three categories:
 ---
 
 *Last updated: July 2026*
+
+
+---
+
+## v4.0 — Research Council (Second Chamber)
+
+The v4.0 Research Council adds a parallel chamber of 60 researchers that retrieve external
+evidence and return a cited **Research Verdict**. Positioning is **adversarial evidence
+auditing**, not accuracy amplification — three sources (arXiv 2601.19921, ACL 2026 Findings
+1694, 2511.07784) caution against the "debate makes research more accurate" framing, so we
+do not make that claim.
+
+### Differentiated (no occupant found as of Sept 2026)
+
+1. **Retrieval diversity via 60 named retrieval lenses** with territory exclusivity.
+2. **Evidence-gated anti-conformity** — a concession requires a cited source id, not just disagreement.
+3. **Enforcement Scan on citation coverage AND source-independence groups.**
+4. **Research verdict preserves calibrated dissent** + "what would change my mind".
+5. **Falsifiers on every research verdict.**
+6. **Per-finding calibration tracking** over time.
+7. **Vendor-neutral, markdown-only** (competitors are Python/LangGraph/DSPy-bound).
+8. **Research → Decision chamber chaining** with dissent preserved at both layers (v4.1).
+9. **Independence grouping** — N sources from one origin counted as one.
+
+### Reinvented — acknowledged prior art (not claimed as novel)
+
+- Perspective-driven query generation — STORM (arXiv 2402.14207).
+- Parallel context-isolated retrieval subagents — Anthropic (Jun 2025).
+- Retrieval coupled to an evolving debate — PROClaim P-RAG (arXiv 2603.28488).
+- Fact-checker + judge in a debate graph — Deb8flow (Apr 2025).
+- Per-field citations + calibrated confidence — LangChain × Parallel (Aug 2026).
+
+### Design grounding (why retrieval carries the gain)
+
+- Progressive RAG contributed +7.5 of +10.0pp in PROClaim's ablation — retrieval, not debate, drives the gain.
+- Self-verification with identical tools fails; a separate critic with independent grounding is the proven unlock (arXiv 2606.02866) → the fact-checker retrieves but never debates or votes.
+- More agents help, more rounds hurt (arXiv 2607.09099, 2502.19559) → panel grows to 8 at deep tier, round count stays capped, rounds are never a budget throttle.
+
+> Intersection occupants (PROClaim, BLUEmed, AEGIS, MAD fact-verification, MADRA) are all
+> narrow single-claim verifiers. None produce open-ended cited briefings with preserved
+> dissent, which is the Research Council's niche.
