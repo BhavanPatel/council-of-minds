@@ -396,29 +396,29 @@ confidence, preserved dissent, and falsifiers.
 flowchart TD
     Q[Sourced question] --> Gate{Retrieval capability?}
     Gate -->|none| Brief[PRIOR-KNOWLEDGE BRIEFING<br/>no citations, low confidence]
-    Gate -->|full / snippet| R0[R0 Charter Gate<br/>restate + 3-7 sub-questions + scope]
-    R0 --> R1[R1 Lens + Query Portfolio<br/>divergence check + territory assignment]
-    R1 --> R2[R2 Retrieve + Analyze<br/>parallel, context-isolated, Findings Cards]
-    R2 --> R3[R3 Fact-Check<br/>5 checks, retrieves, no debate/vote]
-    R3 --> R4[R4 Evidence Cross-Exam<br/>SOURCE / INFERENCE / COVERAGE]
-    R4 --> R4b[R4b Progressive Retrieval<br/>contested claims only]
-    R4b --> R5[R5 Enforcement Scan<br/>+5 research gates]
-    R5 --> R6[R6 Per-Claim Vote<br/>brief-writer assembles verdict]
-    R6 --> V[Research Verdict]
+    Gate -->|full / snippet| Charter[Charter Gate<br/>restate + 3-7 sub-questions + scope]
+    Charter --> Lens[Lens & Query<br/>divergence check + territory assignment]
+    Lens --> Retrieve[Retrieve<br/>parallel, context-isolated, Findings Cards]
+    Retrieve --> FactCheck[Fact-Check<br/>5 checks, retrieves, no debate/vote]
+    FactCheck --> CrossExam[Evidence Cross-Exam<br/>SOURCE / INFERENCE / COVERAGE]
+    CrossExam --> Progressive[Progressive Retrieve<br/>contested claims only]
+    Progressive --> Enforce[Enforcement Scan<br/>+5 research gates]
+    Enforce --> Vote[Per-Claim Vote<br/>brief-writer assembles verdict]
+    Vote --> V[Research Verdict]
 ```
 
 ### Round Flow
 
 | Round | Purpose |
 |-------|---------|
-| R0 Charter Gate | classify, restate, decompose into 3–7 sub-questions, declare recency/scope |
-| R1 Lens + Query | each researcher drafts queries from its lens; divergence check; territory assignment |
-| R2 Retrieve + Analyze | parallel, context-isolated retrieval → Source Store + Findings Cards |
-| R3 Fact-Check | 5 checks (existence, quote fidelity, date, entailment, independence); retrieves, never debates/votes |
-| R4 Cross-Exam | sparse O(N), polarity-paired; SOURCE / INFERENCE / COVERAGE challenges; concession needs a source id |
-| R4b Progressive Retrieval | contested claims only; resolver ≠ claim author |
-| R5 Enforcement Scan | decision gates + citation coverage, source independence, recency, territory, unsupported-assertion |
-| R6 Vote + Verdict | per-claim confidence vote; brief-writer assembles the Research Verdict |
+| Charter | classify, restate, decompose into 3–7 sub-questions, declare recency/scope |
+| Lens & Query | each researcher drafts queries from its lens; divergence check; territory assignment |
+| Retrieve | parallel, context-isolated retrieval → Source Store + Findings Cards |
+| Fact-Check | 5 checks (existence, quote fidelity, date, entailment, independence); retrieves, never debates/votes |
+| Cross-Exam | sparse O(N), polarity-paired; SOURCE / INFERENCE / COVERAGE challenges; concession needs a source id |
+| Progressive Retrieve | contested claims only; resolver ≠ claim author |
+| Enforcement Scan | decision gates + citation coverage, source independence, recency, territory, unsupported-assertion |
+| Crystallize & Vote | per-claim confidence vote; brief-writer assembles the Research Verdict |
 
 ### Reused vs New
 

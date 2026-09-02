@@ -4,14 +4,14 @@
 
 Profile: **technical-due-diligence**.
 
-## R0 — Charter
+## Charter
 - **Restated:** verify library X's zero-copy streaming claim against its implementation.
 - **Sub-questions:** (1) what does the code do? (2) what does the spec/API doc say? (3) any open issues contradicting it? (4) does it reproduce?
 - **Scope:** current release + latest main; ≤ 12 months.
 
 ## Panel (5 + mandatory-seat top-up)
 code-reader, spec-reader, issue-tracker-miner, reproducer, architecture-mapper; orchestrator
-adds **failure-case-hunter (R3)** and **contradiction-mapper (R10)** at panel 6/7 to satisfy
+adds **failure-case-hunter (Adversarial)** and **contradiction-mapper (Synthesis)** at panel 6/7 to satisfy
 the mandatory seats.
 
 ## Abbreviated Research Verdict
@@ -32,7 +32,7 @@ The README overstates the guarantee.
 | F3 | Reproduced buffering under load | supports | med (0.6) | 1→cap 0.5 | [S4 repro log] |
 
 ### Contested Findings
-None after R4b — reproducer confirmed the write-path buffering; contradiction resolved.
+None after Progressive Retrieve — reproducer confirmed the write-path buffering; contradiction resolved.
 
 ### Minority Report
 failure-case-hunter: buffering may be intentional backpressure, not a defect.

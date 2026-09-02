@@ -4,14 +4,14 @@
 
 Explicit trigger `sourced council:` → research mode. Profile: **market-research**.
 
-## R0 — Charter
+## Charter
 - **Restated:** compile current pricing tiers and adoption signals for leading vector DBs.
 - **Sub-questions:** (1) who are the players? (2) published pricing? (3) adoption evidence? (4) what do customers report?
 - **Scope:** ≤ 6 months for pricing; out-of-scope: unannounced pricing.
 
 ## Panel (5 + mandatory-seat top-up)
 competitor-mapper, pricing-scout, adoption-reader, filing-reader, customer-voice; orchestrator
-adds **counter-evidence-scout (R3)** and **triangulator (R10)** at panel 6/7.
+adds **counter-evidence-scout (Adversarial)** and **triangulator (Synthesis)** at panel 6/7.
 
 ## Abbreviated Research Verdict
 

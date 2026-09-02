@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-4.0.1-a78bfa?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-4.0.2-a78bfa?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/advisors-60_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
   <img src="https://img.shields.io/badge/researchers-60_retrieval_lenses-06b6d4?style=flat-square" alt="Researchers" />
   <img src="https://img.shields.io/badge/profiles-21_+_15_research-f59e0b?style=flat-square" alt="Profiles" />
@@ -324,7 +324,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 > entailment, coverage), not each other's opinions. No retrieval → a labelled prior-knowledge
 > briefing, never a faked citation.
 
-### Evidence (R1) — Core epistemic retrieval
+### Evidence — Core epistemic retrieval
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -335,7 +335,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **meta-analyst** | aggregate consensus | "cherry-picked from a larger body" |
 | **citation-tracer** | provenance genealogy | "circular citation loop" |
 
-### Provenance (R2) — Who says it, why
+### Provenance — Who says it, why
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -346,7 +346,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **retraction-watch** | validity status | "source has been corrected" |
 | **archive-diver** | what changed | "claim was silently edited" |
 
-### Adversarial (R3) — Disconfirmation
+### Adversarial — Disconfirmation
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -357,7 +357,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **steelman-builder** | strongest opposition | "you attacked the weak version" |
 | **fraud-sniffer** | too-good-to-be-true | "data pattern is implausible" |
 
-### Quantitative (R4) — The numbers
+### Quantitative — The numbers
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -368,7 +368,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **cost-modeler** | unit economics | "cost claim unsourced" |
 | **uncertainty-quantifier** | error bars, n | "point estimate hides a huge CI" |
 
-### Temporal (R5) — Time, recency, staleness
+### Temporal — Time, recency, staleness
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -379,7 +379,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **obsolescence-checker** | what is now stale | "source is dead or stale" |
 | **embargo-watcher** | announced-not-shipped | "vaporware treated as shipped" |
 
-### Technical (R6) — Implementation reality
+### Technical — Implementation reality
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -390,7 +390,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **architecture-mapper** | system shape | "architecture makes this impossible" |
 | **reproducer** | does it actually run | "could not reproduce" |
 
-### Market (R7) — Commercial reality
+### Market — Commercial reality
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -401,7 +401,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **analyst-reader** | market sizing | "vendor-sponsored analysis" |
 | **customer-voice** | lived experience | "users report the opposite" |
 
-### Regulatory (R8) — Law and compliance
+### Regulatory — Law and compliance
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -412,7 +412,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **jurisdiction-comparer** | where it applies | "true in one jurisdiction only" |
 | **policy-tracer** | legislative intent | "intent differs from text" |
 
-### Human (R9) — Qualitative / social
+### Human — Qualitative / social
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -423,7 +423,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 | **dissent-locator** | heterodox positions | "a credible minority view exists" |
 | **translation-scout** | non-English record | "anglophone blind spot" |
 
-### Synthesis (R10) — Operate on the Source Store
+### Synthesis — Operate on the Source Store
 
 | Researcher | Query intent | Attack |
 |------------|-------------|--------|
@@ -438,7 +438,7 @@ class + query intent + attack specialisation. Trigger with `research council: ..
 technical-due-diligence, market-research, competitive-intel, regulatory-scan,
 provenance-audit, incident-forensics, trend-forecast, quantitative-scan, vendor-evaluation,
 academic-survey, red-team-research, feasibility-study). Every panel MUST seat ≥1 Synthesis
-(R10) and ≥1 Adversarial (R3).
+and ≥1 Adversarial.
 
 Full researcher details: [docs/researchers.md](docs/researchers.md) · profiles:
 [docs/research-profiles.md](docs/research-profiles.md) · verdict format:

@@ -5,14 +5,14 @@
 Auto-detect routes to research mode (recency term "as of this quarter", asks what IS, no
 options enumerated). Profile: **landscape-scan**.
 
-## R0 — Charter
+## Charter
 - **Restated:** enumerate current open-source multi-agent debate/deliberation frameworks.
 - **Sub-questions:** (1) which projects exist? (2) how actively maintained? (3) what does each do differently? (4) which are actually adopted?
 - **Scope:** sources ≤ 6 months preferred; open-source only; out-of-scope: closed SaaS.
 
 ## Panel (5 + mandatory-seat top-up)
-competitor-mapper, recency-sweeper, adoption-reader, literature-scout, **gap-mapper (R10)**;
-orchestrator adds **counter-evidence-scout (R3)** to satisfy the adversarial seat.
+competitor-mapper, recency-sweeper, adoption-reader, literature-scout, **gap-mapper (Synthesis)**;
+orchestrator adds **counter-evidence-scout (Adversarial)** to satisfy the adversarial seat.
 
 ## Abbreviated Research Verdict
 

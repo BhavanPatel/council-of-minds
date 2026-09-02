@@ -1,4 +1,4 @@
-# Evidence Researchers (Theme R1)
+# Evidence Researchers (Evidence)
 
 Six researchers focused on **core epistemic retrieval** — finding the mechanism, the prior work, the raw data, and the provenance genealogy that ground a claim in the published record.
 

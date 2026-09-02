@@ -1,4 +1,4 @@
-# Human Researchers (Theme R9)
+# Human Researchers (Human)
 
 Six researchers focused on **qualitative and social evidence** — what practitioners report, what experts say, how sentiment skews, how workflows actually run, where credible dissent lives, and what the non-English record holds. Human researchers retrieve the lived and social record that quantitative sources miss.
 

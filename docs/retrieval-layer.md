@@ -5,7 +5,7 @@ The retrieval layer is the foundation of the **Research Council** — the second
 Everything here is **tool-neutral and agent-agnostic**. No vendor, model, or specific search provider is named. Any host that can *search the web* and *fetch a URL* satisfies the contract; hosts that cannot degrade gracefully to a labelled prior-knowledge briefing.
 
 > Config: [`settings/research-council.config.json`](../settings/research-council.config.json)
-> Status: Phase 15 (foundation) + Phase 16 (researcher cast) implemented. Orchestrator round flow (R0–R6), profiles, and budget tiers arrive in Phases 17–19.
+> Status: Phase 15 (foundation) + Phase 16 (researcher cast) implemented. Orchestrator round flow (Charter → Crystallize & Vote), profiles, and budget tiers arrive in Phases 17–19.
 
 ---
 
@@ -115,7 +115,7 @@ Halt a researcher's retrieval when the **last 3 fetches each yield < 20% novel c
 
 Deferred to later phases so Phase 15/16 stay in scope:
 
-- **Round flow R0–R6** (Charter Gate, lens/query generation, retrieval+analysis, fact-check, cross-exam, progressive retrieval, enforcement scan, crystallization) — Phase 17.
+- **Round flow** (Charter Gate, lens/query generation, retrieval+analysis, fact-check, cross-exam, progressive retrieval, enforcement scan, crystallization) — Phase 17.
 - **Research Verdict output contract** — Phase 18.
 - **15 research profiles + budget tiers + triggers** — Phase 19.
 - **Chamber chaining (Research → Decision)** — Phase 20.

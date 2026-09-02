@@ -1,6 +1,6 @@
 {
   "$comment": "Council of Minds — Research Council (second chamber) configuration. v4.0-alpha (Phase 15) establishes the retrieval foundation; v4.0-beta (Phase 16) registers the 60 researchers. Tool-neutral and agent-agnostic: no vendor, model, or specific search-provider is named. The host supplies retrieval via the Retrieval Capability Contract below.",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "peerChamber": {
     "$comment": "Research is one of two co-equal chambers. The decision chamber is configured in settings/council-of-minds.config.json; the neutral routing map over both lives there under 'chambers'. This is a peer reference, not a parent.",
     "config": "settings/council-of-minds.config.json",
@@ -98,12 +98,12 @@
     "floor": "always allow at least the tier-minimum fetches before this rule can trigger"
   },
   "researchModes": {
-    "$comment": "Round flow R0-R6 wired into the orchestrator (council-of-minds.md, Research Round Flow section) in Phase 17.",
+    "$comment": "Round flow (Charter → Crystallize & Vote) wired into the orchestrator (council-of-minds.md, Research Round Flow section) in Phase 17.",
     "research": {
-      "rounds": ["R0-charter", "R1-lens-query", "R2-retrieve-analyze", "R3-factcheck", "R4-cross-exam", "R4b-progressive-retrieval", "R5-enforcement-scan", "R6-crystallize-vote"],
+      "rounds": ["charter", "lens-query", "retrieve-analyze", "factcheck", "cross-exam", "progressive-retrieve", "enforcement-scan", "crystallize-vote"],
       "roundsCapped": true,
       "roundsAreNotAThrottle": "extra rounds cause over-deliberation drift; budget is spent on retrieval dimensions, never on adding rounds",
-      "contextIsolationUntil": "R4",
+      "contextIsolationUntil": "cross-exam",
       "crossExamination": { "topology": "sparse-O(N)", "targetsPerResearcher": "2-3", "polarityPaired": true, "allPairs": false },
       "legalMoves": ["SOURCE-CHALLENGE", "INFERENCE-CHALLENGE", "COVERAGE-CHALLENGE"],
       "antiConformity": "evidence-gated: concession requires a named specific flaw AND a cited source id",
@@ -123,7 +123,7 @@
       "phrasings": ["what is the current", "what is the latest", "is it true that", "what does the evidence say", "how many", "who currently"],
       "signals": ["asks what IS not what to DO", "no options enumerated to choose between"]
     },
-    "onAmbiguous": "ask once at the Charter Gate (R0) whether the user wants a decision or a research answer; never guess"
+    "onAmbiguous": "ask once at the Charter stage whether the user wants a decision or a research answer; never guess"
   },
   "budgetTiers": {
     "$comment": "Phase 19. Budget applies across RETRIEVAL dimensions, not word limits. Degradation order is critical: fact-check is sacrificed LAST because independent grounding is the proven unlock (arXiv 2606.02866). Rounds are NEVER a throttle (2607.09099, 2502.19559).",
@@ -143,8 +143,8 @@
   "selectorConstraint": {
     "$comment": "Phase 19. Every research panel must be able to audit and to disconfirm.",
     "mustInclude": [
-      { "theme": "synthesis", "code": "R10", "min": 1, "why": "nothing audits the collected set without it" },
-      { "theme": "adversarial", "code": "R3", "min": 1, "why": "without it the panel only confirms" }
+      { "theme": "synthesis", "min": 1, "why": "nothing audits the collected set without it" },
+      { "theme": "adversarial", "min": 1, "why": "without it the panel only confirms" }
     ],
     "panelSize": { "min": 4, "max": 6, "default": 5, "maxAtDeepOrUnlimited": 8 },
     "polarityPair": "include at least one researchPolarityPairs pair (cross-theme most valuable)"
@@ -156,7 +156,7 @@
     "reuses": "Phase 8 multi-model assignment"
   },
   "researchers": {
-    "$comment": "60 researchers across 10 themes (R1-R10), 6 each. Named by RETRIEVAL function. Each owns a source class + query intent (see docs/researchers.md Territory Matrix). polarity_pairs drive the sparse O(N) evidence cross-examination in Phase 17.",
+    "$comment": "60 researchers across 10 themes, 6 each. Named by RETRIEVAL function. Each owns a source class + query intent (see docs/researchers.md Territory Matrix). polarity_pairs drive the sparse O(N) evidence cross-examination in Phase 17.",
     "literature-scout": { "theme": "evidence", "query_intent": "mechanism, prior work", "source_class": "peer-reviewed, preprints", "attack": "unaware of prior art", "polarity_pairs": ["counter-evidence-scout", "recency-sweeper"] },
     "primary-source-hunter": { "theme": "evidence", "query_intent": "original wording", "source_class": "filings, transcripts, raw docs", "attack": "you cited coverage, not the source", "polarity_pairs": ["triangulator", "syndication-unmasker"] },
     "dataset-digger": { "theme": "evidence", "query_intent": "magnitudes from raw data", "source_class": "datasets, statistical releases", "attack": "no underlying data exists", "polarity_pairs": ["effect-size-reader", "fraud-sniffer"] },
@@ -228,16 +228,16 @@
     "brief-writer": { "theme": "synthesis", "query_intent": "final synthesis", "source_class": "verdict assembly", "attack": "n/a (chairman-equivalent)", "polarity_pairs": [] }
   },
   "themes": {
-    "evidence": { "code": "R1", "focus": "core epistemic retrieval", "researchers": ["literature-scout", "primary-source-hunter", "dataset-digger", "replication-checker", "meta-analyst", "citation-tracer"] },
-    "provenance": { "code": "R2", "focus": "who says it, why", "researchers": ["source-auditor", "funding-tracer", "author-profiler", "syndication-unmasker", "retraction-watch", "archive-diver"] },
-    "adversarial": { "code": "R3", "focus": "disconfirmation", "researchers": ["counter-evidence-scout", "null-result-finder", "critic-collector", "failure-case-hunter", "steelman-builder", "fraud-sniffer"] },
-    "quantitative": { "code": "R4", "focus": "the numbers", "researchers": ["base-rate-finder", "effect-size-reader", "benchmark-reader", "trend-fitter", "cost-modeler", "uncertainty-quantifier"] },
-    "temporal": { "code": "R5", "focus": "time, recency, staleness", "researchers": ["recency-sweeper", "timeline-builder", "precedent-digger", "version-tracker", "obsolescence-checker", "embargo-watcher"] },
-    "technical": { "code": "R6", "focus": "implementation reality", "researchers": ["code-reader", "spec-reader", "api-doc-reader", "issue-tracker-miner", "architecture-mapper", "reproducer"] },
-    "market": { "code": "R7", "focus": "commercial reality", "researchers": ["competitor-mapper", "pricing-scout", "adoption-reader", "filing-reader", "analyst-reader", "customer-voice"] },
-    "regulatory": { "code": "R8", "focus": "law and compliance", "researchers": ["statute-reader", "caselaw-reader", "regulator-watcher", "compliance-mapper", "jurisdiction-comparer", "policy-tracer"] },
-    "human": { "code": "R9", "focus": "qualitative / social", "researchers": ["practitioner-listener", "expert-canvasser", "sentiment-reader", "ethnographer", "dissent-locator", "translation-scout"] },
-    "synthesis": { "code": "R10", "focus": "operate on the Source Store, not the web", "researchers": ["gap-mapper", "contradiction-mapper", "triangulator", "claim-normalizer", "coverage-auditor", "brief-writer"] }
+    "evidence": { "focus": "core epistemic retrieval", "researchers": ["literature-scout", "primary-source-hunter", "dataset-digger", "replication-checker", "meta-analyst", "citation-tracer"] },
+    "provenance": { "focus": "who says it, why", "researchers": ["source-auditor", "funding-tracer", "author-profiler", "syndication-unmasker", "retraction-watch", "archive-diver"] },
+    "adversarial": { "focus": "disconfirmation", "researchers": ["counter-evidence-scout", "null-result-finder", "critic-collector", "failure-case-hunter", "steelman-builder", "fraud-sniffer"] },
+    "quantitative": { "focus": "the numbers", "researchers": ["base-rate-finder", "effect-size-reader", "benchmark-reader", "trend-fitter", "cost-modeler", "uncertainty-quantifier"] },
+    "temporal": { "focus": "time, recency, staleness", "researchers": ["recency-sweeper", "timeline-builder", "precedent-digger", "version-tracker", "obsolescence-checker", "embargo-watcher"] },
+    "technical": { "focus": "implementation reality", "researchers": ["code-reader", "spec-reader", "api-doc-reader", "issue-tracker-miner", "architecture-mapper", "reproducer"] },
+    "market": { "focus": "commercial reality", "researchers": ["competitor-mapper", "pricing-scout", "adoption-reader", "filing-reader", "analyst-reader", "customer-voice"] },
+    "regulatory": { "focus": "law and compliance", "researchers": ["statute-reader", "caselaw-reader", "regulator-watcher", "compliance-mapper", "jurisdiction-comparer", "policy-tracer"] },
+    "human": { "focus": "qualitative / social", "researchers": ["practitioner-listener", "expert-canvasser", "sentiment-reader", "ethnographer", "dissent-locator", "translation-scout"] },
+    "synthesis": { "focus": "operate on the Source Store, not the web", "researchers": ["gap-mapper", "contradiction-mapper", "triangulator", "claim-normalizer", "coverage-auditor", "brief-writer"] }
   },
   "researchPolarityPairs": [
     ["counter-evidence-scout", "literature-scout"],
@@ -257,12 +257,12 @@
     ["embargo-watcher", "adoption-reader"]
   ],
   "profiles": {
-    "$comment": "Phase 19. 15 research profiles, 5 researchers each. Every profile satisfies the selector constraint: >=1 Synthesis (R10) + >=1 Adversarial (R3).",
-    "landscape-scan": { "researchers": ["competitor-mapper", "recency-sweeper", "adoption-reader", "literature-scout", "gap-mapper"], "adversarial": "counter-evidence-scout (add at panel 6)", "synthesisSeat": "gap-mapper", "description": "What exists in this space today", "note": "gap-mapper covers R10; add counter-evidence-scout for the R3 seat when panel expands" },
+    "$comment": "Phase 19. 15 research profiles, 5 researchers each. Every profile satisfies the selector constraint: >=1 Synthesis + >=1 Adversarial.",
+    "landscape-scan": { "researchers": ["competitor-mapper", "recency-sweeper", "adoption-reader", "literature-scout", "gap-mapper"], "adversarial": "counter-evidence-scout (add at panel 6)", "synthesisSeat": "gap-mapper", "description": "What exists in this space today", "note": "gap-mapper covers the Synthesis seat; add counter-evidence-scout for the Adversarial seat when panel expands" },
     "claim-verification": { "researchers": ["primary-source-hunter", "citation-tracer", "counter-evidence-scout", "syndication-unmasker", "triangulator"], "adversarial": "counter-evidence-scout", "synthesisSeat": "triangulator", "description": "Is this true" },
-    "literature-review": { "researchers": ["literature-scout", "meta-analyst", "replication-checker", "null-result-finder", "citation-tracer"], "adversarial": "null-result-finder", "synthesisSeat": "citation-tracer (evidence) + gap-mapper on demand", "description": "Academic state of the art", "note": "null-result-finder is R3; add gap-mapper (R10) at panel 6 — literature-review leans on citation-tracer for provenance" },
-    "technical-due-diligence": { "researchers": ["code-reader", "spec-reader", "issue-tracker-miner", "reproducer", "architecture-mapper"], "adversarial": "issue-tracker-miner (limitation-hunting) + failure-case-hunter on demand", "synthesisSeat": "contradiction-mapper on demand", "description": "Does this software do what it claims", "note": "add failure-case-hunter (R3) and contradiction-mapper (R10) at panel 6/7 for full constraint compliance" },
-    "market-research": { "researchers": ["competitor-mapper", "pricing-scout", "adoption-reader", "filing-reader", "customer-voice"], "adversarial": "counter-evidence-scout on demand", "synthesisSeat": "triangulator on demand", "description": "Sizing, pricing, players", "note": "add counter-evidence-scout (R3) + triangulator (R10) at panel 6/7" },
+    "literature-review": { "researchers": ["literature-scout", "meta-analyst", "replication-checker", "null-result-finder", "citation-tracer"], "adversarial": "null-result-finder", "synthesisSeat": "citation-tracer (evidence) + gap-mapper on demand", "description": "Academic state of the art", "note": "null-result-finder is the Adversarial seat; add gap-mapper (Synthesis) at panel 6 — literature-review leans on citation-tracer for provenance" },
+    "technical-due-diligence": { "researchers": ["code-reader", "spec-reader", "issue-tracker-miner", "reproducer", "architecture-mapper"], "adversarial": "issue-tracker-miner (limitation-hunting) + failure-case-hunter on demand", "synthesisSeat": "contradiction-mapper on demand", "description": "Does this software do what it claims", "note": "add failure-case-hunter (Adversarial) and contradiction-mapper (Synthesis) at panel 6/7 for full constraint compliance" },
+    "market-research": { "researchers": ["competitor-mapper", "pricing-scout", "adoption-reader", "filing-reader", "customer-voice"], "adversarial": "counter-evidence-scout on demand", "synthesisSeat": "triangulator on demand", "description": "Sizing, pricing, players", "note": "add counter-evidence-scout (Adversarial) + triangulator (Synthesis) at panel 6/7" },
     "competitive-intel": { "researchers": ["competitor-mapper", "embargo-watcher", "filing-reader", "adoption-reader", "customer-voice"], "adversarial": "embargo-watcher (vaporware) + counter-evidence-scout on demand", "synthesisSeat": "contradiction-mapper on demand", "description": "Rival capability + roadmap" },
     "regulatory-scan": { "researchers": ["statute-reader", "caselaw-reader", "regulator-watcher", "jurisdiction-comparer", "compliance-mapper"], "adversarial": "critic-collector on demand", "synthesisSeat": "contradiction-mapper on demand", "description": "Legal exposure" },
     "provenance-audit": { "researchers": ["source-auditor", "funding-tracer", "author-profiler", "syndication-unmasker", "retraction-watch"], "adversarial": "retraction-watch (validity) + fraud-sniffer on demand", "synthesisSeat": "triangulator on demand", "description": "Who is behind this claim" },

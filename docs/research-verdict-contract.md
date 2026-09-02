@@ -8,7 +8,7 @@ says** — with per-claim confidence, preserved dissent, and falsifiers.
 > verdict's value is provenance, entailment, and coverage discipline — not a claim that
 > debate made the answer more correct.
 
-The verdict is assembled by **brief-writer** (Theme R10) at round R6, after the per-claim
+The verdict is assembled by **brief-writer** (Synthesis) at the Crystallize & Vote round, after the per-claim
 confidence vote. Report generation is a **first-class deliverable**, not an afterthought.
 
 ---
@@ -37,7 +37,7 @@ load-bearing claim may appear here unlabelled.}
 Caps applied: single-independence-group → 0.5; unverified/demoted → 0.4.
 
 ### Contested Findings
-{Claims still in dispute after R4/R4b. Present BOTH sides with the source ids each rests on.
+{Claims still in dispute after Cross-Exam / Progressive Retrieve. Present BOTH sides with the source ids each rests on.
 Do not resolve artificially.}
 
 ### Minority Report
@@ -77,8 +77,8 @@ reprints of one story read as one confirmation.}
  "council feedback: rv-{id} — F{n} was [confirmed|refuted|unresolved]" (see Phase 21).}
 
 ---
-Session: research | Panel: {N} researchers | Rounds: R0–R6 | Budget tier: {tier} |
-Mandatory seats: {synthesis-researcher} (R10), {adversarial-researcher} (R3) |
+Session: research | Panel: {N} researchers | Rounds: Charter–Crystallize & Vote | Budget tier: {tier} |
+Mandatory seats: {synthesis-researcher} (Synthesis), {adversarial-researcher} (Adversarial) |
 Fact-check scope: {scope} | Progressive passes: {N} | Model diversity: {multi | single-varied}
 ```
 
@@ -119,7 +119,7 @@ system:
 
 ## Coverage Auditor
 
-The **coverage-auditor** (Theme R10) computes the Coverage & Limits block:
+The **coverage-auditor** (Synthesis) computes the Coverage & Limits block:
 
 - **Citation coverage** = load-bearing claims with ≥1 source ÷ total load-bearing claims.
 - **Citation accuracy** = citations that passed the fact-checker's entailment check ÷
@@ -129,5 +129,5 @@ The **coverage-auditor** (Theme R10) computes the Coverage & Limits block:
 - **Territory compliance** = pass if every researcher stayed within its assigned source
   class + intent; fail names the lane collisions.
 
-Coverage below threshold **gates the verdict** (R5 Enforcement Scan) — the verdict is
+Coverage below threshold **gates the verdict** (Enforcement Scan) — the verdict is
 emitted with the gap flagged, never with the gap hidden.

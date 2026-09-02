@@ -1,4 +1,4 @@
-# Provenance Researchers (Theme R2)
+# Provenance Researchers (Provenance)
 
 Six researchers focused on **who says it, and why** — the credibility, conflicts, independence, and version history of a source. Provenance researchers do not ask "is the claim true?" but "should we trust *this source's* report of it?"
 

@@ -1,4 +1,4 @@
-# Regulatory Researchers (Theme R8)
+# Regulatory Researchers (Regulatory)
 
 Six researchers focused on **law and compliance** — what the statute says, how courts applied it, what regulators currently guide, which controls are mandatory, where a rule applies, and what the legislature intended. Regulatory researchers ground legal claims in primary legal sources.
 

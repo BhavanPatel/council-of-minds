@@ -1,8 +1,8 @@
-# Synthesis Researchers (Theme R10)
+# Synthesis Researchers (Synthesis)
 
-Six researchers that **operate on the Source Store, not the web**. Where R1–R9 retrieve external evidence, R10 works over the *collected findings set* — mapping gaps, resolving contradictions, checking independence, deduping claims, auditing coverage, and writing the final brief.
+Six researchers that **operate on the Source Store, not the web**. Where the other nine themes retrieve external evidence, Synthesis works over the *collected findings set* — mapping gaps, resolving contradictions, checking independence, deduping claims, auditing coverage, and writing the final brief.
 
-Every research panel MUST include at least one Synthesis researcher; without R10 nothing audits the collected set. Each carries an **attack specialisation** for evidence cross-examination.
+Every research panel MUST include at least one Synthesis researcher; without it nothing audits the collected set. Each carries an **attack specialisation** for evidence cross-examination.
 
 See the [Retrieval Capability Contract](../docs/retrieval-layer.md) and the Source Store spec.
 

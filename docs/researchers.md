@@ -14,12 +14,12 @@ Researchers are 10 themes × 6 = **60**, mirroring the advisor structure. Each r
 Every researcher operates under the [Retrieval Capability Contract](./retrieval-layer.md) and registers findings in the shared **Source Store** by `canonical_id`.
 
 > Full definitions: `researchers/*.md`. Config: `settings/research-council.config.json`.
-> Selector rule: every research panel MUST include **≥1 Synthesis (R10)** and **≥1 Adversarial (R3)** researcher.
-> Panels & round flow: [research profiles](research-profiles.md) · [Research Round Flow (R0–R6)](../council-of-minds.md) · [Research Verdict contract](research-verdict-contract.md).
+> Selector rule: every research panel MUST include **≥1 Synthesis** and **≥1 Adversarial** researcher.
+> Panels & round flow: [research profiles](research-profiles.md) · [Research Round Flow](../council-of-minds.md) · [Research Verdict contract](research-verdict-contract.md).
 
 ---
 
-## Theme R1 — Evidence
+## Evidence
 
 Core epistemic retrieval. See [`researchers/evidence.md`](../researchers/evidence.md).
 
@@ -32,7 +32,7 @@ Core epistemic retrieval. See [`researchers/evidence.md`](../researchers/evidenc
 | meta-analyst | aggregate consensus | "cherry-picked from a larger body" |
 | citation-tracer | provenance genealogy | "circular citation loop" |
 
-## Theme R2 — Provenance
+## Provenance
 
 Who says it, why. See [`researchers/provenance.md`](../researchers/provenance.md).
 
@@ -45,7 +45,7 @@ Who says it, why. See [`researchers/provenance.md`](../researchers/provenance.md
 | retraction-watch | validity status | "source has been corrected" |
 | archive-diver | what changed | "claim was silently edited" |
 
-## Theme R3 — Adversarial
+## Adversarial
 
 Disconfirmation. See [`researchers/adversarial.md`](../researchers/adversarial.md).
 
@@ -58,7 +58,7 @@ Disconfirmation. See [`researchers/adversarial.md`](../researchers/adversarial.m
 | steelman-builder | strongest opposition | "you attacked the weak version" |
 | fraud-sniffer | too-good-to-be-true | "data pattern is implausible" |
 
-## Theme R4 — Quantitative
+## Quantitative
 
 The numbers. See [`researchers/quantitative.md`](../researchers/quantitative.md).
 
@@ -71,7 +71,7 @@ The numbers. See [`researchers/quantitative.md`](../researchers/quantitative.md)
 | cost-modeler | unit economics | "cost claim unsourced" |
 | uncertainty-quantifier | error bars, n | "point estimate hides a huge CI" |
 
-## Theme R5 — Temporal
+## Temporal
 
 Time, recency, staleness. See [`researchers/temporal.md`](../researchers/temporal.md).
 
@@ -84,7 +84,7 @@ Time, recency, staleness. See [`researchers/temporal.md`](../researchers/tempora
 | obsolescence-checker | what is now stale | "source is dead or stale" |
 | embargo-watcher | announced-not-shipped | "vaporware treated as shipped" |
 
-## Theme R6 — Technical
+## Technical
 
 Implementation reality. See [`researchers/technical.md`](../researchers/technical.md).
 
@@ -97,7 +97,7 @@ Implementation reality. See [`researchers/technical.md`](../researchers/technica
 | architecture-mapper | system shape | "architecture makes this impossible" |
 | reproducer | does it actually run | "could not reproduce" |
 
-## Theme R7 — Market
+## Market
 
 Commercial reality. See [`researchers/market.md`](../researchers/market.md).
 
@@ -110,7 +110,7 @@ Commercial reality. See [`researchers/market.md`](../researchers/market.md).
 | analyst-reader | market sizing | "vendor-sponsored analysis" |
 | customer-voice | lived experience | "users report the opposite" |
 
-## Theme R8 — Regulatory
+## Regulatory
 
 Law and compliance. See [`researchers/regulatory.md`](../researchers/regulatory.md).
 
@@ -123,7 +123,7 @@ Law and compliance. See [`researchers/regulatory.md`](../researchers/regulatory.
 | jurisdiction-comparer | where it applies | "true in one jurisdiction only" |
 | policy-tracer | legislative intent | "intent differs from text" |
 
-## Theme R9 — Human
+## Human
 
 Qualitative / social. See [`researchers/human.md`](../researchers/human.md).
 
@@ -136,7 +136,7 @@ Qualitative / social. See [`researchers/human.md`](../researchers/human.md).
 | dissent-locator | heterodox positions | "a credible minority view exists" |
 | translation-scout | non-English record | "anglophone blind spot" |
 
-## Theme R10 — Synthesis
+## Synthesis
 
 Operate on the Source Store, not the web. See [`researchers/synthesis.md`](../researchers/synthesis.md).
 
@@ -181,63 +181,63 @@ The single authoritative map of **researcher → source class owned + query inte
 
 | Researcher | Theme | Source Class Owned | Query Intent |
 |---|---|---|---|
-| literature-scout | R1 Evidence | peer-reviewed, preprints | mechanism, prior work |
-| primary-source-hunter | R1 Evidence | filings, transcripts, raw docs | original wording |
-| dataset-digger | R1 Evidence | datasets, statistical releases | magnitudes from raw data |
-| replication-checker | R1 Evidence | replications, failed replications | does it reproduce |
-| meta-analyst | R1 Evidence | systematic reviews, meta-analyses | aggregate consensus |
-| citation-tracer | R1 Evidence | forward/backward citation chains | provenance genealogy |
-| source-auditor | R2 Provenance | editorial standards, mastheads | publisher credibility |
-| funding-tracer | R2 Provenance | funding disclosures, grant records | conflicts of interest |
-| author-profiler | R2 Provenance | author bibliographies, prior claims | track record |
-| syndication-unmasker | R2 Provenance | wire copy, reprint detection | independence |
-| retraction-watch | R2 Provenance | retractions, corrections, EoCs | validity status |
-| archive-diver | R2 Provenance | Wayback, cached, deleted versions | what changed |
-| counter-evidence-scout | R3 Adversarial | contradicting literature | the opposite case |
-| null-result-finder | R3 Adversarial | negative results, file-drawer | non-findings |
-| critic-collector | R3 Adversarial | comment letters, critiques | published rebuttals |
-| failure-case-hunter | R3 Adversarial | incident reports, postmortems | real-world breakdowns |
-| steelman-builder | R3 Adversarial | adversarial literature | strongest opposition |
-| fraud-sniffer | R3 Adversarial | anomaly reports, forensic analyses | too-good-to-be-true |
-| base-rate-finder | R4 Quantitative | prevalence data, census | denominators, priors |
-| effect-size-reader | R4 Quantitative | effect sizes, confidence intervals | magnitude vs significance |
-| benchmark-reader | R4 Quantitative | leaderboards, eval suites | measured performance |
-| trend-fitter | R4 Quantitative | time series | rates, inflections |
-| cost-modeler | R4 Quantitative | pricing pages, TCO studies | unit economics |
-| uncertainty-quantifier | R4 Quantitative | variance, sample sizes | error bars, n |
-| recency-sweeper | R5 Temporal | newest publications, changelogs | last-N-days frontier |
-| timeline-builder | R5 Temporal | dated event sequences | chronology of the claim |
-| precedent-digger | R5 Temporal | historical analogues, archives | prior cycles |
-| version-tracker | R5 Temporal | release notes, deprecations | which version |
-| obsolescence-checker | R5 Temporal | deprecation notices, end-of-life | what is now stale |
-| embargo-watcher | R5 Temporal | roadmaps, forward statements | announced-not-shipped |
-| code-reader | R6 Technical | repos, source files | implementation reality |
-| spec-reader | R6 Technical | RFCs, standards, schemas | normative definition |
-| api-doc-reader | R6 Technical | reference docs, quotas | official limits |
-| issue-tracker-miner | R6 Technical | issues, PRs, discussions | known limitations |
-| architecture-mapper | R6 Technical | design docs, ADRs, diagrams | system shape |
-| reproducer | R6 Technical | executed artifacts, logs | does it actually run |
-| competitor-mapper | R7 Market | product pages, directories | who else does this |
-| pricing-scout | R7 Market | price lists, tiers, contracts | published cost |
-| adoption-reader | R7 Market | downloads, stars, job posts | actual usage |
-| filing-reader | R7 Market | 10-K, S-1, annual reports | audited numbers |
-| analyst-reader | R7 Market | industry analyst reports | market sizing |
-| customer-voice | R7 Market | reviews, complaints, case studies | lived experience |
-| statute-reader | R8 Regulatory | laws, regulations, directives | what the law says |
-| caselaw-reader | R8 Regulatory | judgments, enforcement actions | how it was applied |
-| regulator-watcher | R8 Regulatory | consultations, guidance notes | current guidance |
-| compliance-mapper | R8 Regulatory | standards, certifications | required controls |
-| jurisdiction-comparer | R8 Regulatory | cross-border comparisons | where it applies |
-| policy-tracer | R8 Regulatory | drafts, lobbying records, hansard | legislative intent |
-| practitioner-listener | R9 Human | forums, HN, Reddit, Discord | real usage reports |
-| expert-canvasser | R9 Human | interviews, talks, podcasts, AMAs | expert commentary |
-| sentiment-reader | R9 Human | review aggregates, polls | aggregate opinion + skew |
-| ethnographer | R9 Human | user research, field studies | workflow context |
-| dissent-locator | R9 Human | minority expert views | heterodox positions |
-| translation-scout | R9 Human | regional/foreign-language sources | non-English record |
-| gap-mapper | R10 Synthesis | collected findings set | what is missing |
-| contradiction-mapper | R10 Synthesis | cross-findings comparison | what conflicts |
-| triangulator | R10 Synthesis | source independence graph | independent confirmation |
-| claim-normalizer | R10 Synthesis | semantically equal claims | dedupe/merge claims |
-| coverage-auditor | R10 Synthesis | territory/recency/independence | compliance metrics |
-| brief-writer | R10 Synthesis | verdict assembly | final synthesis |
+| literature-scout | Evidence | peer-reviewed, preprints | mechanism, prior work |
+| primary-source-hunter | Evidence | filings, transcripts, raw docs | original wording |
+| dataset-digger | Evidence | datasets, statistical releases | magnitudes from raw data |
+| replication-checker | Evidence | replications, failed replications | does it reproduce |
+| meta-analyst | Evidence | systematic reviews, meta-analyses | aggregate consensus |
+| citation-tracer | Evidence | forward/backward citation chains | provenance genealogy |
+| source-auditor | Provenance | editorial standards, mastheads | publisher credibility |
+| funding-tracer | Provenance | funding disclosures, grant records | conflicts of interest |
+| author-profiler | Provenance | author bibliographies, prior claims | track record |
+| syndication-unmasker | Provenance | wire copy, reprint detection | independence |
+| retraction-watch | Provenance | retractions, corrections, EoCs | validity status |
+| archive-diver | Provenance | Wayback, cached, deleted versions | what changed |
+| counter-evidence-scout | Adversarial | contradicting literature | the opposite case |
+| null-result-finder | Adversarial | negative results, file-drawer | non-findings |
+| critic-collector | Adversarial | comment letters, critiques | published rebuttals |
+| failure-case-hunter | Adversarial | incident reports, postmortems | real-world breakdowns |
+| steelman-builder | Adversarial | adversarial literature | strongest opposition |
+| fraud-sniffer | Adversarial | anomaly reports, forensic analyses | too-good-to-be-true |
+| base-rate-finder | Quantitative | prevalence data, census | denominators, priors |
+| effect-size-reader | Quantitative | effect sizes, confidence intervals | magnitude vs significance |
+| benchmark-reader | Quantitative | leaderboards, eval suites | measured performance |
+| trend-fitter | Quantitative | time series | rates, inflections |
+| cost-modeler | Quantitative | pricing pages, TCO studies | unit economics |
+| uncertainty-quantifier | Quantitative | variance, sample sizes | error bars, n |
+| recency-sweeper | Temporal | newest publications, changelogs | last-N-days frontier |
+| timeline-builder | Temporal | dated event sequences | chronology of the claim |
+| precedent-digger | Temporal | historical analogues, archives | prior cycles |
+| version-tracker | Temporal | release notes, deprecations | which version |
+| obsolescence-checker | Temporal | deprecation notices, end-of-life | what is now stale |
+| embargo-watcher | Temporal | roadmaps, forward statements | announced-not-shipped |
+| code-reader | Technical | repos, source files | implementation reality |
+| spec-reader | Technical | RFCs, standards, schemas | normative definition |
+| api-doc-reader | Technical | reference docs, quotas | official limits |
+| issue-tracker-miner | Technical | issues, PRs, discussions | known limitations |
+| architecture-mapper | Technical | design docs, ADRs, diagrams | system shape |
+| reproducer | Technical | executed artifacts, logs | does it actually run |
+| competitor-mapper | Market | product pages, directories | who else does this |
+| pricing-scout | Market | price lists, tiers, contracts | published cost |
+| adoption-reader | Market | downloads, stars, job posts | actual usage |
+| filing-reader | Market | 10-K, S-1, annual reports | audited numbers |
+| analyst-reader | Market | industry analyst reports | market sizing |
+| customer-voice | Market | reviews, complaints, case studies | lived experience |
+| statute-reader | Regulatory | laws, regulations, directives | what the law says |
+| caselaw-reader | Regulatory | judgments, enforcement actions | how it was applied |
+| regulator-watcher | Regulatory | consultations, guidance notes | current guidance |
+| compliance-mapper | Regulatory | standards, certifications | required controls |
+| jurisdiction-comparer | Regulatory | cross-border comparisons | where it applies |
+| policy-tracer | Regulatory | drafts, lobbying records, hansard | legislative intent |
+| practitioner-listener | Human | forums, HN, Reddit, Discord | real usage reports |
+| expert-canvasser | Human | interviews, talks, podcasts, AMAs | expert commentary |
+| sentiment-reader | Human | review aggregates, polls | aggregate opinion + skew |
+| ethnographer | Human | user research, field studies | workflow context |
+| dissent-locator | Human | minority expert views | heterodox positions |
+| translation-scout | Human | regional/foreign-language sources | non-English record |
+| gap-mapper | Synthesis | collected findings set | what is missing |
+| contradiction-mapper | Synthesis | cross-findings comparison | what conflicts |
+| triangulator | Synthesis | source independence graph | independent confirmation |
+| claim-normalizer | Synthesis | semantically equal claims | dedupe/merge claims |
+| coverage-auditor | Synthesis | territory/recency/independence | compliance metrics |
+| brief-writer | Synthesis | verdict assembly | final synthesis |

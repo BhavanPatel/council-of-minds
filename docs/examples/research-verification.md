@@ -3,19 +3,19 @@
 **Trigger:** `cite this: "GPT-style models cut customer-support handle time by 40%."`
 
 Explicit trigger `cite this:` → research mode. Profile: **claim-verification** (already
-carries both mandatory seats: counter-evidence-scout = R3, triangulator = R10).
+carries both mandatory seats: counter-evidence-scout = Adversarial, triangulator = Synthesis).
 
-## R0 — Charter
+## Charter
 - **Restated:** is the "40% handle-time reduction" claim supported by independent evidence?
 - **Sub-questions:** (1) where did the number originate? (2) is it independently replicated? (3) is there disconfirming evidence? (4) is the "40%" a like-for-like measure?
 - **Scope:** primary sources preferred; ≤ 24 months.
 
 ## Panel (5)
-primary-source-hunter, citation-tracer, **counter-evidence-scout (R3)**, syndication-unmasker, **triangulator (R10)**.
+primary-source-hunter, citation-tracer, **counter-evidence-scout (Adversarial)**, syndication-unmasker, **triangulator (Synthesis)**.
 
-## R3 Fact-Check highlights
+## Fact-Check highlights
 - **Entailment FAIL** on [S2]: the cited blog says "up to 40%", not "40%" → auto-raises an
-  INFERENCE CHALLENGE into R4. Claim demoted from "40%" to "up to 40% in one vendor case study".
+  INFERENCE CHALLENGE into Cross-Exam. Claim demoted from "40%" to "up to 40% in one vendor case study".
 
 ## Abbreviated Research Verdict
 

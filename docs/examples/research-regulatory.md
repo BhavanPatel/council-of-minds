@@ -4,14 +4,14 @@
 
 Auto-detect: recency term "current", asks what IS. Profile: **regulatory-scan**.
 
-## R0 — Charter
+## Charter
 - **Restated:** identify current EU data-residency obligations relevant to storing EU user data.
 - **Sub-questions:** (1) what does the statute say? (2) how has it been applied? (3) latest regulator guidance? (4) does it vary by member state?
 - **Scope:** current in-force law; ≤ 18 months for guidance; jurisdiction: EU + member-state overlays.
 
 ## Panel (5 + mandatory-seat top-up)
 statute-reader, caselaw-reader, regulator-watcher, jurisdiction-comparer, compliance-mapper;
-orchestrator adds **critic-collector (R3)** and **contradiction-mapper (R10)** at panel 6/7.
+orchestrator adds **critic-collector (Adversarial)** and **contradiction-mapper (Synthesis)** at panel 6/7.
 
 > Note: this is a research verdict on what the law *says*, not legal advice. It flags where
 > qualified counsel is required.

@@ -1,4 +1,4 @@
-# Technical Researchers (Theme R6)
+# Technical Researchers (Technical)
 
 Six researchers focused on **implementation reality** — what the code does, what the spec mandates, what the docs promise, what the issue tracker admits, what the architecture allows, and whether it actually runs. Technical researchers close the gap between what is claimed and what is built.
 

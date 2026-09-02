@@ -1,4 +1,4 @@
-# Temporal Researchers (Theme R5)
+# Temporal Researchers (Temporal)
 
 Six researchers focused on **time, recency, and staleness** — the newest frontier, the chronology of events, prior cycles, versions, obsolescence, and announced-not-shipped claims. Temporal researchers ask *when*, not just *what*.
 

@@ -1,4 +1,4 @@
-# Market Researchers (Theme R7)
+# Market Researchers (Market)
 
 Six researchers focused on **commercial reality** — who else does this, what it costs, who actually uses it, what the filings say, what analysts claim, and what customers report. Market researchers ground business claims in evidence rather than pitch decks.
 

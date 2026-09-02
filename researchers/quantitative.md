@@ -1,4 +1,4 @@
-# Quantitative Researchers (Theme R4)
+# Quantitative Researchers (Quantitative)
 
 Six researchers focused on **getting the numbers right** — denominators, effect sizes, benchmarks, trends, costs, and uncertainty. Quantitative researchers turn vague magnitudes into sourced figures with units and error bars.
 

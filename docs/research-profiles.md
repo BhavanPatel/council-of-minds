@@ -4,9 +4,9 @@ The Research Council (mode `research`) ships **15 research profiles** — curate
 researchers for common evidence tasks. Each profile seats **5 researchers** by default
 (panel 4–6, up to 8 at Deep/Unlimited).
 
-> **Selector constraint:** every research panel MUST include **≥1 Synthesis (R10)**
-> researcher and **≥1 Adversarial (R3)** researcher. Without R10 nothing audits the
-> collected set; without R3 the panel only confirms. Where a profile's default 5 does not
+> **Selector constraint:** every research panel MUST include **≥1 Synthesis**
+> researcher and **≥1 Adversarial** researcher. Without Synthesis nothing audits the
+> collected set; without Adversarial the panel only confirms. Where a profile's default 5 does not
 > already carry both, the orchestrator adds the missing seat at panel selection (noted per
 > profile below).
 
@@ -34,11 +34,11 @@ auto-selection pick one from the researcher registry.
 ## Mandatory-seat coverage
 
 Profiles whose default 5 already carry both mandatory seats:
-- **claim-verification** (counter-evidence-scout = R3, triangulator = R10)
-- **incident-forensics** (failure-case-hunter = R3, contradiction-mapper = R10)
-- **literature-review** (null-result-finder = R3; citation-tracer covers evidence provenance, gap-mapper R10 added on demand)
-- **vendor-evaluation / feasibility-study** (failure-case-hunter = R3; R10 auditor added on demand)
-- **red-team-research** (all five are R3-adversarial; contradiction-mapper R10 added on demand)
+- **claim-verification** (counter-evidence-scout = Adversarial, triangulator = Synthesis)
+- **incident-forensics** (failure-case-hunter = Adversarial, contradiction-mapper = Synthesis)
+- **literature-review** (null-result-finder = Adversarial; citation-tracer covers evidence provenance, gap-mapper Synthesis added on demand)
+- **vendor-evaluation / feasibility-study** (failure-case-hunter = Adversarial; Synthesis auditor added on demand)
+- **red-team-research** (all five are adversarial; contradiction-mapper Synthesis added on demand)
 
 Profiles where the orchestrator adds a mandatory seat at panel selection (documented in
 `settings/research-council.config.json` per-profile `note`): **landscape-scan**,

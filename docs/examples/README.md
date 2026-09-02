@@ -1,6 +1,6 @@
 # Research Council Examples
 
-Worked examples of the Research Council (mode `research`, rounds R0–R6). Each shows the
+Worked examples of the Research Council (mode `research`). Each shows the
 trigger, the Charter, the selected panel, and an abbreviated **Research Verdict** following
 [`docs/research-verdict-contract.md`](../research-verdict-contract.md).
 
