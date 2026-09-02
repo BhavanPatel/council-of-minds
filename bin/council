@@ -4,7 +4,7 @@
 set -eo pipefail
 
 INSTALL_DIR="${HOME}/.council-of-minds"
-VERSION="4.0.2"
+VERSION="4.0.4"
 
 # Colors
 RED='\033[0;31m'
@@ -252,6 +252,7 @@ cmd_uninstall() {
   if [[ -d "${HOME}/.kiro/agents/council-of-minds" ]]; then
     rm -rf "${HOME}/.kiro/agents/council-of-minds"
     rm -f "${HOME}/.kiro/settings/council-of-minds.config.json"
+    rm -f "${HOME}/.kiro/settings/decision-council.config.json"
     echo -e "  ${GREEN}✓${NC} Removed from Kiro"
   fi
 

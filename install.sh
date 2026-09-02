@@ -7,7 +7,7 @@ set -euo pipefail
 # Mirrors context-sect install pattern: git-aware, per-agent, proper path resolution.
 # ─────────────────────────────────────────────────────────────────────────────
 
-VERSION="4.0.2"
+VERSION="4.0.4"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="${HOME}/.council-of-minds"
 
@@ -297,6 +297,8 @@ install_kiro() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/settings/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/settings/"
+    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/settings/"
 
   # Remove advisors/researchers that no longer exist in source
   sync_advisors "${target}/agents/council-of-minds/advisors"
@@ -316,6 +318,8 @@ install_claude() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
+    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/advisors"
@@ -347,6 +351,8 @@ install_cursor() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/council-advisors/"
+    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
@@ -366,6 +372,8 @@ install_windsurf() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/council-advisors/"
+    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
@@ -401,6 +409,8 @@ install_aider() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
+    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
 
   local aider_conf="${HOME}/.aider.conf.yml"
   if [ -f "$aider_conf" ]; then
@@ -440,6 +450,8 @@ install_opencode() {
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
     cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
+    [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
+      cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/"
 
   log_ok "OpenCode: ${target}/"
 }
@@ -519,7 +531,7 @@ print_summary() {
   echo -e "  ${BOLD}Modes:${NC} full (5-round) · quick (3-round) · duo (polarity pair)"
   echo -e "  ${BOLD}Profiles:${NC} engineering · strategy · product · risk · ai-ml · innovation"
   echo -e "  ${BOLD}Follow-up:${NC} expand on [advisor] · challenge · reweight · re-run · save"
-  echo -e "  ${BOLD}Customize:${NC} Edit council-of-minds.config.json in your client's config dir"
+  echo -e "  ${BOLD}Customize:${NC} Edit council-of-minds.config.json (global) or decision-council.config.json (advisors/profiles) in your client's config dir"
   echo ""
   echo -e "  ${BOLD}CLI:${NC}"
   echo -e "    council status       Show installation status"

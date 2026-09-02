@@ -34,6 +34,7 @@
   ],
   "bundleResources": [
     "file://../../settings/council-of-minds.config.json",
+    "file://../../settings/decision-council.config.json",
     "file://../../settings/research-council.config.json"
   ],
   "welcomeMessage": "Council of Minds ready. Two chambers: the DECISION council runs your decisions through 4-6 of 60 advisors (analyze independently, peer-review, synthesize a verdict); the RESEARCH council runs sourced questions through 4-6 of 60 researchers (retrieve evidence, audit provenance, return a cited Research Verdict). Say 'council this: [decision]' or 'research council: [sourced question]'. Decision profiles: engineering, strategy, product, risk, ai-ml, innovation, creative, people, finance, legal, science, operations, truth, research, future, learning, sustainability, hardware, crisis, startup, governance. Research profiles: landscape-scan, claim-verification, literature-review, technical-due-diligence, market-research, competitive-intel, regulatory-scan, provenance-audit, incident-forensics, trend-forecast, quantitative-scan, vendor-evaluation, academic-survey, red-team-research, feasibility-study. Advanced: 'council meta: ...' deliberates on the council's own rules (advisory-only), and 'council advisor create [name]' scaffolds a custom advisor."

@@ -351,7 +351,7 @@ Options:
 
 ### Auto-Selection (for "council this:" without profile)
 
-Score each advisor against keyword maps in `council-of-minds.config.json`. Select top 5 (up to 6 for high-complexity decisions). Ensure at least one challenger (questioner, subtractor, reframer, or provocateur) is always included. Ensure at least one polarity pair is present for productive tension. Assign domain-weight to highest-scoring advisor.
+Score each advisor against keyword maps in `decision-council.config.json`. Select top 5 (up to 6 for high-complexity decisions). Ensure at least one challenger (questioner, subtractor, reframer, or provocateur) is always included. Ensure at least one polarity pair is present for productive tension. Assign domain-weight to highest-scoring advisor.
 
 ---
 

@@ -249,7 +249,7 @@ Users can specify exact advisors:
 council this with architect, tail-watcher, realist, shipper, questioner: [question]
 ```
 
-Or create persistent custom profiles by editing `council-of-minds.config.json`:
+Or create persistent custom profiles by editing `decision-council.config.json`:
 
 ```json
 {
