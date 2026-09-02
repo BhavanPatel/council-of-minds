@@ -1,6 +1,6 @@
 {
   "$comment": "Council of Minds — Research Council (second chamber) configuration. v4.0-alpha (Phase 15) establishes the retrieval foundation; v4.0-beta (Phase 16) registers the 60 researchers. Tool-neutral and agent-agnostic: no vendor, model, or specific search-provider is named. The host supplies retrieval via the Retrieval Capability Contract below.",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "peerChamber": {
     "$comment": "Research is one of two co-equal chambers. The decision chamber is configured in settings/decision-council.config.json; the neutral routing map over both lives in settings/council-of-minds.config.json under 'chambers'. This is a peer reference, not a parent.",
     "config": "settings/decision-council.config.json",
@@ -367,6 +367,109 @@
       "unresolved counts toward coverage only",
       "local-only under council-transcripts/research/"
     ]
+  },
+  "interactiveMode": {
+    "$comment": "Phase 22 (v4.2). Opt-in checkpoints for the research chamber; reuses the decision chamber's Phase-9 checkpoint machinery. Checkpoints land after Retrieve and after Cross-Exam (never mid-fact-check).",
+    "enabled": false,
+    "triggers": [
+      "interactive research council:",
+      "research council with checkpoints:"
+    ],
+    "checkpoints": {
+      "afterRetrieve": true,
+      "afterCrossExam": true,
+      "afterCrystallize": false
+    },
+    "userActions": [
+      "continue",
+      "inject",
+      "remove",
+      "redirect",
+      "narrow-scope",
+      "skip-to-verdict"
+    ],
+    "defaultAction": "continue",
+    "maxCheckpoints": 2,
+    "reuses": "Phase 9 interactive checkpoint mechanism"
+  },
+  "transcriptStorage": {
+    "$comment": "Phase 22 (v4.2). Research transcripts stored separately from decision transcripts.",
+    "dir": "council-transcripts/research/",
+    "trigger": "save research transcript",
+    "filename": "research-transcript-{YYYY-MM-DD}-{short-id}.md",
+    "autoSaveAlways": false,
+    "privacy": "local-only, no external transmission"
+  },
+  "sourceStorePersistence": {
+    "$comment": "Phase 22 (v4.2). The Source Store may persist across sessions as a cache so repeated questions do not re-fetch unchanged sources. Staleness policy prevents serving outdated evidence.",
+    "enabled": false,
+    "store": "council-transcripts/research/source-store.json",
+    "keyedBy": "canonical_id",
+    "stalenessPolicy": {
+      "default": "30d",
+      "byClass": {
+        "news-reporting": "3d",
+        "community-forum": "7d",
+        "regulatory-legal": "90d",
+        "peer-reviewed": "365d",
+        "primary-document": "365d"
+      },
+      "onStale": "re-fetch before reuse; if re-fetch fails, serve cached but flag [cached, possibly-stale]"
+    },
+    "independenceGroupsPreserved": true
+  },
+  "multimodalLens": {
+    "$comment": "Phase 22 (v4.2). Optional retrieval of charts/diagrams/figures when the host exposes an image-capable fetch. Tool-neutral: no vendor named. Degrades gracefully to text-only when unavailable (cf. MMDR-Bench 2601.12346).",
+    "enabled": false,
+    "capability": "image-capable fetch (host-provided)",
+    "targets": [
+      "charts and plots (extract axis labels, series, magnitudes)",
+      "diagrams and architecture figures",
+      "tables rendered as images"
+    ],
+    "onCapabilityMissing": "skip multimodal targets; note [figure not machine-readable] in the finding",
+    "rule": "an extracted figure claim is still a Findings Card with a source id; never invent values a figure does not legibly show"
+  },
+  "selfBenchmark": {
+    "$comment": "Phase 22 (v4.2). Optional self-evaluation against the DeepResearch Bench task format so a run's coverage/citation metrics can be scored the same way the frontier is measured.",
+    "enabled": false,
+    "trigger": "benchmark this research",
+    "format": "DeepResearch Bench task format (open-ended cited report)",
+    "metrics": [
+      "citation coverage %",
+      "citation accuracy",
+      "independence-group count",
+      "recency compliance",
+      "rubric satisfaction (expert-rubric style)"
+    ],
+    "note": "advisory self-scoring only; not a leaderboard submission"
+  },
+  "customResearchers": {
+    "$comment": "Phase 22 (v4.2). Reuses the Phase-13 cast-agnostic template system, parameterised for the researcher cast. Scaffolds live in researchers/custom/; the CLI is `council researcher create|validate|list`.",
+    "dir": "researchers/custom/",
+    "template": "researchers/custom/_template.md",
+    "cli": "council researcher create|validate|list",
+    "requiredFields": [
+      "Cast (must be researcher)",
+      "Theme",
+      "Query Intent",
+      "Source Class Owned",
+      "Attack Specialisation",
+      "Polarity Pairs"
+    ],
+    "requiredSections": [
+      "Territory Boundary",
+      "Example Queries",
+      "Retrieval Method",
+      "Grounding Protocol",
+      "What This Lens Retrieves That Others Miss",
+      "What This Lens Tends to Miss",
+      "When Cross-Examining",
+      "Output Format (Findings Card)",
+      "Output Format (Cross-Exam)"
+    ],
+    "integration": "eligible for auto-selection and profiles; obeys ≥1 Synthesis + ≥1 Adversarial and 4-6 (up to 8 deep) panel limits",
+    "reuses": "Phase 13 custom-member template system (cast-agnostic)"
   },
   "researchers": {
     "$comment": "60 researchers across 10 themes, 6 each. Named by RETRIEVAL function. Each owns a source class + query intent (see docs/researchers.md Territory Matrix). polarity_pairs drive the sparse O(N) evidence cross-examination in Phase 17.",

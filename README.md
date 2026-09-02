@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-4.1.1-a78bfa?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-4.2.0-a78bfa?style=flat-square" alt="Version" />
   <img src="https://img.shields.io/badge/advisors-60_cognitive_lenses-10b981?style=flat-square" alt="Advisors" />
   <img src="https://img.shields.io/badge/researchers-60_retrieval_lenses-06b6d4?style=flat-square" alt="Researchers" />
   <img src="https://img.shields.io/badge/profiles-21_+_15_research-f59e0b?style=flat-square" alt="Profiles" />
@@ -606,6 +606,22 @@ council advisor list                   # list custom advisors
 Fill in the template, validate, and reinstall. Valid custom advisors join auto-selection
 and any profile under the same panel-size, dissent-quota, and evidence-diversity rules as
 built-in advisors. Tool-neutral, no runtime. See `advisors/custom/README.md`.
+
+### Custom Researchers
+
+Extend the 60-researcher pool the same way, using the researcher-cast scaffold:
+
+```bash
+council researcher create billing-telemetry     # scaffold researchers/custom/billing-telemetry.md
+council researcher validate billing-telemetry    # structural check
+council researcher list                          # list custom researchers
+```
+
+A custom researcher owns a source class + query intent (territory exclusivity) and obeys the
+same ≥1 Synthesis + ≥1 Adversarial seat rule and 4–6 (up to 8 deep) panel limits. Tool-neutral,
+no runtime. See `researchers/custom/README.md`. Other v4.2 research features: opt-in interactive
+checkpoints (`interactive research council: ...`), research transcript + Source Store persistence,
+a multimodal retrieval lens, and self-benchmark against the DeepResearch Bench format.
 
 ### Meta-Governance (the council governs itself)
 

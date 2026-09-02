@@ -1,5 +1,5 @@
 {
-  "version": "4.1.1",
+  "version": "4.2.0",
   "$comment": "Council of Minds is a ROUTER over two co-equal chambers. This file holds ROUTER/GLOBAL configuration only: the neutral 'chambers' routing map, decision-chamber 'modes', and cross-chamber behaviour tables (costBudget, interactiveMode, enforcement). Each chamber's cast lives in its own file: the DECISION chamber in settings/decision-council.config.json, the RESEARCH chamber in settings/research-council.config.json.",
   "chambers": {
     "$comment": "Neutral routing map. Both chambers are peers; neither is subordinate. The orchestrator (council-of-minds.md, Routing / Chamber Selection) classifies each request to one of these.",

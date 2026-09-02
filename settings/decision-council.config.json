@@ -1,6 +1,6 @@
 {
   "$comment": "Council of Minds — Decision Council (first chamber) configuration. Holds the DECISION chamber's cast (advisors), its panel profiles, keyword-based auto-selection scoring, and polarity pairs. Structural twin of settings/research-council.config.json. The neutral routing map over both chambers lives in settings/council-of-minds.config.json under 'chambers'. Tool-neutral and agent-agnostic.",
-  "version": "4.1.1",
+  "version": "4.2.0",
   "peerChamber": {
     "$comment": "Decision is one of two co-equal chambers. The research chamber is configured in settings/research-council.config.json; the neutral routing map over both lives in settings/council-of-minds.config.json under 'chambers'. This is a peer reference, not a parent.",
     "config": "settings/research-council.config.json",

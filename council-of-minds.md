@@ -1369,3 +1369,87 @@ Recorded per research session in `council-transcripts/research/research-analytic
 5. **`unresolved` findings** count toward coverage only, never toward accuracy.
 6. **Local-only.** Research transcripts and outcomes live under `council-transcripts/research/`;
    no external transmission.
+
+
+---
+
+## Advanced Research Features (Research chamber, v4.2)
+
+> Phase 22. All opt-in and additive — the default research flow is unchanged. Every feature
+> is agent-agnostic and tool-neutral; nothing here assumes a vendor, model, or search provider.
+
+### Interactive Research Council
+
+Opt-in checkpoints during a research run, reusing the decision chamber's checkpoint machinery.
+
+- **Triggers:** "interactive research council: {question}", "research council with checkpoints: {question}".
+- **Checkpoints land after Retrieve and after Cross-Exam** (never mid Fact-Check, and none after
+  Crystallize — too late to steer). Max 2 per session.
+
+```
+--- RESEARCH CHECKPOINT (after {Retrieve | Cross-Exam}) ---
+
+Panel: {researcher1} ({lens}), {researcher2} ({lens}), ...
+Findings so far: F1 {claim} ({confidence}), F2 ..., contested: {ids}
+Coverage gaps: {what has not been retrieved yet}
+
+Options:
+  [continue] — proceed to the next stage (default)
+  [inject: {source/context}] — add a source or constraint for the next stage
+  [remove: {researcher}] — drop a researcher from the panel
+  [redirect: {new sub-question}] — refocus remaining retrieval
+  [narrow-scope: {tighter recency/scope}] — tighten the Charter scope
+  [skip to verdict] — assemble the Research Verdict from current findings
+
+→ Your choice:
+```
+
+Rules mirror the decision chamber: default is non-interactive; continue is the default action;
+inject/remove/redirect behave as in Human-in-the-Loop; skip notes "Early exit after {stage}".
+
+### Research Transcript Storage
+
+- **"save research transcript"** → writes the full run (Charter, queries, Findings Cards,
+  Verification Ledger, cross-exam, verdict) to
+  `council-transcripts/research/research-transcript-{YYYY-MM-DD}-{short-id}.md`.
+- Local-only, no external transmission. Kept separate from decision transcripts.
+
+### Source Store Persistence (cache + staleness)
+
+- The Source Store may **persist across sessions** (`council-transcripts/research/source-store.json`,
+  keyed by `canonical_id`) so a repeated question does not re-fetch unchanged sources.
+- **Staleness policy** by source class: news 3d, community 7d, default 30d, regulatory 90d,
+  peer-reviewed / primary documents 365d. On stale, **re-fetch before reuse**; if re-fetch fails,
+  serve cached but flag `[cached, possibly-stale]`.
+- Independence groups are preserved across sessions.
+- Off by default (`sourceStorePersistence.enabled: false`).
+
+### Multimodal Retrieval Lens
+
+- When the host exposes an **image-capable fetch**, researchers may extract claims from charts,
+  diagrams, and image-rendered tables.
+- Degrades gracefully: with no image capability, multimodal targets are skipped and the finding
+  notes `[figure not machine-readable]`.
+- An extracted figure claim is still a Findings Card with a source id — **never invent values a
+  figure does not legibly show**.
+
+### Self-Benchmark
+
+- **"benchmark this research"** → scores the run against the DeepResearch Bench task format:
+  citation coverage %, citation accuracy, independence-group count, recency compliance, and
+  rubric satisfaction. Advisory self-scoring only — not a leaderboard submission.
+
+### Custom Researchers
+
+Define your own retrieval lens, mirroring the custom-advisor builder (same cast-agnostic template
+system, parameterised for the researcher cast).
+
+- **CLI:** `council researcher create <name>` scaffolds `researchers/custom/<name>.md` from the
+  template; `council researcher validate <name>` checks structure; `council researcher list` lists them.
+- A custom researcher must declare `Cast: researcher`, a `Theme` (one of the 10), `Query Intent`,
+  `Source Class Owned`, `Attack Specialisation`, and `Polarity Pairs`, plus the required sections
+  (Territory Boundary, Example Queries, Retrieval Method, Grounding Protocol, blind-spot sections,
+  When Cross-Examining, and both Output Format blocks).
+- Custom researchers are eligible for auto-selection and profiles, and obey the same
+  ≥1 Synthesis + ≥1 Adversarial seat rule and 4–6 (up to 8 deep) panel limits.
+- See `researchers/custom/_template.md` and `researchers/custom/README.md`.

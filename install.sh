@@ -7,7 +7,7 @@ set -euo pipefail
 # Mirrors context-sect install pattern: git-aware, per-agent, proper path resolution.
 # ─────────────────────────────────────────────────────────────────────────────
 
-VERSION="4.1.1"
+VERSION="4.2.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 INSTALL_DIR="${HOME}/.council-of-minds"
 
