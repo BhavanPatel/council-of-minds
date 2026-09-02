@@ -245,21 +245,62 @@ copy_advisors() {
   fi
 }
 
+# Sync researchers: remove installed researchers that no longer exist in source
+sync_researchers() {
+  local target_dir="$1"
+  [[ -d "$target_dir" ]] || return 0
+
+  for installed_file in "$target_dir"/*.md; do
+    [[ -f "$installed_file" ]] || continue
+    local fname
+    fname="$(basename "$installed_file")"
+    if [[ ! -f "${SRC_DIR}/researchers/${fname}" ]]; then
+      rm -f "$installed_file"
+      echo -e "    ${RED}✗${NC} Removed researcher ${fname} (no longer in council)"
+    fi
+  done
+}
+
+# Copy all researcher files (Research Council, second chamber) from source to target.
+# No-op when the researchers/ directory is absent, so older installs stay valid.
+copy_researchers() {
+  local target_dir="$1"
+  [[ -d "${SRC_DIR}/researchers" ]] || return 0
+  mkdir -p "$target_dir"
+  for researcher_file in "${SRC_DIR}"/researchers/*.md; do
+    [[ -f "$researcher_file" ]] || continue
+    cp "$researcher_file" "$target_dir/"
+  done
+  # Copy custom researchers, if present (Phase 22 — forward-compatible).
+  if [[ -d "${SRC_DIR}/researchers/custom" ]]; then
+    mkdir -p "${target_dir}/custom"
+    for custom_file in "${SRC_DIR}"/researchers/custom/*.md; do
+      [[ -f "$custom_file" ]] || continue
+      cp "$custom_file" "${target_dir}/custom/"
+    done
+  fi
+}
+
 install_kiro() {
   echo -e "\n  ${BLUE}Installing for Kiro...${NC}"
   local target="${HOME}/.kiro"
 
   mkdir -p "${target}/agents/council-of-minds/advisors"
+  mkdir -p "${target}/agents/council-of-minds/researchers"
   mkdir -p "${target}/settings"
 
   # Copy agent definition (with corrected paths)
   cp "${SRC_DIR}/council-of-minds.json" "${target}/agents/council-of-minds/"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/agents/council-of-minds/"
   copy_advisors "${target}/agents/council-of-minds/advisors/"
+  copy_researchers "${target}/agents/council-of-minds/researchers/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/settings/"
+  [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/research-council.config.json" "${target}/settings/"
 
-  # Remove advisors that no longer exist in source
+  # Remove advisors/researchers that no longer exist in source
   sync_advisors "${target}/agents/council-of-minds/advisors"
+  sync_researchers "${target}/agents/council-of-minds/researchers"
 
   log_ok "Kiro: ${target}/agents/council-of-minds/"
 }
@@ -271,10 +312,14 @@ install_claude() {
   mkdir -p "${target}/advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/"
   copy_advisors "${target}/advisors/"
+  copy_researchers "${target}/researchers/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
+  [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/advisors"
+  sync_researchers "${target}/researchers"
 
   # Add include reference to CLAUDE.md
   local claude_md="${HOME}/.claude/CLAUDE.md"
@@ -298,10 +343,14 @@ install_cursor() {
   mkdir -p "${target}/council-advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
   copy_advisors "${target}/council-advisors/"
+  copy_researchers "${target}/council-researchers/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
+  [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/research-council.config.json" "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
+  sync_researchers "${target}/council-researchers"
 
   log_ok "Cursor: ${target}/council-of-minds.md"
 }
@@ -313,10 +362,14 @@ install_windsurf() {
   mkdir -p "${target}/council-advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
   copy_advisors "${target}/council-advisors/"
+  copy_researchers "${target}/council-researchers/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/council-advisors/"
+  [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/research-council.config.json" "${target}/council-advisors/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
+  sync_researchers "${target}/council-researchers"
 
   log_ok "Windsurf: ${target}/council-of-minds.md"
 }
@@ -328,9 +381,11 @@ install_cline() {
   mkdir -p "${target}/council-advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
   copy_advisors "${target}/council-advisors/"
+  copy_researchers "${target}/council-researchers/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
+  sync_researchers "${target}/council-researchers"
 
   log_ok "Cline: ${target}/council-of-minds.md"
 }
@@ -342,7 +397,10 @@ install_aider() {
   mkdir -p "${target}/advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/"
   copy_advisors "${target}/advisors/"
+  copy_researchers "${target}/researchers/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
+  [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
 
   local aider_conf="${HOME}/.aider.conf.yml"
   if [ -f "$aider_conf" ]; then
@@ -362,9 +420,11 @@ install_roocode() {
   mkdir -p "${target}/council-advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/council-of-minds.md"
   copy_advisors "${target}/council-advisors/"
+  copy_researchers "${target}/council-researchers/"
 
   # Remove advisors that no longer exist in source
   sync_advisors "${target}/council-advisors"
+  sync_researchers "${target}/council-researchers"
 
   log_ok "RooCode: ${target}/council-of-minds.md"
 }
@@ -376,7 +436,10 @@ install_opencode() {
   mkdir -p "${target}/advisors"
   cp "${SRC_DIR}/council-of-minds.md" "${target}/"
   copy_advisors "${target}/advisors/"
+  copy_researchers "${target}/researchers/"
   cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/"
+  [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
+    cp "${SRC_DIR}/settings/research-council.config.json" "${target}/"
 
   log_ok "OpenCode: ${target}/"
 }

@@ -1,0 +1,207 @@
+{
+  "$comment": "Council of Minds — Research Council (second chamber) configuration. v4.0-alpha (Phase 15) establishes the retrieval foundation; v4.0-beta (Phase 16) registers the 60 researchers. Tool-neutral and agent-agnostic: no vendor, model, or specific search-provider is named. The host supplies retrieval via the Retrieval Capability Contract below.",
+  "version": "4.0.0-beta",
+  "retrievalCapabilityContract": {
+    "$comment": "Abstract retrieval interface the host must satisfy. Any client that can search the web and fetch a URL satisfies this; clients without it degrade to a labelled prior-knowledge briefing.",
+    "capabilities": {
+      "search": {
+        "signature": "search(query, filters)",
+        "returns": "ranked list of {title, url, snippet, publish_date?, source?}",
+        "filters": ["recencyWindow", "sourceClass", "language", "jurisdiction", "siteScope"],
+        "required": true
+      },
+      "fetch": {
+        "signature": "fetch(url)",
+        "returns": "{url, canonical_url?, title?, publish_date?, author?, publisher?, text}",
+        "required": true
+      }
+    },
+    "capabilityProbe": {
+      "$comment": "Run once at session start. Detects which capabilities the host exposes before any researcher is dispatched.",
+      "runAt": "session-start",
+      "probes": [
+        { "capability": "search", "method": "issue-one-trivial-query", "onSuccess": "enable-retrieval", "onFailure": "flag-search-unavailable" },
+        { "capability": "fetch", "method": "fetch-one-known-url", "onSuccess": "enable-fetch", "onFailure": "flag-fetch-unavailable" }
+      ],
+      "result": {
+        "full": "both search and fetch available -> Research Council may emit a Research Verdict",
+        "searchOnly": "snippets only, no full-text -> allowed but every finding flagged [snippet-only, unverified full text]",
+        "none": "neither available -> onCapabilityMissing applies"
+      }
+    },
+    "onCapabilityMissing": {
+      "$comment": "The one unrecoverable failure mode is silently fabricating citations. If retrieval is unavailable, the chamber MUST NOT emit a Research Verdict.",
+      "mode": "degrade-to-briefing",
+      "rule": "MUST refuse to emit a Research Verdict without retrieval. Instead emit a clearly labelled PRIOR-KNOWLEDGE BRIEFING that (a) states retrieval was unavailable, (b) carries NO citations, (c) caps every claim confidence at 'low', and (d) lists the queries that WOULD have been run so the user can retrieve manually.",
+      "forbidden": "Never present prior-knowledge claims as if they were retrieved and sourced."
+    }
+  },
+  "sourceStore": {
+    "$comment": "Shared evidence ledger. Every fetched artifact is registered once here; researchers reference sources by canonical_id.",
+    "recordSchema": {
+      "canonical_id": "stable hash identifying the source (see canonicalIdAlgorithm)",
+      "independence_group": "id shared by sources that are NOT independent (see independenceGrouping)",
+      "first_claimer": "canonical_id of the earliest source making this claim, if known",
+      "fetched_by": "researcher id that retrieved this source",
+      "fetched_at": "ISO-8601 timestamp of retrieval",
+      "publish_date": "ISO-8601 publish date if known, else null",
+      "class": "source class (see sourceClasses)",
+      "verification": "unverified | verified | demoted (set by the Verification Ledger in Phase 17)",
+      "url": "resolved URL or DOI",
+      "title": "source title"
+    },
+    "canonicalIdAlgorithm": {
+      "$comment": "Deterministic identity so the same source fetched twice collides.",
+      "rule": "hash(normalized_url | DOI | (title + publish_date))",
+      "precedence": ["DOI", "normalized_url", "title+publish_date"],
+      "normalization": [
+        "lowercase host",
+        "strip scheme and www.",
+        "strip tracking query params (utm_*, ref, fbclid, gclid)",
+        "strip trailing slash and fragment",
+        "resolve known shorteners before hashing"
+      ]
+    },
+    "independenceGrouping": {
+      "$comment": "N sources from one origin count as ONE for coverage and confidence.",
+      "rule": "group by union of {publisher, author, syndication_origin}",
+      "signals": [
+        "same publisher / domain owner",
+        "same author or byline",
+        "wire-service / syndication origin (reprint of the same copy)",
+        "same funding source for the underlying study"
+      ],
+      "effect": "confidence and citation-coverage metrics count independence_groups, not raw source count"
+    },
+    "sourceClasses": [
+      "peer-reviewed", "preprint", "primary-document", "dataset", "standard-spec",
+      "code-repository", "official-docs", "filing-financial", "regulatory-legal",
+      "news-reporting", "analyst-report", "vendor-material", "community-forum",
+      "expert-commentary", "archive-cache"
+    ]
+  },
+  "fetchDedupe": {
+    "$comment": "A canonical-id collision on fetch is not wasted budget — it is a signal to diversify.",
+    "rule": "before recording, compute canonical_id; if it already exists in the Source Store, do not double-count",
+    "quotaRefund": "refund the fetch against the researcher's budget and require the next fetch to target a DIFFERENT independence_group",
+    "effect": "collisions push the panel toward source diversity rather than penalising it"
+  },
+  "diminishingReturnsStop": {
+    "$comment": "Halt retrieval when new fetches stop adding new claims.",
+    "rule": "halt a researcher's retrieval when the last 3 fetches each yield < 20% novel claims relative to the Source Store",
+    "noveltyMeasure": "fraction of claims in a fetched source not already asserted by a registered source",
+    "floor": "always allow at least the tier-minimum fetches before this rule can trigger"
+  },
+  "researchModes": {
+    "$comment": "Round flow R0-R6 is implemented by the orchestrator in Phase 17. Listed here so the config is self-describing; not yet wired into council-of-minds.md.",
+    "research": {
+      "rounds": ["R0-charter", "R1-lens-query", "R2-retrieve-analyze", "R3-factcheck", "R4-cross-exam", "R4b-progressive-retrieval", "R5-enforcement-scan", "R6-crystallize-vote"],
+      "status": "orchestrator wiring deferred to Phase 17"
+    }
+  },
+  "researchers": {
+    "$comment": "60 researchers across 10 themes (R1-R10), 6 each. Named by RETRIEVAL function. Each owns a source class + query intent (see docs/researchers.md Territory Matrix). polarity_pairs drive the sparse O(N) evidence cross-examination in Phase 17.",
+    "literature-scout": { "theme": "evidence", "query_intent": "mechanism, prior work", "source_class": "peer-reviewed, preprints", "attack": "unaware of prior art", "polarity_pairs": ["counter-evidence-scout", "recency-sweeper"] },
+    "primary-source-hunter": { "theme": "evidence", "query_intent": "original wording", "source_class": "filings, transcripts, raw docs", "attack": "you cited coverage, not the source", "polarity_pairs": ["triangulator", "syndication-unmasker"] },
+    "dataset-digger": { "theme": "evidence", "query_intent": "magnitudes from raw data", "source_class": "datasets, statistical releases", "attack": "no underlying data exists", "polarity_pairs": ["effect-size-reader", "fraud-sniffer"] },
+    "replication-checker": { "theme": "evidence", "query_intent": "does it reproduce", "source_class": "replications, failed replications", "attack": "single-study claim", "polarity_pairs": ["meta-analyst", "null-result-finder"] },
+    "meta-analyst": { "theme": "evidence", "query_intent": "aggregate consensus", "source_class": "systematic reviews, meta-analyses", "attack": "cherry-picked from a larger body", "polarity_pairs": ["replication-checker", "critic-collector"] },
+    "citation-tracer": { "theme": "evidence", "query_intent": "provenance genealogy", "source_class": "forward/backward citation chains", "attack": "circular citation loop", "polarity_pairs": ["primary-source-hunter", "triangulator"] },
+
+    "source-auditor": { "theme": "provenance", "query_intent": "publisher credibility", "source_class": "editorial standards, mastheads", "attack": "low-credibility outlet", "polarity_pairs": ["practitioner-listener", "expert-canvasser"] },
+    "funding-tracer": { "theme": "provenance", "query_intent": "conflicts of interest", "source_class": "funding disclosures, grant records", "attack": "funded by an interested party", "polarity_pairs": ["analyst-reader", "author-profiler"] },
+    "author-profiler": { "theme": "provenance", "query_intent": "track record", "source_class": "author bibliographies, prior claims", "attack": "author has retraction history", "polarity_pairs": ["literature-scout", "expert-canvasser"] },
+    "syndication-unmasker": { "theme": "provenance", "query_intent": "independence", "source_class": "wire copy, reprint detection", "attack": "same origin — N sources is really 1", "polarity_pairs": ["triangulator", "primary-source-hunter"] },
+    "retraction-watch": { "theme": "provenance", "query_intent": "validity status", "source_class": "retractions, corrections, expressions of concern", "attack": "source has been corrected", "polarity_pairs": ["meta-analyst", "recency-sweeper"] },
+    "archive-diver": { "theme": "provenance", "query_intent": "what changed", "source_class": "Wayback, cached, deleted versions", "attack": "claim was silently edited", "polarity_pairs": ["timeline-builder", "obsolescence-checker"] },
+
+    "counter-evidence-scout": { "theme": "adversarial", "query_intent": "the opposite case", "source_class": "contradicting literature", "attack": "you never searched for disconfirmation", "polarity_pairs": ["literature-scout", "meta-analyst"] },
+    "null-result-finder": { "theme": "adversarial", "query_intent": "non-findings", "source_class": "negative results, file-drawer", "attack": "publication bias", "polarity_pairs": ["replication-checker", "benchmark-reader"] },
+    "critic-collector": { "theme": "adversarial", "query_intent": "published rebuttals", "source_class": "comment letters, critiques", "attack": "this was formally rebutted", "polarity_pairs": ["meta-analyst", "literature-scout"] },
+    "failure-case-hunter": { "theme": "adversarial", "query_intent": "real-world breakdowns", "source_class": "incident reports, postmortems", "attack": "works in paper, fails in field", "polarity_pairs": ["benchmark-reader", "reproducer"] },
+    "steelman-builder": { "theme": "adversarial", "query_intent": "strongest opposition", "source_class": "adversarial literature", "attack": "you attacked the weak version", "polarity_pairs": ["dissent-locator", "critic-collector"] },
+    "fraud-sniffer": { "theme": "adversarial", "query_intent": "too-good-to-be-true", "source_class": "anomaly reports, forensic analyses", "attack": "data pattern is implausible", "polarity_pairs": ["dataset-digger", "uncertainty-quantifier"] },
+
+    "base-rate-finder": { "theme": "quantitative", "query_intent": "denominators, priors", "source_class": "prevalence data, census", "attack": "no base rate given", "polarity_pairs": ["effect-size-reader", "trend-fitter"] },
+    "effect-size-reader": { "theme": "quantitative", "query_intent": "magnitude vs significance", "source_class": "effect sizes, confidence intervals", "attack": "significant but trivial", "polarity_pairs": ["base-rate-finder", "dataset-digger"] },
+    "benchmark-reader": { "theme": "quantitative", "query_intent": "measured performance", "source_class": "leaderboards, eval suites", "attack": "benchmark contaminated or gamed", "polarity_pairs": ["failure-case-hunter", "reproducer"] },
+    "trend-fitter": { "theme": "quantitative", "query_intent": "rates, inflections", "source_class": "time series", "attack": "extrapolated past the data", "polarity_pairs": ["precedent-digger", "uncertainty-quantifier"] },
+    "cost-modeler": { "theme": "quantitative", "query_intent": "unit economics", "source_class": "pricing pages, TCO studies", "attack": "cost claim unsourced", "polarity_pairs": ["pricing-scout", "filing-reader"] },
+    "uncertainty-quantifier": { "theme": "quantitative", "query_intent": "error bars, n", "source_class": "variance, sample sizes", "attack": "point estimate hides a huge CI", "polarity_pairs": ["trend-fitter", "fraud-sniffer"] },
+
+    "recency-sweeper": { "theme": "temporal", "query_intent": "last-N-days frontier", "source_class": "newest publications, changelogs", "attack": "superseded last month", "polarity_pairs": ["precedent-digger", "literature-scout"] },
+    "timeline-builder": { "theme": "temporal", "query_intent": "chronology of the claim", "source_class": "dated event sequences", "attack": "causality reversed by dates", "polarity_pairs": ["archive-diver", "precedent-digger"] },
+    "precedent-digger": { "theme": "temporal", "query_intent": "prior cycles", "source_class": "historical analogues, archives", "attack": "this happened before", "polarity_pairs": ["recency-sweeper", "trend-fitter"] },
+    "version-tracker": { "theme": "temporal", "query_intent": "which version", "source_class": "release notes, deprecations", "attack": "claim is about an old version", "polarity_pairs": ["obsolescence-checker", "spec-reader"] },
+    "obsolescence-checker": { "theme": "temporal", "query_intent": "what is now stale", "source_class": "deprecation notices, end-of-life", "attack": "source is dead or stale", "polarity_pairs": ["version-tracker", "recency-sweeper"] },
+    "embargo-watcher": { "theme": "temporal", "query_intent": "announced-not-shipped", "source_class": "roadmaps, forward statements", "attack": "vaporware treated as shipped", "polarity_pairs": ["adoption-reader", "reproducer"] },
+
+    "code-reader": { "theme": "technical", "query_intent": "implementation reality", "source_class": "repos, source files", "attack": "code does not do what docs claim", "polarity_pairs": ["api-doc-reader", "spec-reader"] },
+    "spec-reader": { "theme": "technical", "query_intent": "normative definition", "source_class": "RFCs, standards, schemas", "attack": "the spec says otherwise", "polarity_pairs": ["code-reader", "version-tracker"] },
+    "api-doc-reader": { "theme": "technical", "query_intent": "official limits", "source_class": "reference docs, quotas", "attack": "undocumented assumption", "polarity_pairs": ["code-reader", "issue-tracker-miner"] },
+    "issue-tracker-miner": { "theme": "technical", "query_intent": "known limitations", "source_class": "issues, PRs, discussions", "attack": "known open bug contradicts this", "polarity_pairs": ["api-doc-reader", "failure-case-hunter"] },
+    "architecture-mapper": { "theme": "technical", "query_intent": "system shape", "source_class": "design docs, ADRs, diagrams", "attack": "architecture makes this impossible", "polarity_pairs": ["reproducer", "spec-reader"] },
+    "reproducer": { "theme": "technical", "query_intent": "does it actually run", "source_class": "executed artifacts, logs", "attack": "could not reproduce", "polarity_pairs": ["benchmark-reader", "failure-case-hunter"] },
+
+    "competitor-mapper": { "theme": "market", "query_intent": "who else does this", "source_class": "product pages, directories", "attack": "novelty claim false — N others exist", "polarity_pairs": ["adoption-reader", "customer-voice"] },
+    "pricing-scout": { "theme": "market", "query_intent": "published cost", "source_class": "price lists, tiers, contracts", "attack": "price is wrong or stale", "polarity_pairs": ["cost-modeler", "filing-reader"] },
+    "adoption-reader": { "theme": "market", "query_intent": "actual usage", "source_class": "downloads, stars, job posts", "attack": "no evidence of real adoption", "polarity_pairs": ["embargo-watcher", "competitor-mapper"] },
+    "filing-reader": { "theme": "market", "query_intent": "audited numbers", "source_class": "10-K, S-1, annual reports", "attack": "contradicted by their own filing", "polarity_pairs": ["analyst-reader", "pricing-scout"] },
+    "analyst-reader": { "theme": "market", "query_intent": "market sizing", "source_class": "industry analyst reports", "attack": "vendor-sponsored analysis", "polarity_pairs": ["customer-voice", "funding-tracer"] },
+    "customer-voice": { "theme": "market", "query_intent": "lived experience", "source_class": "reviews, complaints, case studies", "attack": "users report the opposite", "polarity_pairs": ["analyst-reader", "competitor-mapper"] },
+
+    "statute-reader": { "theme": "regulatory", "query_intent": "what the law says", "source_class": "laws, regulations, directives", "attack": "misstates the statute", "polarity_pairs": ["caselaw-reader", "policy-tracer"] },
+    "caselaw-reader": { "theme": "regulatory", "query_intent": "how it was applied", "source_class": "judgments, enforcement actions", "attack": "precedent contradicts this", "polarity_pairs": ["statute-reader", "regulator-watcher"] },
+    "regulator-watcher": { "theme": "regulatory", "query_intent": "current guidance", "source_class": "consultations, guidance notes", "attack": "guidance changed", "polarity_pairs": ["caselaw-reader", "recency-sweeper"] },
+    "compliance-mapper": { "theme": "regulatory", "query_intent": "required controls", "source_class": "standards, certifications", "attack": "fails a mandatory control", "polarity_pairs": ["spec-reader", "statute-reader"] },
+    "jurisdiction-comparer": { "theme": "regulatory", "query_intent": "where it applies", "source_class": "cross-border comparisons", "attack": "true in one jurisdiction only", "polarity_pairs": ["statute-reader", "translation-scout"] },
+    "policy-tracer": { "theme": "regulatory", "query_intent": "legislative intent", "source_class": "drafts, lobbying records, hansard", "attack": "intent differs from text", "polarity_pairs": ["statute-reader", "funding-tracer"] },
+
+    "practitioner-listener": { "theme": "human", "query_intent": "real usage reports", "source_class": "forums, HN, Reddit, Discord", "attack": "practitioners disagree", "polarity_pairs": ["source-auditor", "expert-canvasser"] },
+    "expert-canvasser": { "theme": "human", "query_intent": "expert commentary", "source_class": "interviews, talks, podcasts, AMAs", "attack": "domain experts say otherwise", "polarity_pairs": ["practitioner-listener", "dissent-locator"] },
+    "sentiment-reader": { "theme": "human", "query_intent": "aggregate opinion + skew", "source_class": "review aggregates, polls", "attack": "sample is self-selected", "polarity_pairs": ["customer-voice", "uncertainty-quantifier"] },
+    "ethnographer": { "theme": "human", "query_intent": "workflow context", "source_class": "user research, field studies", "attack": "ignores the actual workflow", "polarity_pairs": ["architecture-mapper", "practitioner-listener"] },
+    "dissent-locator": { "theme": "human", "query_intent": "heterodox positions", "source_class": "minority expert views", "attack": "a credible minority view exists", "polarity_pairs": ["expert-canvasser", "steelman-builder"] },
+    "translation-scout": { "theme": "human", "query_intent": "non-English record", "source_class": "regional/foreign-language sources", "attack": "anglophone blind spot", "polarity_pairs": ["jurisdiction-comparer", "literature-scout"] },
+
+    "gap-mapper": { "theme": "synthesis", "query_intent": "what is missing", "source_class": "collected findings set", "attack": "no evidence gathered on X", "polarity_pairs": ["coverage-auditor", "contradiction-mapper"] },
+    "contradiction-mapper": { "theme": "synthesis", "query_intent": "what conflicts", "source_class": "cross-findings comparison", "attack": "F2 and F7 cannot both hold", "polarity_pairs": ["triangulator", "gap-mapper"] },
+    "triangulator": { "theme": "synthesis", "query_intent": "independent confirmation", "source_class": "source independence graph", "attack": "not independently confirmed", "polarity_pairs": ["primary-source-hunter", "syndication-unmasker"] },
+    "claim-normalizer": { "theme": "synthesis", "query_intent": "dedupe/merge claims", "source_class": "semantically equal claims", "attack": "same claim counted twice", "polarity_pairs": ["contradiction-mapper", "coverage-auditor"] },
+    "coverage-auditor": { "theme": "synthesis", "query_intent": "compliance metrics", "source_class": "territory/recency/independence", "attack": "citation coverage below threshold", "polarity_pairs": ["gap-mapper", "claim-normalizer"] },
+    "brief-writer": { "theme": "synthesis", "query_intent": "final synthesis", "source_class": "verdict assembly", "attack": "n/a (chairman-equivalent)", "polarity_pairs": [] }
+  },
+  "themes": {
+    "evidence": { "code": "R1", "focus": "core epistemic retrieval", "researchers": ["literature-scout", "primary-source-hunter", "dataset-digger", "replication-checker", "meta-analyst", "citation-tracer"] },
+    "provenance": { "code": "R2", "focus": "who says it, why", "researchers": ["source-auditor", "funding-tracer", "author-profiler", "syndication-unmasker", "retraction-watch", "archive-diver"] },
+    "adversarial": { "code": "R3", "focus": "disconfirmation", "researchers": ["counter-evidence-scout", "null-result-finder", "critic-collector", "failure-case-hunter", "steelman-builder", "fraud-sniffer"] },
+    "quantitative": { "code": "R4", "focus": "the numbers", "researchers": ["base-rate-finder", "effect-size-reader", "benchmark-reader", "trend-fitter", "cost-modeler", "uncertainty-quantifier"] },
+    "temporal": { "code": "R5", "focus": "time, recency, staleness", "researchers": ["recency-sweeper", "timeline-builder", "precedent-digger", "version-tracker", "obsolescence-checker", "embargo-watcher"] },
+    "technical": { "code": "R6", "focus": "implementation reality", "researchers": ["code-reader", "spec-reader", "api-doc-reader", "issue-tracker-miner", "architecture-mapper", "reproducer"] },
+    "market": { "code": "R7", "focus": "commercial reality", "researchers": ["competitor-mapper", "pricing-scout", "adoption-reader", "filing-reader", "analyst-reader", "customer-voice"] },
+    "regulatory": { "code": "R8", "focus": "law and compliance", "researchers": ["statute-reader", "caselaw-reader", "regulator-watcher", "compliance-mapper", "jurisdiction-comparer", "policy-tracer"] },
+    "human": { "code": "R9", "focus": "qualitative / social", "researchers": ["practitioner-listener", "expert-canvasser", "sentiment-reader", "ethnographer", "dissent-locator", "translation-scout"] },
+    "synthesis": { "code": "R10", "focus": "operate on the Source Store, not the web", "researchers": ["gap-mapper", "contradiction-mapper", "triangulator", "claim-normalizer", "coverage-auditor", "brief-writer"] }
+  },
+  "researchPolarityPairs": [
+    ["counter-evidence-scout", "literature-scout"],
+    ["triangulator", "primary-source-hunter"],
+    ["recency-sweeper", "precedent-digger"],
+    ["benchmark-reader", "failure-case-hunter"],
+    ["analyst-reader", "customer-voice"],
+    ["syndication-unmasker", "triangulator"],
+    ["null-result-finder", "replication-checker"],
+    ["effect-size-reader", "base-rate-finder"],
+    ["version-tracker", "obsolescence-checker"],
+    ["code-reader", "spec-reader"],
+    ["statute-reader", "caselaw-reader"],
+    ["expert-canvasser", "practitioner-listener"],
+    ["gap-mapper", "coverage-auditor"],
+    ["contradiction-mapper", "claim-normalizer"],
+    ["embargo-watcher", "adoption-reader"]
+  ],
+  "profiles": {
+    "$comment": "15 research profiles are registered in Phase 19. Left empty here so Phase 16 does not pull that work forward.",
+    "status": "deferred to Phase 19"
+  }
+}
