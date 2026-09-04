@@ -285,6 +285,8 @@ cmd_uninstall() {
   # Kiro
   if [[ -d "${HOME}/.kiro/agents/council-of-minds" ]]; then
     rm -rf "${HOME}/.kiro/agents/council-of-minds"
+    # Legacy cleanup: pre-fix installs placed configs in ~/.kiro/settings/.
+    # Current installs keep them inside the agent dir (removed above).
     rm -f "${HOME}/.kiro/settings/council-of-minds.config.json"
     rm -f "${HOME}/.kiro/settings/decision-council.config.json"
     rm -f "${HOME}/.kiro/settings/research-council.config.json"
@@ -372,6 +374,15 @@ cmd_uninstall() {
   else
     echo -e "  ${GREEN}✓${NC} Client rules removed. CLI and source kept."
   fi
+
+  # Note: runtime output (transcripts, analytics, calibration, governance log) is
+  # user data written into whatever project you ran the council from. It is NOT
+  # auto-deleted. Point the user at it so they can remove it themselves if desired.
+  echo ""
+  echo -e "  ${YELLOW}[note]${NC} Any ${BOLD}council-transcripts/${NC} folders (saved transcripts,"
+  echo -e "         analytics, calibration, governance logs) were left untouched — they"
+  echo -e "         live in your project directories and are treated as your data."
+  echo -e "         Remove them manually if you no longer want them."
 
   echo ""
 }

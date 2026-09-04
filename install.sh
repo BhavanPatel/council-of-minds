@@ -285,26 +285,30 @@ install_kiro() {
   echo -e "\n  ${BLUE}Installing for Kiro...${NC}"
   local target="${HOME}/.kiro"
 
-  mkdir -p "${target}/agents/council-of-minds/advisors"
-  mkdir -p "${target}/agents/council-of-minds/researchers"
-  mkdir -p "${target}/settings"
+  # Configs live INSIDE the agent dir so the orchestrator's relative
+  # "settings/*.config.json" references resolve (Kiro resolves bundled
+  # resources relative to the agent folder, not to ~/.kiro).
+  local agent_dir="${target}/agents/council-of-minds"
+  mkdir -p "${agent_dir}/advisors"
+  mkdir -p "${agent_dir}/researchers"
+  mkdir -p "${agent_dir}/settings"
 
   # Copy agent definition (with corrected paths)
-  cp "${SRC_DIR}/council-of-minds.json" "${target}/agents/council-of-minds/"
-  cp "${SRC_DIR}/council-of-minds.md" "${target}/agents/council-of-minds/"
-  copy_advisors "${target}/agents/council-of-minds/advisors/"
-  copy_researchers "${target}/agents/council-of-minds/researchers/"
-  cp "${SRC_DIR}/settings/council-of-minds.config.json" "${target}/settings/"
+  cp "${SRC_DIR}/council-of-minds.json" "${agent_dir}/"
+  cp "${SRC_DIR}/council-of-minds.md" "${agent_dir}/"
+  copy_advisors "${agent_dir}/advisors/"
+  copy_researchers "${agent_dir}/researchers/"
+  cp "${SRC_DIR}/settings/council-of-minds.config.json" "${agent_dir}/settings/"
   [[ -f "${SRC_DIR}/settings/research-council.config.json" ]] && \
-    cp "${SRC_DIR}/settings/research-council.config.json" "${target}/settings/"
+    cp "${SRC_DIR}/settings/research-council.config.json" "${agent_dir}/settings/"
   [[ -f "${SRC_DIR}/settings/decision-council.config.json" ]] && \
-    cp "${SRC_DIR}/settings/decision-council.config.json" "${target}/settings/"
+    cp "${SRC_DIR}/settings/decision-council.config.json" "${agent_dir}/settings/"
 
   # Remove advisors/researchers that no longer exist in source
-  sync_advisors "${target}/agents/council-of-minds/advisors"
-  sync_researchers "${target}/agents/council-of-minds/researchers"
+  sync_advisors "${agent_dir}/advisors"
+  sync_researchers "${agent_dir}/researchers"
 
-  log_ok "Kiro: ${target}/agents/council-of-minds/"
+  log_ok "Kiro: ${agent_dir}/"
 }
 
 install_claude() {
